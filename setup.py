@@ -25,6 +25,10 @@ setuptools.setup(
         "ise_cdg_models @ git+https://github.com/ISE-Code-Documentation-Generators/models.git",
         "ise_cdg_data @ git+https://github.com/ISE-Code-Documentation-Generators/data.git",
         "ise_cdg_utility @ git+https://github.com/ISE-Code-Documentation-Generators/utility.git",
+    ] + [
+        "llama-index-program-openai==0.1.4",
+        "llama-index-llms-llama-api==0.1.4",
+        "llama-index==0.10.23"
     ],
     classifiers=[
         "Intended Audience :: Science/Research",
