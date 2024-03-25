@@ -73,29 +73,4 @@ def generate_prompt_data(samples):
     return prompt_list, grund_truth
 
 
-# In[145]:
-
-
-import random
-sample_size = 10
-shot_size = 4
-prompt_list, ground_truth = generate_prompt_data(
-    samples = [Sample(
-        template_indices=random.sample(range(0, dataset.shape[0]), shot_size), 
-        question_index=random.sample(range(0, dataset.shape[0]), 1)) for i in range(sample_size)]
-)
-
-
-# In[146]:
-
-
-print(prompt_list[0])
-
-
-# In[91]:
-
-
-print(ground_truth[0])
-
-
 
