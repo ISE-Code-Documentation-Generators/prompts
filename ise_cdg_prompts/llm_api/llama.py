@@ -1,5 +1,5 @@
 from functools import cached_property
-from .main import LLM_API
+from main import LLM_API
 
 class Llama_API(LLM_API):
     @classmethod
