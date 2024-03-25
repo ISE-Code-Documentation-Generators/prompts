@@ -1,3 +1,4 @@
+from functools import cached_property
 import pandas as pd
 
 # Load dataset containing markdown and code cells
@@ -12,6 +13,7 @@ def dataset_get_markdown(index: int):
 def dataset_get_source(index: int):
     return str(dataset.iloc[index]["source"])
 
+
 def dataset_len():
     return dataset.shape[0]
 
@@ -19,27 +21,28 @@ def dataset_len():
 from ise_cdg_prompts.utils.pipeline import Pipeline
 
 
-class Template:
+class TaskTemplateResponse:
     def __init__(self, index: int, row_index: int):
         self.index = index
         self.row_index = row_index
 
-    def representative_index(self):
+    @cached_property
+    def __representative_index(self):
         return str(self.index + 1)
 
     def generate_prompt(self):
         return (
-            f"Start Markdown {self.representative_index()}: {dataset_get_markdown(self.row_index)}\n"
-            + f"Start Code {self.representative_index()}: {dataset_get_source(self.row_index)}\n"
+            f"Start Markdown {self.__representative_index}: {dataset_get_markdown(self.row_index)}\n"
+            + f"Start Code {self.__representative_index}: {dataset_get_source(self.row_index)}\n"
         )
 
 
-class Sample:
+class Task:
     def __init__(self, template_indices, question_index):
         self.templates = (
             Pipeline(range(len(template_indices)))
             .to_map(
-                lambda template_index: Template(
+                lambda template_index: TaskTemplateResponse(
                     template_index, template_indices[template_index]
                 )
             )

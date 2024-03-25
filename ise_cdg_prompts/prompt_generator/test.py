@@ -13,10 +13,10 @@ class PromptGeneratorTest(unittest.TestCase):
         self.io: "Custom_IO" = JSON_IO("ise_cdg_prompts/prompt_generator")
 
     def test_default(self):
-        from main import generate_prompt_data, Sample, dataset_len
+        from main import generate_prompt_data, Task, dataset_len
 
         test_input = [
-            Sample(
+            Task(
                 template_indices=range(0, dataset_len(), 4),
                 question_index=dataset_len() // 2,
             )

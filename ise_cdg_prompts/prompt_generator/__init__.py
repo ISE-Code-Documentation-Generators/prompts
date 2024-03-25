@@ -1,1 +1,1 @@
-from .main import generate_prompt_data, Sample, dataset_len
+from .main import generate_prompt_data, Task, dataset_len
