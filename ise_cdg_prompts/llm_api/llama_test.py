@@ -1,7 +1,7 @@
 import unittest
-from main import LLM_API
-from llama import Llama_API
 
+from ise_cdg_prompts.llm_api.llama import Llama_API
+from ise_cdg_prompts.llm_api import LLM_API
 
 class LlamaTest(unittest.TestCase):
     def setUp(self) -> None:
