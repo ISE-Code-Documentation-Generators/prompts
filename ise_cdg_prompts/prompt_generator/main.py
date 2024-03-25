@@ -1,75 +1,93 @@
 from functools import cached_property
-import pandas as pd
-
-# Load dataset containing markdown and code cells
-dataset_path = "final_dataset.csv"
-dataset = pd.read_csv(dataset_path)
+from typing import Any, List
 
 
-def dataset_get_markdown(index: int):
-    return str(dataset.iloc[index]["markdown"])
-
-
-def dataset_get_source(index: int):
-    return str(dataset.iloc[index]["source"])
-
-
-def dataset_len():
-    return dataset.shape[0]
-
-
+from ise_cdg_prompts.dataset import CodeMarkdown, PromptDataset
+from ise_cdg_prompts.sample import PromptSampler, PromptSample
 from ise_cdg_prompts.utils.pipeline import Pipeline
 
 
 class TaskTemplateResponse:
-    def __init__(self, index: int, row_index: int):
-        self.index = index
-        self.row_index = row_index
+    def __init__(
+        self,
+        code_markdown: "CodeMarkdown",
+    ):
+        self.__code_markdown = code_markdown
 
-    @cached_property
-    def __representative_index(self):
-        return str(self.index + 1)
+    def __representative_index(self, index: int) -> str:
+        return str(index + 1)
 
-    def generate_prompt(self):
+    def get_prompt(self, index: int) -> str:
         return (
-            f"Start Markdown {self.__representative_index}: {dataset_get_markdown(self.row_index)}\n"
-            + f"Start Code {self.__representative_index}: {dataset_get_source(self.row_index)}\n"
+            f"Start Markdown {self.__representative_index(index)}: {self.__code_markdown.markdown}\n"
+            + f"Start Code {self.__representative_index(index)}: {self.__code_markdown.code}\n"
         )
 
 
 class Task:
-    def __init__(self, template_indices, question_index):
-        self.templates = (
-            Pipeline(range(len(template_indices)))
+    def __init__(
+        self,
+        code_markdown: "CodeMarkdown",
+        templates: List["TaskTemplateResponse"],
+    ):
+        self.templates = templates
+        self.__code_markdown = code_markdown
+
+    @cached_property
+    def __templates_prompt(self) -> str:
+        return "".join(
+            [
+                template.get_prompt(index)
+                for index, template in enumerate(self.templates)
+            ]
+        )
+
+    def get_prompt(self) -> str:
+        return (
+            "For now, Just read these template Markdown and Code pairs.\n"
+            + f"{self.__templates_prompt}\n"
+            + f"Then, Generate markdown for the below code according to the pairs.\n"
+            + f"Code: {self.__code_markdown.code}\n"
+        )
+
+    def get_ground_truth(self) -> str:
+        return self.__code_markdown.markdown
+
+    def to_json(self):
+        return [self.get_prompt(), self.get_ground_truth()]
+
+
+class TaskGenerator:
+    def __init__(
+        self,
+        dataset: "PromptDataset",
+        prompt_sampler: "PromptSampler",
+    ) -> None:
+        self.dataset = dataset
+        self.prompt_sampler = prompt_sampler
+
+    def __generate_templates(
+        self, template_indices: List[int]
+    ) -> List["TaskTemplateResponse"]:
+        return (
+            Pipeline(template_indices)
             .to_map(
                 lambda template_index: TaskTemplateResponse(
-                    template_index, template_indices[template_index]
+                    code_markdown=self.dataset[template_index],
                 )
             )
             .to_list()
         )
-        self.question_index = question_index
 
-    def generate_prompt(self):
-        return (
-            "For now, Just read these template Markdown and Code pairs. \n"
-            + "".join(
-                Pipeline(self.templates)
-                .to_map(lambda template: template.generate_prompt())
-                .to_list()
-            )
-            + f"\n Then, Generate markdown for the below code according to the pairs.\n Code: {dataset_get_source(self.question_index)}"
+    def get_task(self, prompt_sample: "PromptSample") -> "Task":
+        return Task(
+            code_markdown=self.dataset[prompt_sample.question_index],
+            templates=self.__generate_templates(prompt_sample.template_indices),
         )
 
-    def get_ground_truth(self):
-        return dataset_get_markdown(self.question_index)
-
-
-def generate_prompt_data(samples):
-    prompt_list = (
-        Pipeline(samples).to_map(lambda sample: sample.generate_prompt()).to_list()
-    )
-    grund_truth = (
-        Pipeline(samples).to_map(lambda sample: sample.get_ground_truth()).to_list()
-    )
-    return prompt_list, grund_truth
+    def __call__(self) -> List["Task"]:
+        return (
+            Pipeline(self.prompt_sampler.generate_samples(self.dataset))
+            .to_map(self.get_task)
+            .to_list()
+        )
