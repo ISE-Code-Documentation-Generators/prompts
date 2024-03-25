@@ -1,14 +1,14 @@
 
 # In[145]:
 
-from prompt_generator import generate_prompt_data, Sample, dataset
+from ise_cdg_prompts.prompt_generator import generate_prompt_data, Sample, dataset_len
 import random
 sample_size = 10
 shot_size = 4
 prompt_list, ground_truth = generate_prompt_data(
     samples = [Sample(
-        template_indices=random.sample(range(0, dataset.shape[0]), shot_size), 
-        question_index=random.sample(range(0, dataset.shape[0]), 1)) for i in range(sample_size)]
+        template_indices=random.sample(range(0, dataset_len()), shot_size), 
+        question_index=random.sample(range(0, dataset_len()), 1)) for i in range(sample_size)]
 )
 
 
