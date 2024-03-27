@@ -1,0 +1,3159 @@
+,project_ID,cell_index,source,markdown,AuthorUserId,IsChange,LinesChangedFromFork,ForkParentKernelVersionId,PerformanceTier,markdown_text
+965,28095646.0,10.0,"def is_rich(train):
+    # Rich: travelling in first class AND alone or with a nanny AND spent more than 40 dollars
+    train['is_rich'] = np.where((train['Pclass'] == 1) &
+                                (train['SibSp'] < 1) &
+                                (train['Parch'] < 1) &
+                                (train['Fare'] > 40),
+                                1, 0)
+    return train['is_rich']
+
+train['is_rich'] = is_rich(train)","Is Rich
+Travelling first class AND Alone OR with a nanny AND spent more than 40 dollars",10654180.0,False,,,4.0,Titanic Data Loading and Processing :
+966,28095646.0,12.0,"def stole_the_ticket(train):
+    # Stole the ticket: Spent less than 5 dollars
+    train['stole_the_ticket'] = np.where((train['Fare'] < 5),
+                                         1, 0)
+    return train['stole_the_ticket']
+
+train['stole_the_ticket'] = stole_the_ticket(train)","Stole the ticket
+Spent less than 5 dollars",10654180.0,False,,,4.0,Training Loop
+967,28095646.0,14.0,"def daddys_atm(train):
+    # Daddy's ATM: First class AND teenager AND alone or with a nanny AND spent more than 40 dollars
+    train['daddys_atm'] = np.where((train['Age'] < 16) &
+                                   (train['SibSp'] < 1) &
+                                   (train['Parch'] < 1) &                                   
+                                   (train['Fare'] > 40),
+                                   1, 0)
+    return train['daddys_atm']
+
+train['daddys_atm'] = daddys_atm(train)","Daddy's ATM
+First class AND teenager AND alone or with a nanny AND spent more than 40 dollars",10654180.0,False,,,4.0,TBD
+968,28095646.0,16.0,"def business_as_usual(train):
+    # Business as usual: Men with less than 10 dollars who also weren't travelling with their family.
+    train['business_as_usual'] = np.where((train['Sex'] == 'male') &
+                                          (train['SibSp'] + train ['Parch']) < 1 &
+                                          (train['Fare'] < 10),
+                                          1, 0)
+    return train['business_as_usual']
+
+train['business_as_usual'] = business_as_usual(train)","Business as usual
+Men paid less than 10 dollars who also weren't travelling with their family.",10654180.0,False,,,4.0,"Let's do the same with masks. I will decode relevant masks from the train.csv file and then resize and save it in separate file.
+The function for RLE encoding:"
+969,28095646.0,18.0,"def party_all_night(train):
+    # Party all night: Third class AND alone AND spent less than 5 dollars
+    train['party_all_night'] = np.where((train['Pclass'] == 3) &
+                                        (train['SibSp'] < 1) &
+                                        (train['Parch'] < 1) &
+                                        (train['Fare'] < 5),
+                                        1, 0)
+    return train['party_all_night']
+
+train['party_all_night'] = party_all_night(train)","Party All Night
+Third class AND alone AND spent less than 5 dollars",10654180.0,False,,,4.0,"Here is the function, which read RLE-mask from the DataFrame, resize it with some scale (in percen and store it in the folder /output"
+970,28095646.0,20.0,"def why_me(train):
+    # Why me: A person that traveled in third class alone.
+    train['why_me'] = np.where((train['Pclass'] == 3) &
+                               (train['SibSp'] == 0) &
+                               (train['Parch'] == 0),
+                               1, 0)
+    return train['why_me']
+
+train['why_me'] = why_me(train)","Why me
+A person that traveled in third class alone",10654180.0,False,,,4.0,Area calculation function:
+971,28095646.0,22.0,"def the_gang(train):
+    # The gang: Third class AND travelled with 5+ family members AND spent less than 5 dollars.
+    train['the_gang'] = np.where((train['Pclass'] == 3) &
+                                 (train['SibSp'] + train ['Parch']) > 4 &
+                                 (train['Fare'] < 5),
+                                 1, 0)
+    return train['the_gang']
+
+train['the_gang'] = the_gang(train)","The Gang
+Third class AND travelled with 5+ family members AND spent less than 5 dollars.",10654180.0,False,,,4.0,"Plotting images with the smallest and the largest mask ares
+A bit modified function for small image plotting:"
+972,28095646.0,24.0,"def let_them_think(train):
+    # Let them think: A person that boarded in Southampton AND was a child AND was travelling alone.
+    train['let_them_think'] = np.where((train['Boarded'] == 'Southampton') &
+                                       (train['Age'] < 16) &
+                                       (train['SibSp'] < 1) &
+                                       (train['Parch'] < 1),
+                                       1, 0)
+    return train['let_them_think']
+
+train['let_them_think'] = let_them_think(train)","Let Them Think
+A person that boarded in Southampton AND was a child AND was travelling alone.",10654180.0,False,,,4.0,Visualization Helper
+973,28095646.0,26.0,"def what_a_coincidence(train):
+    # What a coincidence: travelling with a woman and she's not his wife.
+    train['what_a_coincidence'] = np.where((train['Sex'] == 'male') &
+                                           (train['SibSp'] == 0) &
+                                           (train['Parch'] == 1),
+                                           1, 0)
+    return train['what_a_coincidence']
+
+train['what_a_coincidence'] = what_a_coincidence(train)","What A Coincidence
+Travelling with a woman and she's not his wife.",10654180.0,False,,,4.0,Utils
+974,28095646.0,28.0,"def nanny_in_every_corner(train):
+    # Nanny in every corner: travelling first class AND have at least one nanny
+    train['nanny_in_every_corner'] = np.where((train['Pclass'] == 1) &
+                                              (train['SibSp'] > 0) &
+                                              (train['Parch'] > 0),
+                                              1, 0)
+    return train['nanny_in_every_corner']
+
+train['nanny_in_every_corner'] = nanny_in_every_corner(train)","Nanny In Every Corner
+Travelling first class AND have at least one nanny",10654180.0,False,,,4.0,Compile and fit function
+975,28095646.0,30.0,"def nothing_but_the_best(train):
+    # Nothing but the best: A person that paid an unusually high price (z-score) for his ticket.
+    train['nothing_but_the_best'] = np.where((train['Fare'] > train['Fare'].mean() + 3 * train['Fare'].std()), 1, 0)
+    return train['nothing_but_the_best']
+
+train['nothing_but_the_best'] = nothing_but_the_best(train)","Nothing But The Best
+A person that paid an unusually high price (z-score) for his ticket.",10654180.0,False,,,4.0,"Finally, we define a main function that we will run on each of the 8 cores of the TPU."
+977,28095646.0,34.0,"def who_the_hell_are_you(train):
+    # Who the hell are you?: A person sharing the room with someone that is not from their family and not a nanny or child.
+    train['who_the_hell_are_you'] = np.where((train['Pclass'] > 1) &
+                                             (train['SibSp'] + train ['Parch']) > 1 &
+                                             (train['Fare'] > 10),
+                                             1, 0)
+    return train['who_the_hell_are_you']
+
+train['who_the_hell_are_you'] = who_the_hell_are_you(train)","Who the hell are you?
+A person sharing the room with someone that is not from their family and not a nanny or child[insert]",10654180.0,False,,,4.0,"Backward propagation
+ ¶"
+978,28095646.0,36.0,"def pimp_my_ride(train):
+    # Pimp my ride: Third class AND teenager AND Alone AND Spent more than 5 dollars
+    train['pimp_my_ride'] = np.where((train['Pclass'] == 3) &
+                                     (train['Age'] < 16) &
+                                     (train['SibSp'] < 1) &
+                                     (train['Parch'] < 1) &
+                                     (train['Fare'] > 5),
+                                     1, 0)
+    return train['pimp_my_ride']
+
+train['pimp_my_ride'] = pimp_my_ride(train)","Pimp My Ride
+Third class AND teenager AND Alone AND Spent more than 5 dollars",10654180.0,False,,,4.0,Loading and preprocessing training data with HF datasets
+979,28095646.0,38.0,"def boys_club(train):
+    boys_together = train[(train['Age'] < 16) & (train['SibSp'] > 0) & (train['Parch'] > 0)]
+    boys_together['boys_together'] = 1
+    boys_alone = train[(train['Age'] < 16) & (train['SibSp'] == 0) & (train['Parch'] == 0)]
+    boys_alone['boys_together'] = 0
+    boys_group = boys_together.append(boys_alone)
+    boys_group = boys_group.groupby(['Ticket'])['boys_together'].sum().reset_index()
+    boys_group = boys_group.merge(train, on='Ticket', how='inner')
+    boys_group = boys_group.drop_duplicates()
+    boys_group = boys_group.rename(columns={'boys_together': 'boys_in_room'})
+    boys_with_money = boys_group[boys_group['boys_in_room'] > 1]
+    boys_with_money['boys_club'] = np.where((boys_with_money['Fare'] > 15), 1, 0)
+    train = train.merge(boys_with_money[['PassengerId', 'boys_club']], on='PassengerId', how='left')
+    train['boys_club'] = train['boys_club'].fillna(0)
+    return train['boys_club']
+
+train['boys_club'] = boys_club(train)","Boy's Club
+Teenager travelling with at least one other teenager AND the sum of their fares is higher than 15.",10654180.0,False,,,4.0,Plot images with bounding box
+980,28095646.0,40.0,"def dont_wanna_know(train):
+    # Don't wanna know: A person is a male and travelling with two or more women AND paid less than 5 dollars.
+    # Let's think step by step
+    # Step 1: Is a male?
+    train['is_male'] = np.where((train['Sex'] == 'male'), 1, 0)
+    # Step 2: Is travelling with 2 or more women?
+    train['travelling_with_2_or_more_women'] = np.where((train['SibSp'] + train['Parch']) > 1, 1, 0)
+    # Step 3: Paid less than 5 dollars?
+    train['paid_less_than_5_dollars'] = np.where((train['Fare'] < 5), 1, 0)
+    # Let's merge all the information
+    train['dont_wanna_know'] = train['is_male'] & train['travelling_with_2_or_more_women'] & train['paid_less_than_5_dollars']
+    return train['dont_wanna_know']
+
+train['dont_wanna_know'] = dont_wanna_know(train)","Don't wanna know
+A person is a male and travelling with two or more women AND paid less than 5 dollars.",10654180.0,False,,,4.0,"Reproducibility
+Not very helpful for TPU"
+981,28095646.0,42.0,"def wait_a_sec_hold_on(train):
+    # Wait a sec. hold on!: Young male alone with nannies everywhere (or at least one nanny).
+    train['wait_a_sec_hold_on'] = np.where((train['Age'] < 30) &
+                                           (train['Sex'] == 'male') &
+                                           (train['SibSp'] == 0) &
+                                           (train['Parch'] == 1),
+                                           1, 0)
+    return train['wait_a_sec_hold_on']
+
+train['wait_a_sec_hold_on'] = wait_a_sec_hold_on(train)","Wait a sec. hold on!
+Young male alone with nannies.",10654180.0,False,,,4.0,"Dropout
+check this notebook by chris for more explanation on Coarse Dropout and Cutout
+Coarse Dropout and Cutout augmentation are techniques to prevent overfitting and encourage generalization. They randomly remove rectangles from training images. By removing portions of the images, we challenge our models to pay attention to the entire image because it never knows what part of the image will be present. (This is similar and different to dropout layer within a CN.
+Cutout is the technique of removing 1 large rectangle of random size
+Coarse dropout is the technique of removing many small rectanges of similar size.
+By changing the parameters below, we can have either coarse dropout or cutout. (For cutout, you'll need to add tf.random.uniform for random size. I leave this as an exercise for the reader."
+982,28095646.0,44.0,"def left_the_kids_downstairs(train):
+    k_num = train['SibSp'] + train['Parch']
+    k_quality = train['Fare'] / k_num
+    train['k_num'] = k_num
+    train['kids_room_quality'] = k_quality
+    train['left_the_kids_downstairs'] = np.where((train['k_num'] > 0) & (train['Pclass'] < train['kids_room_quality']), 1, 0)
+    return train['left_the_kids_downstairs']
+
+train['left_the_kids_downstairs'] = left_the_kids_downstairs(train)","Left the kids downstairs.
+Parents that have much better room than their children.",10654180.0,False,,,4.0,Data Pipeline
+983,28095646.0,46.0,"def yolo(train):
+    # YOLO: A person who paid a lower fare but with a better room quality than another passenger.
+    train['yolo'] = np.where((train['Fare'] < train['Fare'].mean() - 3 * train['Fare'].std()) &
+                             (train['Pclass'] > 1),
+                             1, 0)
+    return train['yolo']
+
+train['yolo'] = yolo(train)","YOLO
+A person who paid a lower fare but with a better room quality",10654180.0,False,,,4.0,"Step 3: Build Model
+Though there have been some amazing development, EFficientNet always come up with a decent score.
+You can try other models like, 
+* Vision Transformer (Vi
+* ResNet
+* InceptionNet
+* XceptionNet
+Unfortunately, I couldn't find any completed implementation of NF-Net, so couldn't include it here."
+7245,23606359.0,4.0,"def logistic(r, x):
+    return r * x * (1 - x)
+
+n = 10000
+r = np.linspace(2.5, 4.0, n)
+iterations = 1000
+last = 100
+
+x = 1e-5 * np.ones(n)
+lyapunov = np.zeros(n)
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 5))
+for i in range(iterations):
+    x = logistic(r, x)
+
+    lyapunov += np.log(abs(r - 2 * r * x))
+    
+    if i >= (iterations - last):
+        ax1.plot(r, x, ',k', alpha=.25)
+#         ax1.scatter(r, x, c='k')
+        
+ax1.set_xlim(2.5, 4)
+ax1.set_title(""Bifurcation diagram"")
+
+ax2.axhline(0, color='k', lw=.5, alpha=.5)
+ax2.plot(r[lyapunov < 0], lyapunov[lyapunov < 0] / iterations, '.k', alpha=.5, ms=.5)
+ax2.plot(r[lyapunov >= 0], lyapunov[lyapunov >= 0] / iterations,'.r', alpha=.5, ms=.5)
+ax2.set_xlim(2.5, 4)
+ax2.set_ylim(-2, 1)
+ax2.set_title(""Lyapunov exponent"")
+
+plt.tight_layout()",Logistic map,4005120.0,,,,2.0,"As the dataset is splitted into training, development and testing sets we have to define a couple of functions more to make the process of gathering such sets easier.
+The following function will help us get the ids of all images contained in the directory we specify and return it as a list:"
+7246,23606359.0,9.0,"a = FloatSlider(min=1, max=3, step=0.01, value=2.75, description='a', layout=layout)
+b = FloatSlider(min=-0.27, max=1, step=0.01, value=0.15, description='b', layout=layout)
+
+def f(a, b):
+    t = 10000
+
+    x = np.empty(t+1)
+    y = np.empty(t+1)
+
+    x[0]=1
+    y[0]=1
+
+    for i in range(t):
+        x[i+1] = y[i]
+        y[i+1] = -b*x[i] + a*y[i] - y[i]**3
+
+
+    fig, ax = plt.subplots(figsize=(7, 7))
+    ax.scatter(x, y, c='b', s=0.05)
+    ax.axis('off');
+    
+interact(f, a=a, b=b);",Duffing map,4005120.0,,,,2.0,Once we have all ids of images containing in a specific set the following function will retrieve the descriptions from the descriptions.text file for such images and wrap them properly including start and end of sequence tokens:
+7247,23606359.0,13.0,"a = FloatSlider(min=1.5, max=1.8, step=0.1, value=1.7, description='a', layout=layout)
+b = FloatSlider(min=-0.7, max=0.8, step=0.1, value=0.5, description='b', layout=layout)
+
+def f(a, b):
+    t = 10000
+
+    x = np.empty(t+1)
+    y = np.empty(t+1)
+
+    x[0]=0
+    y[0]=0
+
+    for i in range(t):
+        x[i+1] = 1 - a*np.abs(x[i]) + y[i]
+        y[i+1] = b*x[i]
+
+
+    fig, ax = plt.subplots(figsize=(7, 7))
+    ax.scatter(x, y, c='b', s=0.05)
+    ax.axis('off');
+    
+interact(f, a=a, b=b);",Lozi map,4005120.0,,,,2.0,"The max_length function below computes the length of all descriptions in the dataset and retrieves the longest one, which in this dataset corresponds to 34 words, however as we will pad all sequences to such length it will definitely require a much higher RAM, later we will see why we didn't use this function and instead just set to 17 words."
+7248,23606359.0,15.0,"a = FloatSlider(min=-2, max=2, step=0.1, value=1.0, description='a', layout=layout)
+b = FloatSlider(min=-2, max=2, step=0.1, value=-1.1, description='b', layout=layout)
+
+def f(a, b):
+    t = 100000
+
+    x = np.empty(t+1)
+    y = np.empty(t+1)
+
+    x[0]=0
+    y[0]=0
+
+    for i in range(t):
+        x[i+1] = 1 - a*y[i] + b*np.abs(x[i])
+        y[i+1] = x[i]
+
+
+    fig, ax = plt.subplots(figsize=(7, 7))
+    ax.scatter(x, y, c='b', s=0.05)
+    ax.axis('off');
+    
+interact(f, a=a, b=b);",Gingerbreadman map,4005120.0,,,,2.0,"Finally, the function which makes our machine to crash, this creates the sequences given te tokenizer created, max length, set of descriptions, image features and vocabulary size."
+7249,23606359.0,17.0,"x0 = FloatSlider(min=-20, max=20, step=1, value=4, description='x0', layout=layout)
+y0 = FloatSlider(min=-20, max=20, step=1, value=0, description='y0', layout=layout)
+
+a = FloatSlider(min=-5, max=5, step=0.1, value=0.9, description='a', layout=layout)
+b = FloatSlider(min=-5, max=5, step=0.1, value=-0.7, description='b', layout=layout)
+
+
+def f(x0, y0, a, b):
+    t = 100000
+
+    x = np.empty(t+1)
+    y = np.empty(t+1)
+
+    x[0]=x0
+    y[0]=y0
+    
+    def G(x, b):
+        return b*x + 2*(1 - b)*x**2/(1 + x**2)
+
+    for i in range(t):       
+        x[i+1] = a*y[i] + G(x[i], b)
+        y[i+1] = -x[i] + G(x[i+1], b)
+ 
+
+    fig, ax = plt.subplots(figsize=(7, 7))
+    ax.scatter(x, y, c='b', s=0.05)
+    ax.axis('off');
+    
+interact(f, x0=x0, y0=y0, a=a, b=b);",Mira map,4005120.0,,,,2.0,"The following creates the model we are going to work with, notice it was build using the functional API and contains two branches the CNN and LSTM, then the decoder recieves the output of these and computes the next word of the caption as a classification task with a layer with number of neurons equal to the vocabulary size."
+7250,23606359.0,19.0,"x0 = FloatSlider(min=-20, max=20, step=1, value=0, description='x0', layout=layout)
+y0 = FloatSlider(min=-20, max=20, step=1, value=1, description='y0', layout=layout)
+
+a = FloatSlider(min=-1, max=1, step=0.001, value=0.008, description='a', layout=layout)
+b = FloatSlider(min=-1, max=1, step=0.001, value=0.05, description='b', layout=layout)
+m = FloatSlider(min=-1, max=1, step=0.001, value=-0.496, description='m', layout=layout)
+
+
+def f(x0, y0, a, b, m):
+    t = 100000
+
+    x = np.empty(t+1)
+    y = np.empty(t+1)
+
+    x[0]=x0
+    y[0]=y0
+    
+    def G(x, m):
+        return m*x + 2*(1 - m)*x**2/(1 + x**2)
+
+    for i in range(t):        
+        x[i+1] = y[i] + a*(1 - b*y[i]**2)*y[i] + G(x[i], m)
+        y[i+1] = -x[i] + G(x[i+1], m)
+ 
+
+    fig, ax = plt.subplots(figsize=(7, 7))
+    ax.scatter(x, y, c='b', s=0.05)
+    ax.axis('off');
+    
+interact(f, x0=x0, y0=y0, a=a, b=b, m=m);",Gumowski-Mira map,4005120.0,,,,2.0,"FE function
+Below function creates time-series features of each assets. You can just enter asset_id in asset_feats function to get features for that particular asset."
+7251,23606359.0,21.0,"from numba import jit
+
+
+ep=0.0
+kp=1.2
+up=0.0
+
+@jit
+def Bogdanov_calc(x,y,N):
+    for i in range(N-1):
+        y[i+1]=(1+ep)*y[i]+kp*x[i]*(1-x[i])+up*x[i]*y[i]
+        x[i+1]=x[i]+y[i+1]
+
+N=300
+
+xmax=2
+xmin=-2
+ymax=2
+ymin=-2
+
+Nx=70
+Ny=70
+
+fig=plt.figure(figsize=(10,10))
+plt.xlim(-0.5, 2)
+plt.ylim(-1, 1)
+
+
+for i in range(Nx):
+    for j in range(Ny):
+        x=np.zeros(N)
+        y=np.zeros(N)
+
+        x[0]=xmin+(xmax-xmin)*i/Nx
+        y[0]=ymin+(ymax-ymin)*j/Ny
+        
+        Bogdanov_calc(x, y, N)
+        
+        plt.scatter(x, y, s=1, c='black', alpha=0.2)
+
+plt.show()",Bogdanov map,4005120.0,,,,2.0,Formatting Columns Data in Usable Form
+7252,23606359.0,25.0,"a = FloatSlider(min=-3, max=3, step=0.01, value=2.01, description='a', layout=layout)
+b = FloatSlider(min=-3, max=3, step=0.01, value=-2.53, description='b', layout=layout)
+c = FloatSlider(min=-3, max=3, step=0.01, value=1.61, description='c', layout=layout)
+d = FloatSlider(min=-3, max=3, step=0.01, value=-0.33, description='d', layout=layout)
+
+def f(a, b, c, d):
+    t = 100000
+
+    x = np.empty(t+1)
+    y = np.empty(t+1)
+
+    x[0]=0
+    y[0]=0
+
+    for i in range(t):
+        x[i+1] = np.sin(a*y[i]) + c*np.cos(a*x[i])
+        y[i+1] = np.sin(b*x[i]) + d*np.cos(b*y[i])
+
+
+    fig, ax = plt.subplots(figsize=(7, 7))
+    ax.scatter(x, y, c='b', s=0.01)
+    ax.axis('off');
+    
+interact(f, a=a, b=b, c=c, d=d);",Pickover attractor,4005120.0,,,,2.0,Used Functions
+7253,23606359.0,30.0,"a = FloatSlider(min=-3, max=3, step=0.01, value=-0.81, description='a', layout=layout)
+b = FloatSlider(min=-3, max=3, step=0.01, value=-0.92, description='b', layout=layout)
+
+
+def f(a, b):
+    t = 100000
+
+    x = np.empty(t+1)
+    y = np.empty(t+1)
+
+    x[0]=1
+    y[0]=1
+
+    for i in range(t):
+        x[i+1] = np.sin(x[i]*y[i]/b)*y[i] + np.cos(a*x[i] - y[i])
+        y[i+1] = x[i] + np.sin(y[i])/b
+
+
+    fig, ax = plt.subplots(figsize=(7, 7))
+    ax.scatter(x, y, c='b', s=0.01)
+    ax.axis('off');
+    
+interact(f, a=a, b=b);",Bedhead attractor,4005120.0,,,,2.0,Let us first define all the user-defined functions.
+7254,23606359.0,32.0,"a = FloatSlider(min=-3, max=3, step=0.01, value=-0.97, description='a', layout=layout)
+b = FloatSlider(min=-3, max=3, step=0.01, value=2.88, description='b', layout=layout)
+c = FloatSlider(min=-3, max=3, step=0.01, value=0.76, description='c', layout=layout)
+d = FloatSlider(min=-3, max=3, step=0.01, value=0.74, description='d', layout=layout)
+
+def f(a, b, c, d):
+    t = 100000
+
+    x = np.empty(t+1)
+    y = np.empty(t+1)
+
+    x[0]=0.1
+    y[0]=0.1
+
+    for i in range(t):
+        x[i+1] = np.sin(y[i]*b) + c*np.sin(x[i]*b)
+        y[i+1] = np.sin(x[i]*a) + d*np.sin(y[i]*a)
+        
+
+    fig, ax = plt.subplots(figsize=(7, 7))
+    ax.scatter(x, y, c='b', s=0.01)
+    ax.axis('off');
+    
+interact(f, a=a, b=b, c=c, d=d);",Fractal dream attractor,4005120.0,,,,2.0,"The guess_input() function takes in the guessed word and its colour sequence as input.
+This function returns a list of the format 
+[ letter,letterpos, numeric value of ('y','g','b') ]."
+7255,23606359.0,37.0,"a = FloatSlider(min=0.7, max=0.9, step=0.01, value=0.9, description='a', layout=layout)
+b = FloatSlider(min=-0.6, max=-0.5, step=0.0001, value=-0.6013, description='b', layout=layout)
+c = FloatSlider(min=1, max=2.001, step=0.001, value=2, description='c', layout=layout)
+d = FloatSlider(min=0.3, max=0.503, step=0.001, value=0.5, description='d', layout=layout)
+
+def f(a, b, c, d):
+    t = 100000
+
+    x = np.empty(t+1)
+    y = np.empty(t+1)
+
+    x[0]=-0.72
+    y[0]=-0.64
+
+    for i in range(t):
+        x[i+1] = x[i]**2 - y[i]**2 + a*x[i] + b*y[i]
+        y[i+1] = 2*x[i]*y[i] + c*x[i] + d*y[i]
+
+
+    fig, ax = plt.subplots(figsize=(7, 7))
+    ax.scatter(x, y, c='b', s=0.05)
+    ax.axis('off');
+    
+interact(f, a=a, b=b, c=c, d=d);",Tinkerbell map,4005120.0,,,,2.0,"This function takes in the condensed and full list of words as input.
+This function returns word with the maximum chance to be guessed in next attempt. 
+The probability is calculated using the conditional probability formula which is 
+ The probability of a word to be the correct word is the product of the probability of occurence of each of its letter since all of them are independent events i.e. the occurence of a particular letter in a particular position is not dependent on occurence of a particular letter in another position in that same word."
+7256,23606359.0,39.0,"u = FloatSlider(min=0.6, max=1, step=0.001, value=0.9, description='u', layout=layout)
+
+def f(u):
+    N = 100000
+
+    x = np.empty(N+1)
+    y = np.empty(N+1)
+
+    x[0]=0
+    y[0]=0
+
+    for i in range(N):
+        t = 0.4 - 6 / (1 + x[i]**2 + y[i]**2)
+        x[i+1] = 1 + u*(x[i]*np.cos(t) - y[i]*np.sin(t))
+        y[i+1] = u*(x[i]*np.sin(t) + y[i]*np.cos(t))
+
+
+    fig, ax = plt.subplots(figsize=(7, 7))
+    ax.scatter(x, y, c='b', s=0.05)
+    ax.axis('off');
+    
+interact(f, u=u);",Ikeda map,4005120.0,,,,2.0,Apply encoding into Sentiments column
+7258,23606359.0,45.0,"sigma = FloatSlider(min=0, max=100, step=1, value=10, description='sigma', layout=layout)
+rho = FloatSlider(min=-90, max=60, step=0.1, value=28, description='rho', layout=layout)
+beta = FloatSlider(min=0, max=100, step=0.1, value=8/3, description='beta', layout=layout)
+
+def f(sigma, rho, beta):
+    h = 0.01
+    t = 10000
+
+    x = np.empty(t+1)
+    y = np.empty(t+1)
+    z = np.empty(t+1)
+
+    x[0]=10
+    y[0]=10
+    z[0]=10
+
+    for i in range(t):        
+        x[i+1] = x[i] + h*(sigma*(y[i] - x[i]))
+        y[i+1] = y[i] + h*(x[i]*(rho - z[i]) - y[i])
+        z[i+1] = z[i] + h*(x[i]*y[i] - beta*z[i])
+
+    plot3D(x,y,z)
+#     plotly3D(x,y,z)
+    
+interact(f, sigma=sigma, rho=rho, beta=beta);","Lorenz attractor
+\begin{alignedat}{0}
+    \frac{dx}{dt} = \sigma (y - x)\
+    \
+    \frac{dy}{dt} = x (\rho - z) - y\
+    \
+    \frac{dz}{dt} = x y - \beta z
+\end{alignedat}",4005120.0,,,,2.0,Validation Function
+7259,23606359.0,47.0,"a = FloatSlider(min=-2, max=2, step=0.1, value=0.9, description='a', layout=layout)
+b = FloatSlider(min=-10, max=10, step=0.1, value=5, description='b', layout=layout)
+c = FloatSlider(min=-10, max=10, step=0.1, value=9.9, description='c', layout=layout)
+d = FloatSlider(min=-2, max=2, step=0.1, value=1, description='d', layout=layout)
+ 
+
+def f(a, b, c, d):
+    h = 0.001
+    t = 100000
+
+    x = np.empty(t+1)
+    y = np.empty(t+1)
+    z = np.empty(t+1)
+
+    x[0]=1
+    y[0]=1
+    z[0]=1
+
+    for i in range(t):        
+        x[i+1] = x[i] + h*(-a*x[i] + y[i]**2 - z[i]**2 + a*c)
+        y[i+1] = y[i] + h*(x[i]*(y[i] - b*z[i]) + d)
+        z[i+1] = z[i] + h*(-z[i] + x[i]*(b*y[i] + z[i]))
+
+
+    plot3D(x,y,z)
+#     plotly3D(x,y,z)
+    
+interact(f, a=a, b=b, c=c, d=d);",Lorenz Mod 2 attractor,4005120.0,,,,2.0,Generic function for removing specific sequence type of text
+7260,23606359.0,49.0,"a = FloatSlider(min=0.1, max=20, step=0.1, value=0.7, description='a', layout=layout)
+b = FloatSlider(min=-10, max=10, step=0.1, value=2.5, description='b', layout=layout)
+
+def f(a, b):
+    h = 0.01
+    t = 100000
+
+    x = np.empty(t+1)
+    y = np.empty(t+1)
+    z = np.empty(t+1)
+
+    x[0]=1.4
+    y[0]=0.8
+    z[0]=2.5
+
+    for i in range(t):        
+        x[i+1] = x[i] + h*(y[i])
+        y[i+1] = y[i] + h*(z[i])
+        z[i+1] = z[i] + h*(-a*z[i]-y[i]+b-np.exp(x[i]))
+    
+    plot3D(x,y,z)
+    
+interact(f, a=a, b=b);","WINDMI attractor
+\begin{alignedat}{0}
+    \frac{dx}{dt} = y\
+    \
+    \frac{dy}{dt} = z\
+    \
+    \frac{dz}{dt} = -az-y+b-e^x
+\end{alignedat}",4005120.0,,,,2.0,Stemming (PorterStemme
+7262,23606359.0,55.0,"a = FloatSlider(min=-2, max=2, step=0.1, value=1, description='a', layout=layout)
+b = FloatSlider(min=-1, max=1, step=0.1, value=0.9, description='b', layout=layout)
+c = FloatSlider(min=-1, max=1, step=0.1, value=0.4, description='c', layout=layout)
+d = FloatSlider(min=-7, max=7, step=0.1, value=6, description='d', layout=layout)
+
+def f(a, b, c, d):
+    h = 0.01
+    t = 100000
+
+    x = np.empty(t+1)
+    y = np.empty(t+1)
+    z = np.empty(t+1)
+
+    x[0]=0
+    y[0]=0
+    z[0]=0
+
+    for i in range(t):        
+        x[i+1] = x[i] + h*(a + b*(x[i]*np.cos(z[i]) - y[i]*np.sin(z[i])))
+        y[i+1] = y[i] + h*(b*(x[i]*np.sin(z[i]) + y[i]*np.cos(z[i])))
+        z[i+1] = z[i] + h*(c - d/(1 + x[i]**2 + y[i]**2))
+    
+    plot3D(x,y,z)
+    
+interact(f, a=a, b=b, c=c, d=d);",Ikeda attractor,4005120.0,,,,2.0,"Individual samples 🔍🕵
+Here we see all samples of an individual with fewer total samples. This might help us a better understanding on what information we have about an individual and what the model should focus on during training to achieve better results. 
+We can encourage that at the data creation step by answering if it makes more sense to 
+- use the whole image 
+- crop the whole animal, using shark/dolhin detector
+- crop the fins alone, by training a fin detector (seems like what the competition description points t
+- ignore the images that doesnt have a nice view of the fins 
+- ignore images that are too big for individuals with very high samples and so on.. 🤷🏻‍♂️
+- Too many samples for an individual might hurt as they maybe from various time periods, thus confusing the models! 🙀"
+7263,23606359.0,57.0,"a = FloatSlider(min=-1, max=1, step=0.01, value=0.95, description='a', layout=layout)
+b = FloatSlider(min=-1, max=1, step=0.01, value=0.7, description='b', layout=layout)
+c = FloatSlider(min=-1, max=1, step=0.01, value=0.6, description='c', layout=layout)
+d = FloatSlider(min=-5, max=5, step=0.1, value=3.5, description='d', layout=layout)
+e = FloatSlider(min=-1, max=1, step=0.01, value=0.25, description='e', layout=layout)
+f = FloatSlider(min=-1, max=1, step=0.01, value=0.1, description='f', layout=layout)
+
+def fun(a, b, c, d, e, f):
+    h = 0.01
+    t = 100000
+
+    x = np.empty(t+1)
+    y = np.empty(t+1)
+    z = np.empty(t+1)
+
+    x[0]=0.1
+    y[0]=0
+    z[0]=0
+
+    for i in range(t):
+        x[i+1] = x[i] + h*((z[i] - b)*x[i] - d*y[i])
+        y[i+1] = y[i] + h*(d*x[i] + (z[i] - b)*y[i])
+        z[i+1] = z[i] + h*(c + a*z[i] - z[i]**3/3 - (x[i]**2 + y[i]**2)*(1 + e*z[i]) + f*z[i]*x[i]**3)
+
+
+#     plot3D(x,y,z)
+    scatter3D(x,y,z)
+    
+interact(fun, a=a, b=b, c=c, d=d, e=e, f=f);",Aizawa attractor,4005120.0,,,,2.0,"Text Polarity
+It is the expression that determines the sentimental aspect of an opinion. In textual data, the result of sentiment analysis can be determined for each entity in the sentence, document or sentence. The sentiment polarity can be determined as positive, negative and neutral."
+7264,23606359.0,59.0,"a = FloatSlider(min=10, max=50, step=1, value=40, description='a', layout=layout)
+b = FloatSlider(min=-5, max=5, step=0.1, value=3, description='b', layout=layout)
+c = FloatSlider(min=10, max=50, step=1, value=26, description='c', layout=layout)
+
+def fun(a, b, c):
+    h = 0.01
+    t = 10000
+
+    x = np.empty(t+1)
+    y = np.empty(t+1)
+    z = np.empty(t+1)
+
+    x[0]=-0.1
+    y[0]=0.5
+    z[0]=-0.6
+
+    for i in range(t):
+        x[i+1] = x[i] + h*(a*(y[i] - x[i]))
+        y[i+1] = y[i] + h*((c - a)*x[i] - x[i]*z[i] + c*y[i])
+        z[i+1] = z[i] + h*(x[i]*y[i] - b*z[i])
+
+    plot3D(x,y,z)
+#     scatter3D(x,y,z)
+    
+interact(fun, a=a, b=b, c=c);",Chen attractor,4005120.0,,,,2.0,Model
+7265,23606359.0,61.0,"a = FloatSlider(min=10, max=50, step=0.1, value=15.4, description='a', layout=layout)
+b = FloatSlider(min=10, max=50, step=1, value=28, description='b', layout=layout)
+r = FloatSlider(min=-2, max=2, step=0.001, value=-1.143, description='r', layout=layout)
+c = FloatSlider(min=-1, max=1, step=0.001, value=-0.714, description='c', layout=layout)
+
+
+def fun(a, b, r, c):
+    h = 0.01
+    t = 10000
+
+    x = np.empty(t+1)
+    y = np.empty(t+1)
+    z = np.empty(t+1)
+
+    x[0]=0.7
+    y[0]=0
+    z[0]=0
+
+    for i in range(t):
+        g = c*x[i] + (r - c)*(np.abs(x[i] + 1) - np.abs(x[i] - 1))/2
+        
+        x[i+1] = x[i] + h*(a*(y[i] - x[i] - g))
+        y[i+1] = y[i] + h*(x[i] - y[i] + z[i])
+        z[i+1] = z[i] + h*(-b*y[i])
+        
+
+    plot3D(x,y,z)
+#     scatter3D(x,y,z)
+    
+interact(fun, a=a, b=b, r=r, c=c);",Chua attractor,4005120.0,,,,2.0,"Exploratory Data Analysis
+Visualization Helper Function"
+7266,23606359.0,63.0,"a = FloatSlider(min=-10, max=10, step=0.1, value=-5.5, description='a', layout=layout)
+b = FloatSlider(min=-10, max=10, step=0.1, value=3.5, description='b', layout=layout)
+d = FloatSlider(min=-10, max=10, step=0.1, value=-1, description='d', layout=layout)
+
+
+def fun(a, b, d):
+    h = 0.01
+    t = 100000
+
+    x = np.empty(t+1)
+    y = np.empty(t+1)
+    z = np.empty(t+1)
+
+    x[0]=1
+    y[0]=1
+    z[0]=1
+
+    for i in range(t):      
+        x[i+1] = x[i] + h*(y[i])
+        y[i+1] = y[i] + h*(z[i])
+        z[i+1] = z[i] + h*(-a*x[i] - b*y[i] - z[i] + d*x[i]**3)
+        
+
+    plot3D(x,y,z)
+#     scatter3D(x,y,z)
+
+interact(fun, a=a, b=b, d=d);",Arneodo attractor,4005120.0,,,,2.0,"Topic modeling is an integral part of NLP. If used correctly, it could give a sufficient boost to any analysis. Along with the classical LDA there is a semi-supervised alghorithm - Guided (Seede LDA."
+7267,23606359.0,65.0,"a = FloatSlider(min=-10, max=10, step=0.1, value=3, description='a', layout=layout)
+b = FloatSlider(min=-10, max=10, step=0.1, value=2.7, description='b', layout=layout)
+c = FloatSlider(min=-10, max=10, step=0.1, value=1.7, description='c', layout=layout)
+d = FloatSlider(min=-10, max=10, step=0.1, value=2, description='d', layout=layout)
+e = FloatSlider(min=-10, max=10, step=0.1, value=9, description='e', layout=layout)
+
+
+def fun(a, b, c, d, e):
+    h = 0.01
+    t = 100000
+
+    x = np.empty(t+1)
+    y = np.empty(t+1)
+    z = np.empty(t+1)
+
+    x[0]=1
+    y[0]=1
+    z[0]=1
+
+    for i in range(t):      
+        x[i+1] = x[i] + h*(y[i] - a*x[i] + b*y[i]*z[i])
+        y[i+1] = y[i] + h*(c*y[i] - x[i]*z[i] + z[i])
+        z[i+1] = z[i] + h*(d*x[i]*y[i] - e*z[i])
+        
+
+    plot3D(x,y,z)
+#     scatter3D(x,y,z)
+
+interact(fun, a=a, b=b, c=c, d=d, e=e);",Dadras attractor,4005120.0,,,,2.0,Create_eta function gives eta matrix with apriori words in topics.
+7268,23606359.0,67.0,"a = FloatSlider(min=-50, max=50, step=1, value=40, description='a', layout=layout)
+c = FloatSlider(min=-2, max=2, step=0.001, value=11/6, description='c', layout=layout)
+d = FloatSlider(min=-1, max=1, step=0.01, value=0.16, description='d', layout=layout)
+e = FloatSlider(min=-1, max=1, step=0.01, value=0.65, description='e', layout=layout)
+k = FloatSlider(min=-60, max=60, step=1, value=55, description='k', layout=layout)
+f = FloatSlider(min=-30, max=30, step=1, value=20, description='f', layout=layout)
+
+
+def fun(a, c, d, e, k, f):
+    h = 0.0001
+    t = 100000
+
+    x = np.empty(t+1)
+    y = np.empty(t+1)
+    z = np.empty(t+1)
+
+    x[0]=41.98
+    y[0]=30.32
+    z[0]=69.44
+
+
+    for i in range(t):      
+        x[i+1] = x[i] + h*(a*(y[i] - x[i]) + d*x[i]*z[i])
+        y[i+1] = y[i] + h*(k*x[i] + f*y[i] - x[i]*z[i])
+        z[i+1] = z[i] + h*(c*z[i] + x[i]*y[i] - e*x[i]**2)
+
+
+    plot3D(x,y,z)
+#     scatter3D(x,y,z)
+
+interact(fun, a=a, c=c, d=d, e=e, k=k, f=f);",Dequan Li attractor,4005120.0,,,,2.0,Then we do the above process again for the brand 2 and 3
+7269,23606359.0,69.0,"b = FloatSlider(min=-2, max=2, step=0.01, value=0.19, description='b', layout=layout)
+
+
+def fun(b):
+    h = 0.01
+    t = 100000
+
+    x = np.empty(t+1)
+    y = np.empty(t+1)
+    z = np.empty(t+1)
+
+    x[0]=1
+    y[0]=0
+    z[0]=1
+
+    for i in range(t):       
+        x[i+1] = x[i] + h*(np.sin(y[i]) - b*x[i])
+        y[i+1] = y[i] + h*(np.sin(z[i]) - b*y[i])
+        z[i+1] = z[i] + h*(np.sin(x[i]) - b*z[i])
+        
+
+    plot3D(x,y,z)
+#     scatter3D(x,y,z)
+    
+interact(fun, b=b);",Thomas attractor,4005120.0,,,,2.0,Heart 1
+7270,23606359.0,71.0,"alpha = FloatSlider(min=-2, max=2, step=0.01, value=1.1, description='alpha', layout=layout)
+gamma = FloatSlider(min=-2, max=2, step=0.01, value=0.87, description='gamma', layout=layout)
+
+
+def fun(alpha, gamma):
+    h = 0.001
+    t = 100000
+
+    x = np.empty(t+1)
+    y = np.empty(t+1)
+    z = np.empty(t+1)
+
+    x[0]=-1
+    y[0]=0
+    z[0]=0.5
+
+    for i in range(t):      
+        x[i+1] = x[i] + h*(y[i]*(z[i] - 1 + x[i]**2) + gamma*x[i])
+        y[i+1] = y[i] + h*(x[i]*(3*z[i] + 1 - x[i]**2) + gamma*y[i])
+        z[i+1] = z[i] + h*(-2*z[i]*(alpha + x[i]*y[i]))
+        
+
+    plot3D(x,y,z)
+#     scatter3D(x,y,z)
+
+interact(fun, alpha=alpha, gamma=gamma);",Rabinovich–Fabrikant attractor,4005120.0,,,,2.0,"Extract positions from dataframe location field. 
+Stackoverflow:
+https://stackoverflow.com/questions/4289331/how-to-extract-numbers-from-a-string-in-python"
+7271,23606359.0,75.0,"a = FloatSlider(min=-2, max=2, step=0.01, value=1.89, description='a', layout=layout)
+
+
+def fun(a):
+    h = 0.01
+    t = 10000
+
+    x = np.empty(t+1)
+    y = np.empty(t+1)
+    z = np.empty(t+1)
+
+    x[0]=-1.48
+    y[0]=-1.51
+    z[0]=2.04
+
+    for i in range(t):       
+        x[i+1] = x[i] + h*(-a*x[i] - 4*y[i] - 4*z[i] - y[i]**2)
+        y[i+1] = y[i] + h*(-a*y[i] - 4*z[i] - 4*x[i] - z[i]**2)
+        z[i+1] = z[i] + h*(-a*z[i] - 4*x[i] - 4*y[i] - x[i]**2)
+        
+
+    plot3D(x,y,z)
+#     scatter3D(x,y,z)
+    
+interact(fun, a=a);",Halvorsen attractor,4005120.0,,,,2.0,Before Building Model
+7272,23606359.0,77.0,"a = FloatSlider(min=-3, max=3, step=0.01, value=2.07, description='a', layout=layout)
+b = FloatSlider(min=-3, max=3, step=0.01, value=1.79, description='b', layout=layout)
+
+
+def fun(a, b):
+    h = 0.01
+    t = 100000
+
+    x = np.empty(t+1)
+    y = np.empty(t+1)
+    z = np.empty(t+1)
+
+    x[0]=0.63
+    y[0]=0.47
+    z[0]=-0.54
+
+    for i in range(t):      
+        x[i+1] = x[i] + h*(y[i] + a*x[i]*y[i] + x[i]*z[i])
+        y[i+1] = y[i] + h*(1 - b*x[i]**2 + y[i]*z[i])
+        z[i+1] = z[i] + h*(x[i] - x[i]**2 - y[i]**2)
+        
+
+    plot3D(x,y,z)
+#     scatter3D(x,y,z)
+
+interact(fun, a=a, b=b);",Sprott attractor,4005120.0,,,,2.0,"Preprocessing the Image
+opening the image file and setting the input shape to (224,224,3)"
+7273,23606359.0,79.0,"a = FloatSlider(min=-1, max=1, step=0.01, value=0.2, description='a', layout=layout)
+b = FloatSlider(min=-1, max=1, step=0.01, value=0.01, description='b', layout=layout)
+c = FloatSlider(min=-1, max=1, step=0.01, value=-0.4, description='c', layout=layout)
+
+
+def fun(a, b, c):
+    h = 0.01
+    t = 100000
+
+    x = np.empty(t+1)
+    y = np.empty(t+1)
+    z = np.empty(t+1)
+
+    x[0]=1.3
+    y[0]=-0.18
+    z[0]=0.01
+
+    for i in range(t):      
+        x[i+1] = x[i] + h*(a*x[i] + y[i]*z[i])
+        y[i+1] = y[i] + h*(b*x[i] + c*y[i] - x[i]*z[i])
+        z[i+1] = z[i] + h*(-z[i] - x[i]*y[i])
+        
+
+    plot3D(x,y,z)
+#     scatter3D(x,y,z)
+
+interact(fun, a=a, b=b, c=c);",Four-Wing attractor,4005120.0,,,,2.0,To find the optimal threshold we will use Downhill simplex method
+7274,23606359.0,81.0,"a = FloatSlider(min=-10, max=10, step=0.1, value=5, description='a', layout=layout)
+b = FloatSlider(min=-10, max=10, step=0.1, value=-10, description='b', layout=layout)
+c = FloatSlider(min=-10, max=10, step=0.01, value=-0.38, description='c', layout=layout)
+
+
+def fun(a, b, c):
+    h = 0.001
+    t = 100000
+
+    x = np.empty(t+1)
+    y = np.empty(t+1)
+    z = np.empty(t+1)
+
+    x[0]=0.4
+    y[0]=0.3
+    z[0]=0.1
+
+    for i in range(t):      
+        x[i+1] = x[i] + h*(a*x[i] - y[i]*z[i])
+        y[i+1] = y[i] + h*(b*y[i] + x[i]*z[i])
+        z[i+1] = z[i] + h*(c*z[i] + (x[i]*y[i])/3)
+        
+
+    plot3D(x,y,z)
+#     scatter3D(x,y,z)
+
+interact(fun, a=a, b=b, c=c);",Chen-Lee attractor,4005120.0,,,,2.0,What is the Dominant topic and its percentage contribution in each document
+10746,20026933.0,13.0,"%%time
+def load_reformat_csv(file):
+    
+    print(""Information about"", CSV_FILES[MODE] + "" data"")
+    print('-' * 50, '\n\n')
+    df = cudf.read_csv(file)
+    
+    # Describe data before reformat
+    print(""Before reformat \n"")
+    display(df.info())
+    print(""\n"")
+    
+    # Make dtype changes
+    if MODE == 1:
+        df[""target""] = 0
+    convert_dict = {'time_id': 'int16', 'stock_id': 'int16', 'target': 'float32'}
+    df = change_dtype(df, convert_dict)
+    
+    # Describe data after reformat
+    print(""After reformat \n"")
+    display(df.info())
+    print(""\n\n"")
+    display(df.head())
+    return df
+
+filename = DIR + CSV_FILES[MODE]
+df_csv = load_reformat_csv(filename)",Load and reformat the csv data,6819860.0,,,,2.0,Helper functions
+10748,20026933.0,21.0,"def add_stock_id(df, stockId):
+    
+    df['stock_id'] = stockId
+    
+    # Make dtype changes
+    convert_dict = {'stock_id': 'int16'}
+    df = change_dtype(df, convert_dict)
+    
+    # Reorder the columns
+    cols = df.columns.tolist()
+    cols = list(itertools.chain(cols[0:1], cols[-1:], cols[1:-1]))
+    df = df[cols]
+    
+    return df",stock_id,6819860.0,,,,2.0,"Mask Creation: First Step of the DiffEdit process
+There is a more detailed explanation of Step 1 from the paper, here are the key parts mentioned -
+ Denoise image using different text conditioning, one using reference text and the other using query text, and take differences from the result. The idea is there are more changes in the different parts and not in the background of the image.
+ Repeat this differencing process 10 times
+ Average out these differences and binarize for mask
+We will implement the prompt_2_img_i2i function which is a stripped down version of Hugging face image to image pipeline for this task to return latents instead of rescaled and decoded de-noised images."
+10749,20026933.0,24.0,"def calculate_density_code(x):
+    if x !=0:
+        return 1
+    else:
+        return 0",density code,6819860.0,,,,2.0,"Next, we will make a create_mask function, which will take an initial image, reference prompt, and query prompt with the number of times we need to repeat the steps. In the paper, the author suggests that n=10 and a strength of works well in their experimentation. Hence, the default for the function is adjusted to that. create_mask function performs the following steps -
+ Create two denoised latents, one conditioned on reference text and the second on query text, and take a difference of these latents
+ Repeat this step n times
+ Take an average of these differences and standardize
+ Pick a threshold of to binarize and create a mask"
+10750,20026933.0,26.0,"def calculate_density_score(df, m):
+    
+    # Calculate density score by window
+    df[""density_score_"" + str(m)] = df[""density_code_"" + str(m) + ""_sum""] / m
+    
+    return df","density score
+Number of seconds when at least one transaction occurred, divided by the total number of seconds in a given window",6819860.0,,,,2.0,"Masked Diffusion: Step 2 and 3 of DiffEdit paper.
+Steps 2 and 3 need to be implemented in the same loop. Simply put author is saying to condition the latents based on reference text for the non-masked part and on query text for the masked part.
+Combine these two parts using this simple formula to create combined latents -"
+10751,20026933.0,28.0,"def shift_wap(window):
+    for a in window:
+        b = a * 1
+    return b","normal return by second
+Percentage change of wap from previous to the current second within a particular time_id. This is not log return.",6819860.0,,,,2.0,"Mask Creation: Fast DiffEdit masking process
+My biggest issue with the current way of doing masking is that it takes too much time(~50 sec on A4500 GP. My take is we don’t need to run a full diffusion loop to denoise the image but just use the U-net prediction of the original sample in one shot and increase the repetition to 20 times. In this case, we can improve the computation from 10*25 = 250 steps to 20 steps (12x less loo. Let’s see if this works in practice."
+10752,20026933.0,30.0,"def calculate_avg_log_return(df, m):
+       
+    # Calculate the average log return by window and assign it to a new column
+    df[""avg_log_return_"" + str(m)] = (df[""log_return_"" + str(m) + ""_sum""] ** 2) / m
+        
+    return df","average stock log return
+
+
+where  
+s represents a specific stock
+t is a particular time_id
+r is the log return by second of stock s within the time_id t
+n is the number of seconds  ",6819860.0,,,,2.0,Let’s create a new masking function that can take our prompt_2_img_i2i_fast function.
+10754,20026933.0,34.0,"def calculate_realized_volatility(df, m):
+    
+    # Calculate realized volatility by window
+    df[""realized_volatility_"" + str(m)] = np.sqrt(df[""sqrd_log_return_"" + str(m) + ""_sum""])
+        
+    return df",realized volatility,6819860.0,,,,2.0,"As we can see above, inpaint pipeline creates a more realistic zebra image. Let’s create a simple function for the masking and diffusion process."
+10755,20026933.0,36.0,"def calculate_density_scored_total_trade_vol(df, m):
+    
+    # Calculate density-scored trade volume by window
+    df[""density_scored_total_trade_vol_"" + str(m)] = df[""trade_volume_"" + str(m) + ""_sum""] * df[""density_score_"" + str(m)]
+    
+    return df","density-scored total trade volume
+Total trade volume multiplied by density score",6819860.0,,,,2.0,Time of Death and Covid-19 in Mexico
+10756,20026933.0,38.0,"def calculate_density_scored_total_orders(df, m):
+
+    # Calculate density-scored total orders by window
+    df[""density_scored_total_orders_"" + str(m)] = df[""order_count_"" + str(m) + ""_sum""] * df[""density_score_"" + str(m)]
+    
+    return df","density-scored total orders
+Total orders multiplied by density score",6819860.0,,,,2.0,BoxPlot
+10757,20026933.0,40.0,"def calculate_max_min_difference(df, m):
+
+    # Calculate max-min difference by window
+    for fs in features_list:
+        df[fs + '_' + str(m) + '_max_min'] = df[fs + '_' + str(m) + '_max'] - df[fs + '_' + str(m) + '_min']
+        
+    return df","max-min difference
+Difference between maximum and minimum values",6819860.0,,,,2.0,Checking Dataframe
+10758,20026933.0,42.0,"def calculate_kurtosis(df_merged, df, window):
+    
+    # Calculate kurtosis by group
+    df_moment = df_merged[df_merged['seconds_in_bucket'] >= window].groupby('time_id', as_index=False, sort=True)[features_list].apply(lambda x: x.kurt(skipna = True))
+    
+    # Rename columns
+    df_moment.rename({col: col + ""_"" +  str(window) + ""_kurt"" for col in df_moment.columns.values[1:]}, axis=1, inplace=True)
+    
+    # Merge with the main dataframe
+    df = df.merge(df_moment, how=""left"", on=[""time_id""])
+    
+    # Delete dataframe
+    del df_moment
+
+    return df",kurtosis,6819860.0,,,,2.0,Descriptive Statistics
+10759,20026933.0,46.0,"def create_stat_dfs(df_merged, window):
+    
+    # Create a dataframe filtered by seconds_in_bucket and grouped by time_id. Calculate aggregate measures by group.
+    df = df_merged[df_merged['seconds_in_bucket'] >= window].groupby('time_id', as_index=False, sort=True).agg(data_dict)
+    
+    # Rename columns
+    df.columns = [f""_{window}_"".join(col) for col in df.columns.values]
+    df = df.rename(columns={f""time_id_{window}_"": ""time_id""})
+    
+    return df",Create dataframes with statistical measures of features,6819860.0,,,,2.0,Function of Regression/Classification Model
+10761,20026933.0,53.0,"def check_clustering(df_initial_features):
+
+    # Calculate mean target by stock_id
+    df_target_mean_by_stockid = df_initial_features.groupby('stock_id', as_index=False, sort=True).agg({""target"": ""mean""})
+    
+    # Plot stock_id vs. target
+    print(""\n"")
+    x = df_temp['stock_id']
+    y = df_temp['target']
+    plt.scatter(x, y, alpha=0.7)
+    plt.show()
+    print(""\n"")
+    
+    return df_target_mean_by_stockid",Check for clustering,6819860.0,,,,2.0,Calculate the distances
+10763,20026933.0,59.0,"def calculate_pseudo_beta(stock_returns, market_returns, market_return_variance):
+ 
+    # Calculate market return - stock return covariance 
+    market_stock_covariance = stock_returns.cov(market_returns)
+    
+    # Calculate pseudo-beta
+    pseudo_beta = market_stock_covariance / market_return_variance
+    
+    return pseudo_beta","stock pseudo-beta
+ 
+https://www.investopedia.com/terms/b/beta.asp
+Note: Since we don't know if the stocks belong to the same stock exchange, and market return on that exchange, this is not a real beta.",6819860.0,,,,2.0,"These are the data paths, the next task is to iterate through the paths and load them. Due to memeory constraints we won't be able to load data in large chunk."
+10764,20026933.0,63.0,"def calculate_skewness(df):
+
+    for feat in features_list:
+        for window in WINDOWS:
+            df[f""{feat}_{window}_skew""] = (3 * (df[f""{feat}_{window}_mean""] - df[f""{feat}_{window}_median""])) / df[f""{feat}_{window}_std""]
+
+    return df",skewness,6819860.0,,,,2.0,"The original shape of the data is large as compared to the amount of data we can process. So we will resize the data as a chunk of 60 x 60 x Before doing that we need to do 2 more things.
+Data Normalization 
+We will normalize the data between -1000 and Because that's were the general information is stroed.
+Maintaiin Orientation
+In order to maintain the orientation, we will rotate all these scans at 90 degree."
+10765,20026933.0,65.0,"def calculate_schwert_model(df_initial_features):
+    
+    # Calculate volatility by the model developed by Schwert
+    for window in WINDOWS:
+        df_initial_features[f""schwert_volatility_{window}""] = np.sqrt((math.pi / 2)) * np.absolute(df_initial_features[f""log_return_{window}_mean""] - \
+                                                                                                   df_initial_features[""log_return_0_mean""])
+    
+    return df_initial_features",schwert model,6819860.0,,,,2.0,Defining Function for image Pre-Processing
+10770,20026933.0,83.0,"def get_model_for_feature_selection(start, end):
+
+    # Parameters
+    params = {
+        'objective': 'reg:squarederror',
+        'n_estimators' : 10,
+        'tree_method': 'gpu_hist',
+        'seed' : SEED
+    }
+
+    # Instantiation
+    model = xgb.XGBRegressor(**params)
+
+    # Fitting the model
+    model.fit(X_train.iloc[:, start:end], y_train)
+    
+    return model",Build model for feature selection,6819860.0,,,,2.0,"Great database and big fun running the numbers.
+The goal is to understand the spotifiers preferences by country in terms of genres. Is R&R still alive?
+Just to be able to filter and group multiple times and reduced the size of the dfs, I find it useful to define a function (maybe not the best, but works for m.
+Also, I don't think it makes sense to give same value to the top ranked song to the 200th, so I have to create some kind of weight. To make it more intuitive, I reverse the value of the weight from rank.
+Finally, I noticed that multiple artists for the same song are included on the list (most of the tim as many times as the number of artists. I'm removing them in case they have the same genre, but keeping if the genre is different."
+10771,20026933.0,89.0,"def plot_dendogram():
+    
+    # Plot dendogram
+    fig = plt.figure(figsize=(20, 30))
+
+    # Cluster analysis to handle multicollinear features
+    corr = spearmanr(X.to_pandas()).correlation
+    corr_linkage = hierarchy.ward(corr)
+    dendro = hierarchy.dendrogram(corr_linkage, labels=X.columns.tolist(),  leaf_rotation=0, leaf_font_size=10, orientation='left')
+    dendro_idx = np.arange(0, len(dendro['ivl']))
+
+    # Threshold line
+    plt.vlines(x = t_line, ymin=0, ymax=10000, color = 'r', linestyle = '-')
+    fig.tight_layout()
+    plt.show()
+    print(""\n"")
+    
+    # Plot correlation matrix
+    fig = plt.figure(figsize=(20, 20))
+    plt.imshow(corr[dendro['leaves'], :][:, dendro['leaves']], cmap=""viridis"")
+    plt.xticks(ticks=dendro_idx, labels=dendro['ivl'], rotation='vertical', fontsize=7)
+    plt.yticks(ticks=dendro_idx, labels=dendro['ivl'], fontsize=7)
+    fig.tight_layout()
+    plt.show()
+    print(""\n"")
+    
+    return corr_linkage",Plot dendogram,6819860.0,,,,2.0,"So, I defined a new function to do some analysis per artist and song."
+10772,20026933.0,93.0,"def calculate_vif(column_list, df):
+
+    # Calculating VIF
+    vif = pd.DataFrame()
+    vif[""variables""] = column_list
+    vif[""VIF""] = [variance_inflation_factor(df.to_pandas().values, i) for i in range(len(column_list))]
+    display(vif)
+    print('\n')
+    
+    return vif",Perform final VIF check,6819860.0,,,,2.0,Build Pipeline
+10773,20026933.0,100.0,"def load_dataframes(d):
+    
+    if PRETRAINED == 5 or PRETRAINED == 6: 
+        
+        # Dataframes in a dictionary
+        dataframes = {1: ""../input/optiver-data/final_features.parquet"", 
+                      2: ""../input/optiver-data/decoll_features.parquet"", 
+                      3: ""../input/optiver-data/reduced_features.parquet"", 
+                      4: ""../input/optiver-data/enhanced_features.parquet""}
+    
+        # Select the dataframe
+        dataframe = dataframes[d]
+        
+        display(dataframe)
+
+    return dataframe",Load training dataframes,6819860.0,,,,2.0,Extract frames from the video dataset and normalize it
+10775,20026933.0,104.0,"# Function to calculate the root mean squared percentage error
+def rmspe(y_true, y_pred):
+    return np.sqrt(np.mean(np.square((y_true - y_pred) / y_true)))",Define the loss function,6819860.0,,,,2.0,x^2
+10778,20026933.0,113.0,"def add_corrs(df):
+
+    # Load correlations daaframe
+    df_corrs = cudf.read_parquet(""../input/optiver-data/correlations.parquet"")
+    
+    # Merge with the main dataframe
+    df = df.merge(df_corrs, how=""left"", on=[""time_id"", ""stock_id""])
+    
+    # Reorder the columns
+    new_cols = [col for col in df.columns if col != 'target'] + ['target']
+    df = df[new_cols]
+    
+    del df_corrs
+    
+    return df",Add correlations by seconds,6819860.0,,,,2.0,B Create Co-occurance matrix of items based on adjacency of items in same session
+10779,20026933.0,115.0,"def split_dataset(data):
+
+    # Define features and target
+    X = data.iloc[:, 2:-1]
+    y = data['target']
+    
+    # Split the data
+    train_x, valid_x, train_y, valid_y = train_test_split(X, y, test_size=0.30, random_state = SEED)
+    
+    return X, y, train_x, valid_x, train_y, valid_y",Create the datasets,6819860.0,,,,2.0,"B Create Item & User Similarity matrix based on If Items appear in same session & if Users interact with same set of items
+User Similarity between User i and User j = ( #Items where both i & j interacted Normalized by #Users @ Item )/( #Items@User i * #Items@User"
+18352,18526842.0,37.0,"def word_common(row):
+  q1=row['question1'].lower()
+  q2=row['question2'].lower()
+  q1=set(q1.split("" ""))
+  q2=set(q2.split("" ""))
+  return len(q1&q2)
+df['common_words_count']=df.apply(word_common,axis=1)
+","
+no of common words between queston 1 and question 2
+",5039072.0,True,,,1.0,Function for predictions API
+18353,18526842.0,39.0,"def cou(row):
+  return len(set(row['question1'].split()))+len(set(row['question2'].split()))
+df['tot_words']=df.apply(cou,axis=1)","
+total words count
+",5039072.0,True,,,1.0,Data Cleaning
+18354,18526842.0,41.0,"def rati(row):
+  return row['common_words_count']/row['tot_words']
+df['words_ratio']=df.apply(rati,axis=1)","
+words ratio =(common_words_count/tot_words)
+",5039072.0,True,,,1.0,The training method is defined below
+18355,18526842.0,43.0,"def addfreq(row):
+  return (row['freq_qid1']+row['freq_qid2'])
+df['add_freq']=df.apply(addfreq,axis=1)
+","
+total frequency of question 1 and question 2 add_freq=freq_qid1+freq_qid2
+",5039072.0,True,,,1.0,"To write a submission, we only need a lightened version of the agent, the ConvNN architecture, and to load the trained weights"
+18356,18526842.0,78.0,"tqdm.pandas()
+def cwc_min_cal(row):
+  que1=row['question1'].split();
+  que2=row['question2'].split();
+  que1_words=set(que1).difference(set(stop_words))
+  que2_words=set(que2).difference(set(stop_words))
+  common_words=que1_words.intersection(que2_words)
+  return len(common_words)/(min(len(que1_words),len(que2_words))+0.0001)
+
+df['cwc_min']=df.progress_apply(cwc_min_cal,axis=1)","
+cwcmin=common word count/min(no of words in q1,no of words in q2)
+",5039072.0,True,,,1.0,Network
+18357,18526842.0,80.0,"tqdm.pandas()
+def cwc_max_cal(row):
+  que1=row['question1'].split();
+  que2=row['question2'].split();
+  que1_words=set(que1).difference(set(stop_words))
+  que2_words=set(que2).difference(set(stop_words))
+  common_words=que1_words.intersection(que2_words)
+  return len(common_words)/(max(len(que1_words),len(que2_words))+0.0001)
+
+df['cwc_max']=df.progress_apply(cwc_max_cal,axis=1)","
+cwcmax=common word count/max(no of words in q1,no of words in q2)
+",5039072.0,True,,,1.0,Network
+18358,18526842.0,82.0,"tqdm.pandas()
+def csc_min_cal(row):
+  que1=row['question1'].split();
+  que2=row['question2'].split();
+  que1_stop_words=set(que1).intersection(set(stop_words))
+  que2_stop_words=set(que2).intersection(set(stop_words))
+  common_stop_words=que1_stop_words.intersection(que2_stop_words)
+  return len(common_stop_words)/(min(len(que1_stop_words),len(que2_stop_words))+0.0001)
+df['csc_min']=df.progress_apply(csc_min_cal,axis=1)","
+cscmin= common stop word count/min(no of stop words in q1,no of stop words in q2)
+",5039072.0,True,,,1.0,"Kekas is a more simpler Fastai-esque way to train your model. Apart from having an extremely brilliant name, kekas gives you the simplicity of fastai and allows you to easily train and infer models."
+18359,18526842.0,84.0,"tqdm.pandas()
+def csc_max_cal(row):
+  que1=row['question1'].split();
+  que2=row['question2'].split();
+  que1_stop_words=set(que1).intersection(set(stop_words))
+  que2_stop_words=set(que2).intersection(set(stop_words))
+  common_stop_words=que1_stop_words.intersection(que2_stop_words)
+  return len(common_stop_words)/(max(len(que1_stop_words),len(que2_stop_words))+0.0001)
+df['csc_max']=df.progress_apply(csc_max_cal,axis=1)","
+cscmax= common stop word count/max(no of stop words in q1,no of stop words in q2)
+",5039072.0,True,,,1.0,Network
+18360,18526842.0,86.0,"tqdm.pandas()
+def ctc_min_cal(row):
+  que1=row['question1'].split();
+  que2=row['question2'].split();
+  common_token=set(que1).intersection(set(que2))
+  return len(common_token)/(min(len(que1),len(que2))+0.0001)
+df['ctc_min']=df.progress_apply(ctc_min_cal,axis=1)","
+ctcmin=common token count/min(no of tokens in q1,no of tokens in q2)
+",5039072.0,True,,,1.0,Modelling
+18361,18526842.0,88.0,"tqdm.pandas()
+def ctc_max_cal(row):
+  que1=row['question1'].split();
+  que2=row['question2'].split();
+  common_token=set(que1).intersection(set(que2))
+  return len(common_token)/(max(len(que1),len(que2))+0.0001)
+df['ctc_max']=df.progress_apply(ctc_max_cal,axis=1)","
+ctcmax=common token count/max(no of tokens in q1,no of tokens in q2)
+",5039072.0,True,,,1.0,Criando Union de Pipelines para Pandas
+18362,18526842.0,90.0,"tqdm.pandas()
+def fir_word_eq_cal(row):
+  que1=row['question1'].split();
+  que2=row['question2'].split();
+  if(len(que1)==0 or len(que2)==0):
+    return 0.0
+  if(que1[0]==que2[0]):
+    return 1.0;
+  else:
+    return 0.0;
+df['fir_word_eq']=df.progress_apply(fir_word_eq_cal,axis=1)","
+first_word_equal= 1 if first word of both questions are equal else 0
+",5039072.0,True,,,1.0,Implement derivative of the sigmoid function
+18363,18526842.0,92.0,"tqdm.pandas()
+def las_word_eq_cal(row):
+  que1=row['question1'].split();
+  que2=row['question2'].split();
+  if(len(que1)==0 or len(que2)==0):
+    return 0.0
+  if(que1[len(que1)-1]==que2[len(que2)-1]):
+    return 1.0;
+  else:
+    return 0.0;
+df['las_word_eq']=df.progress_apply(las_word_eq_cal,axis=1)","
+last_word_equal= 1 if last word of both questions are equal else 0
+",5039072.0,True,,,1.0,"Most of the given data set images contain more than one person,for for our model we need area cover by face(with mask or without mas only not the entire image. We use the csv data set to crop only the required part and than load it, in the train, test and valid data frames."
+18364,18526842.0,94.0,"tqdm.pandas()
+def absdiff_token_cal(row):
+  que1=row['question1'].split();
+  que2=row['question2'].split();
+  return abs(len(que1)-len(que2))
+df['absdiff_token']=df.progress_apply(absdiff_token_cal,axis=1)","
+absdiff_tokens=abs(no of tokens in q1- no of tokens in q2)
+",5039072.0,True,,,1.0,"Now we can define a dictionary to show our labels. To get quickly result, define a function."
+18365,18526842.0,96.0,"tqdm.pandas()
+def mean_token_cal(row):
+  que1=row['question1'].split();
+  que2=row['question2'].split();
+  return (len(que1)+len(que2))/2
+
+df['mean_token']=df.progress_apply(mean_token_cal,axis=1)","
+mean_token = average (tokens of q1,tokens of q2)
+",5039072.0,True,,,1.0,Let's create our model by using defining blocks.
+18366,18526842.0,102.0,"tqdm.pandas()
+def fuzz_partial_ratio_cal(row):
+  return fuzz.partial_ratio(row['question1'],row['question2'])
+df['fuzz_partial_ratio']=df.progress_apply(fuzz_partial_ratio_cal,axis=1)
+","
+fuzz_partial_ratio
+",5039072.0,True,,,1.0,Learning Rate Decay
+18367,18526842.0,104.0,"tqdm.pandas()
+def fuzz_sort_ratio_cal(row):
+  return fuzz.token_sort_ratio(row['question1'],row['question2'])
+df['fuzz_sort_ratio']=df.progress_apply(fuzz_sort_ratio_cal,axis=1)
+","
+fuzz_sort_ratio
+",5039072.0,True,,,1.0,Using MobilenetV2
+18368,18526842.0,106.0,"tqdm.pandas()
+def fuzz_set_ratio_cal(row):
+  return fuzz.token_set_ratio(row['question1'],row['question2'])
+df['fuzz_set_ratio']=df.progress_apply(fuzz_set_ratio_cal,axis=1)
+","
+fuzz_set_ratio
+",5039072.0,True,,,1.0,"SARIMAX
+We will use SARIMAX to predict the mean consumption of the dataset. However, before doing that we need to test out the optimal pqd combination of the model. I will use a very brute force method for his as the dataset isn't that large."
+21576,32315676.0,9.0,"def SayHi() :
+    print ('Hi, welcome to Python')
+
+SayHi()
+",Example: write a function that prints a welcome message to the screen when it is called,6134658.0,,,,1.0,CrossValidator
+21577,32315676.0,12.0,"def SayHi(name) :
+  print ('welcome, ', name)
+
+SayHi('Ali')
+",Ex: write a function that receives the name of a student and prints a welcome message to the screen when it is called,6134658.0,,,,1.0,"Generamos una sola funcion que realice todo el preprocesamiento, ademas convierta el texto a indices"
+21578,32315676.0,15.0,"def Read_Int ():
+  y = input (""Enter a number: "")
+  y = int (y)
+  return y
+
+
+",Ex. A function which reads an integer and return it when it is called,6134658.0,,,,1.0,"A violin plot is a hybrid of a box plot and a kernel density plot, which shows peaks in the data. It is used to visualize the distribution of numerical data. Unlike a box plot that can only show summary statistics, violin plots depict summary statistics and the density of each variable. On each side of the gray line is a kernel density estimation to show the distribution shape of the data. Wider sections of the violin plot represent a higher probability that members of the population will take on the given value, the skinnier sections represent a lower probability. Visit this link to know more: https://mode.com/blog/violin-plot-examples/"
+21579,32315676.0,18.0,"def Even(x):
+  z = x%2
+  if z == 0:
+    return True
+  else: 
+    return False
+
+c = Even (11)
+c    ",Ex. Write a function that find whether an integer is odd or even,6134658.0,,,,1.0,"A classification report is a performance evaluation metric in machine learning. It is used to show the precision, recall, F1 Score, and support of your trained classification model. Some of the common terms associated with a classification report are as follows:
+- Precision: Precision is defined as the ratio of true positives to the sum of true and false positives.
+- Recall: Recall is defined as the ratio of true positives to the sum of true positives and false negatives.
+- F1 Score: The F1 Score is the weighted harmonic mean of precision and recall. The closer the value of the F1 score is to , the better the expected performance of the model is.
+- Support: Support is the number of actual occurrences of the classes in the dataset. It doesn’t vary between models, it just diagnoses the performance evaluation process. 
+Sourced from ML algorithms: https://www.kaggle.com/marcovasquez/top-machine-learning-algorithms-beginner#Machine-Learning-with-Scikit-Learn--"
+21580,32315676.0,20.0,"
+def Even(x):
+  return (x%2==0)
+Even(3)",Same function with less code,6134658.0,,,,1.0,Exercise: One-Step Lookahead
+21581,32315676.0,23.0,"def SumMul(x, y, z):
+    s = x+y+z
+    m = x*y*z
+    return s, m
+
+rs, rm = SumMul(23, 1, 2)
+print (""The sum is "", rs , "" and the multiplication is "", rm)",Write a function that takes three numbers and returns the sum and multiplaction of the numbers,6134658.0,,,,1.0,Model 6 Fastext vector with Naive Bayes Baseline
+21582,32315676.0,28.0,"def MinMax2(x, y):
+  mx = 0
+  mn = 0
+  if x>y:
+    mx = x
+    mn = y
+  elif y>x:
+    mx = y
+    mn = x
+  else:
+    mx = mn = x
+  return mx, mn
+
+a, b = MinMax2(-2,-2)
+print (""Max = "", a, ""Min = "", b)",Write a function the takes 2 numbers and returns the max and the minimum of the numbers,6134658.0,,,,1.0,> Define a scoring function for hyper parameter tuning
+21583,32315676.0,30.0,"def MinMax3(x, y, z):
+  mx = 0
+  mn = 0
+  if x>y and x>z:
+    mx = x
+  elif y>x and y >z:
+    mx = y
+  else:
+    mx= z
+
+  if x<y and x<z:
+    mn = x
+  elif y<x and y <z:
+    mn = y
+  else:
+    mn= z
+  return mx, mn
+
+a, b = MinMax3(8,4, -4)
+print (""Max = "", a, ""Min = "", b)  ",Write a function the takes 3 numbers and returns the max and the minimum of the numbers,6134658.0,,,,1.0,> Define a Trainable function that can be compatible with ray.tune
+21584,32315676.0,33.0,"def SayHi2All (*names):
+  for n in names:
+    print (""Hi "", n)
+
+SayHi2All(""Ali"", ""Ahmed"", ""Aisha"")
+SayHi2All(""A"", ""B"")","Unknown number of parameter
+When the number of parameters is unknown or varies from one execution to another",6134658.0,,,,1.0,"> Define a model structure
+Model: Pretrained ResNet34"
+21585,32315676.0,35.0,"
+def SumAny(*numbers):
+  s= 0
+  for n in numbers:
+    s += n
+  return s
+
+x = SumAny(1, 2, 3)
+print (x)",write a function that finds the sum of any number of numbers,6134658.0,,,,1.0,Color per class and name of each class
+21586,32315676.0,39.0,"def info (name, country=""Oman""):
+  print (""Your name is "", name, "" and you are from "", country)
+
+info(""Moayad"", ""Oman"")
+info (""Mohammad"", ""Iraq"")
+info(""Rayan"")","Write a fuction that gets the name and country of a user and print them, if the country was not available it prints Oman",6134658.0,,,,1.0,Stopwords removal
+21587,32315676.0,41.0,"def info1 (name, specialisation=""CS"", country=""Oman"" ):
+  print (""Your name is "", name, "" and you are from "", country, "" Spec is"", specialisation)
+
+info1(""Moayad"")
+info1 (""Mohammad"", country= ""Iraq"", specialisation=""AI"")
+info1(""Rayan"")
+info1(""Osama"", specialisation=""MIS"")
+","A function which prints the information of a person, if the specialisation was not introduced, it prints CS and if the country was not introduced it prints Oman",6134658.0,,,,1.0,Porter-Stemmer
+21588,32315676.0,45.0,"
+def fact(n):
+  m = 1
+  for i in range (1, n+1):
+    m *=i
+  return m
+
+fact(3)",Write a Python function to find the factorial of a number,6134658.0,,,,1.0,Lematization
+21589,32315676.0,47.0,"def ListSum(L):
+  s = 0
+  for n in L:
+    s+=n
+  return s
+
+A = [3, 5, 2,1]
+x = ListSum(A)
+x",Write a function that finds the sum of all elements of a list,6134658.0,,,,1.0,Lametization and POS tags
+21590,32315676.0,49.0,"def ListSum(L):
+  s = 0
+  for n in L:
+    s+=n
+  av = s/len(L)
+  return av
+
+A = [3, 5, 2,1]
+x = ListSum(A)
+x",Write a function that finds the average of all elements of a list,6134658.0,,,,1.0,Removing urls
+21591,32315676.0,51.0,"def MaxL(L):
+  mx =L[0]
+  for n in L:
+    if n>mx: 
+      mx = n
+  return mx
+A = [3, 12, 27]
+x= MaxL(A)
+x",Write a function that returns the max number in a list,6134658.0,,,,1.0,Train a simple MNIST model
+21592,32315676.0,53.0,"def MaxMinL(L):
+  mx =L[0]
+  mn = L[0]
+  for n in L:
+    if n>mx: 
+      mx = n
+    if n<mn:
+      mn = n
+  return mx, mn
+A = [3, 12, -27]
+x, y= MaxMinL(A)
+print (""Max = "", x, "" and Min = "", y)",Write a function that returns the max number and the min number in a list,6134658.0,,,,1.0,Build Generator Model
+21593,32315676.0,55.0,"
+def AddList(x, y):
+  z = []
+  for i in range(0, len(x)):
+    r = x[i]+y[i]
+    z.append(r)
+  return z
+
+A = [1, 2, 3, 8]
+B = [3, 4, 5, 2]
+C = AddList(A, B)
+C",write a function that receives two lists and return a list that contains the addition of the corresponding element,6134658.0,,,,1.0,Build Discriminator Model
+21594,32315676.0,57.0,"
+def ListSqr(L):
+    R = []
+    for n in L:
+        r = n*n
+        R.append(r)
+    return R
+
+A = [1, -30, 7, 12, 456, 45]
+x = ListSqr (A)
+x",write a function that receives a list and return a list containing the squares of its elements,6134658.0,,,,1.0,Text Sentiment
+21595,32315676.0,59.0,"def prime (n):
+  cnt = 0
+  for x in range (1, n+1):
+    if n%x == 0:
+      cnt +=1
+  if cnt == 2:  return True
+  else: return False
+
+prime(121) ",write a function that checks whether a number is prime,6134658.0,,,,1.0,"Wow! most of the sentences in the data set are neutral to positive, very few sentences are negative
+Now lets see the breakup of each polarity"
+21596,32315676.0,63.0,"def pr_ev(start, end):
+  for i in range (start, end+1):
+    if i%2 == 0:
+      print (i, end = "", "")
+      
+pr_ev(21, 78)",Write a Python function to print the even numbers in a given range,6134658.0,,,,1.0,Loss Function
+21597,32315676.0,65.0,"def Grade(mark):
+  gr = """"
+  if mark<50 and mark>=35:
+    gr = 'Failed'
+  elif mark >= 50 and mark<60:
+    gr = ""Pass""
+  elif mark >=60 and mark<70:
+    gr = ""Satisfactory""
+  elif mark >=70 and mark<80:
+    gr = ""Good""
+  elif mark >=80 and mark<90:
+    gr = ""very good""
+  elif mark >=90 and mark<=100:
+    gr = ""Excellent""
+  else:
+    gr = ""Invalid""
+  return gr
+
+Grade(120)","Write a function that takes the GPA of a students and returns the Grade (fail, sat, good, very good, or excellent)​",6134658.0,,,,1.0,We'll use the stratified k-fold cross validation strategy.
+21598,32315676.0,67.0,"
+def Area(h, w):
+  area = h*w
+  return area
+
+Area(4, 5)",Write a function that takes the width and the height of a rectangle and returns  the area,6134658.0,,,,1.0,"We've decided to add ""logging"" to our to_smash function from the previous exercise."
+21599,32315676.0,69.0,"
+def AreaPer(h, w):
+  area = h*w
+  per = 2*(h+w)
+  return area, per
+
+AreaPer(4, 5)",Write a function that takes the width and the height of a rectangle and returns  the area and perimeter​,6134658.0,,,,1.0,"🌶️ (Optiona
+In this problem we'll be working with a simplified version of blackjack (aka twenty-on. In this version there is one player (who you'll contro and a dealer. Play proceeds as follows:
+The player is dealt two face-up cards. The dealer is dealt one face-up card.
+The player may ask to be dealt another card ('hit') as many times as they wish. If the sum of their cards exceeds 21, they lose the round immediately.
+The dealer then deals additional cards to himself until either:
+the sum of the dealer's cards exceeds 21, in which case the player wins the round
+the sum of the dealer's cards is greater than or equal to If the player's total is greater than the dealer's, the player wins. Otherwise, the dealer wins (even in case of a ti.
+When calculating the sum of cards, Jack, Queen, and King count for Aces can count as 1 or 11 (when referring to a player's ""total"" above, we mean the largest total that can be made without exceeding So e.g. A+8 = 19, A+8+8 = 17)
+For this problem, you'll write a function representing the player's decision-making strategy in this game. We've provided a very unintelligent implementation below:"
+21600,32315676.0,71.0,"def TriangleArea(base, height):
+    return (0.5*base*height)
+
+TriangleArea(4, 5)",Python function to Calculate the Area of a Triangle,6134658.0,,,,1.0,"Our dumb agent that completely ignores the game state still manages to win shockingly often!
+Try adding some more smarts to the should_hit function and see how it affects the results."
+21601,32315676.0,73.0,"def K2M(k):
+    return (k/1.6)
+
+K2M(100)",Python Function to Convert Kilometers to Miles,6134658.0,,,,1.0,"This function takes in a song name as an argument, finds it's index. Then it gets a list of all similarity scores for the song index. Then it sorts the similarity scores from highest to lowest and takes only the first 30 scores and returns the song names for these indices with highest scores."
+24911,18444960.0,7.0,"def importing_data(train_path, validation_path):
+
+    train_data = pd.read_csv(train_path)
+    validation_data = pd.read_csv(validation_path).drop(columns = ['PassengerId'])
+    validation_data_ids = pd.read_csv(validation_path)['PassengerId']
+
+    return train_data, validation_data, validation_data_ids
+
+train_titanic_path = '../input/titanic/train.csv'
+validation_titanic_path = '../input/titanic/test.csv'
+
+train_titanic, validation_titanic, validation_data_ids = importing_data(train_titanic_path, validation_titanic_path)",Importing the Titanic train and validation data.,6938909.0,,,,1.0,Cleaning the Text Field
+24912,18444960.0,10.0,"def dropping_train_id(train_data, id_column):
+    
+    train_data = train_data.drop(columns = [id_column])
+
+    return train_data
+
+train_titanic = dropping_train_id(train_titanic, 'PassengerId')","Dropping the ""PassengerId"" column from the training data.",6938909.0,,,,1.0,Removing Stopwords & Punctuations
+24913,18444960.0,12.0,"def renaming_pclass_values(dataframe, pclass_column):
+
+    dataframe[pclass_column] = dataframe[pclass_column].replace({1: 'first class', 2: 'second class', 3: 'third class'})
+
+    return dataframe
+
+train_titanic = renaming_pclass_values(train_titanic, 'Pclass')
+validation_titanic = renaming_pclass_values(validation_titanic, 'Pclass')","Renaming the values of the ""Pclass"" column for the training and validation data.",6938909.0,,,,1.0,Visulaize the Dataset
+24914,18444960.0,14.0,"def extracting_social_title(dataframe, name_column):
+
+    social_titles = list()
+
+    for name in dataframe[name_column].to_list():
+        
+        start = name.find(', ') + len(', ')
+        end = name.find('. ')
+        title = name[start:end]
+        social_titles.append(str(title))
+
+    dataframe['SocialTitle'] = social_titles
+
+    return dataframe
+
+train_titanic = extracting_social_title(train_titanic, 'Name')
+validation_titanic = extracting_social_title(validation_titanic, 'Name')","Creating the ""SocialTitle"" column using the social abbreviations from the ""Name"" column.",6938909.0,,,,1.0,Evaluation with cross-validation
+24915,18444960.0,16.0,"def extracting_name_type(dataframe, name_column):
+
+    name_type = list()
+
+    for name in dataframe[name_column].to_list():
+        
+        if '(' in name:
+            name_type.append('double name')
+        else:
+            name_type.append('single name')
+
+    dataframe['NameType'] = name_type
+
+    return dataframe
+
+train_titanic = extracting_name_type(train_titanic, 'Name')
+validation_titanic = extracting_name_type(validation_titanic, 'Name')","Generating the ""NameType"" column using the name column, which distinguishes between individual and double names.",6938909.0,,,,1.0,"In walk-forward validation, the dataset is first split into train and test sets by selecting a cut point, e.g. all data except the last 12 months is used for training and the last 12 months is used for testing.
+If we are interested in making a one-step forecast, e.g. one month, then we can evaluate the model by training on the training dataset and predicting the first step in the test dataset. We can then add the real observation from the test set to the training dataset, refit the model, then have the model predict the second step in the test dataset.
+The function below performs walk-forward validation.
+It takes the entire supervised learning version of the time series dataset and the number of rows to use as the test set as arguments.
+It then steps through the test set, calling the random_forest_forecast() function to make a one-step forecast. An error measure is calculated and the details are returned for analysis."
+24916,18444960.0,18.0,"def extracting_surname(dataframe, name_column):
+
+    surnames = list()
+
+    for name in dataframe[name_column].to_list():
+        
+        start = name.find('') + len('')
+        end = name.find(', ')
+        surname = name[start:end]
+        surnames.append(str(surname))
+
+    dataframe['Surname'] = surnames
+    dataframe = dataframe.drop(columns = [name_column])
+
+    return dataframe
+
+train_titanic = extracting_surname(train_titanic, 'Name')
+validation_titanic = extracting_surname(validation_titanic, 'Name')","Extracting the surnames of the passengers using the ""Name"" column. Finally dropping the ""Name"" column.",6938909.0,,,,1.0,"We can use the RandomForestRegressor class to make a one-step forecast.
+The random_forest_forecast() function below implements this, taking the training dataset and test input row as input, fitting a model and making a one-step prediction."
+24917,18444960.0,20.0,"def extracting_total_companions(dataframe, parch_column, sibsp_column):
+
+    dataframe['TotalCompanions'] = dataframe[parch_column] + dataframe[sibsp_column] + 1
+
+    return dataframe
+
+train_titanic = extracting_total_companions(train_titanic, 'Parch', 'SibSp')
+validation_titanic = extracting_total_companions(validation_titanic, 'Parch', 'SibSp')","Summing up the ""Parch"" and the ""SibSp"" columns to get the ""TotalCompanions"" column, taking into account the value of the passenger.",6938909.0,,,,1.0,The final forecast function will use the RandomForestRegressor on the entire dataset to forecast the next time step
+24919,18444960.0,24.0,"def extracting_cabin_letter(dataframe, cabin_column):
+
+    letters = list()
+
+    dataframe[cabin_column] = dataframe[cabin_column].fillna('unknown')
+
+    for cabin in dataframe[cabin_column].to_list():
+
+        if cabin == 'unknown':
+            letters.append('unknown')
+
+        else:
+            letters.append(str(cabin[0]))
+
+
+    dataframe['CabinLetter'] = letters
+    dataframe = dataframe.drop(columns = [cabin_column])
+
+    return dataframe
+
+train_titanic = extracting_cabin_letter(train_titanic, 'Cabin')
+validation_titanic = extracting_cabin_letter(validation_titanic, 'Cabin')","Getting the letter of the cabin using the ""Cabin"" column. Generating a new column named ""CabinLetter"".",6938909.0,,,,1.0,So these are the actual missing values. More in details:
+24920,18444960.0,27.0,"def renaming__embarked_values(dataframe, embarked_column):
+
+    dataframe[embarked_column] = dataframe[embarked_column].replace({'S': 'southampton', 'C': 'cherbourg', 'Q': 'queenstown'})
+
+    return dataframe
+
+train_titanic = renaming__embarked_values(train_titanic, 'Embarked')
+validation_titanic = renaming__embarked_values(validation_titanic, 'Embarked')","Renaming the values of the ""Embarked"" column for the training and validation data.",6938909.0,,,,1.0,We fit a model for replacing missing rainfalls:
+24921,18444960.0,29.0,"def imputing_age(dataframe_train, dataframe_test, age_column):
+
+    iterative_imputer = IterativeImputer()
+
+    dataframe_train[age_column] = iterative_imputer.fit_transform(dataframe_train[age_column].values.reshape(-1,1))
+    dataframe_train[age_column] = dataframe_train[age_column].astype('int64')
+
+    dataframe_test[age_column] = iterative_imputer.transform(dataframe_test[age_column].values.reshape(-1,1))
+    dataframe_test[age_column] = dataframe_test[age_column].astype('int64')
+
+    return dataframe_train, dataframe_test
+
+train_titanic, validation_titanic = imputing_age(train_titanic, validation_titanic, 'Age')","Imputing the ""Age"" column in the training and validation data using the Iterative Imputer function.",6938909.0,,,,1.0,"From the graph above, we can see that the newer building tend to have higher price. The house with highest price was built around Then after 1990s period, even the cheapest house is not as cheap as the old building."
+24922,18444960.0,31.0,"def imputing_embarked(dataframe, embarked_column):
+
+    dataframe[embarked_column] = dataframe[embarked_column].fillna('cherbourg')
+
+    return dataframe
+
+train_titanic = imputing_embarked(train_titanic, 'Embarked')","Imputing the ""Embarked"" column in the training data using the values from similar passengers to the missing ones.",6938909.0,,,,1.0,Visualize the Data
+24923,18444960.0,33.0,"def imputing_fare(dataframe_train, dataframe_validation, fare_column):
+
+    iterative_imputer = IterativeImputer()
+
+    iterative_imputer.fit(dataframe_train[fare_column].values.reshape(-1,1))
+
+    dataframe_validation[fare_column] = iterative_imputer.transform(dataframe_validation[fare_column].values.reshape(-1,1))
+
+    return dataframe_validation
+
+validation_titanic = imputing_fare(train_titanic, validation_titanic, 'Fare')","Imputing the ""Fare"" column in the validation data using the Iterative Imputer function.",6938909.0,,,,1.0,Show train samples
+24925,18444960.0,37.0,"def binning_age_column(dataframe_train, dataframe_validation, age_column):
+
+    k_bins_discretizer = KBinsDiscretizer(n_bins = 6, encode = 'ordinal', strategy = 'quantile')
+
+    dataframe_train[age_column] = k_bins_discretizer.fit_transform(dataframe_train[age_column].values.reshape(-1,1))
+    dataframe_validation[age_column] = k_bins_discretizer.transform(dataframe_validation[age_column].values.reshape(-1,1))
+
+    dataframe_train[age_column] = dataframe_train[age_column].astype('int64')
+    dataframe_validation[age_column] = dataframe_validation[age_column].astype('int64')
+
+    return dataframe_train, dataframe_validation
+
+train_titanic, validation_titanic = binning_age_column(train_titanic, validation_titanic, 'Age')","Transforming the ""Age"" column in categorical Bins.",6938909.0,,,,1.0,Plot train history
+24926,18444960.0,39.0,"def binning_fare_column(dataframe_train, dataframe_validation, fare_column):
+
+    k_bins_discretizer = KBinsDiscretizer(n_bins = 6, encode = 'ordinal', strategy = 'quantile')
+
+    dataframe_train[fare_column] = k_bins_discretizer.fit_transform(dataframe_train[fare_column].values.reshape(-1,1))
+    dataframe_validation[fare_column] = k_bins_discretizer.transform(dataframe_validation[fare_column].values.reshape(-1,1))
+
+    dataframe_train[fare_column] = dataframe_train[fare_column].astype('int64')
+    dataframe_validation[fare_column] = dataframe_validation[fare_column].astype('int64')
+
+    return dataframe_train, dataframe_validation
+
+train_titanic, validation_titanic = binning_fare_column(train_titanic, validation_titanic, 'Fare')","Transforming the ""Fare"" column in categorical Bins.",6938909.0,,,,1.0,Plot confusion matrix
+24927,18444960.0,41.0,"def binning_sibsp_column(dataframe_train, dataframe_validation, sibsp_column):
+
+    k_bins_discretizer = KBinsDiscretizer(n_bins = 2, encode = 'ordinal', strategy = 'uniform')
+
+    dataframe_train[sibsp_column] = k_bins_discretizer.fit_transform(dataframe_train[sibsp_column].values.reshape(-1,1))
+    dataframe_validation[sibsp_column] = k_bins_discretizer.transform(dataframe_validation[sibsp_column].values.reshape(-1,1))
+
+    dataframe_train[sibsp_column] = dataframe_train[sibsp_column].astype('int64')
+    dataframe_validation[sibsp_column] = dataframe_validation[sibsp_column].astype('int64')
+
+    return dataframe_train, dataframe_validation
+
+train_titanic, validation_titanic = binning_sibsp_column(train_titanic, validation_titanic, 'SibSp')","Transforming the ""SibSp"" column in categorical Bins.",6938909.0,,,,1.0,Show samples with predictions
+24928,18444960.0,43.0,"def binning_parch_column(dataframe_train, dataframe_validation, parch_column):
+
+    k_bins_discretizer = KBinsDiscretizer(n_bins = 2, encode = 'ordinal', strategy = 'uniform')
+
+    dataframe_train[parch_column] = k_bins_discretizer.fit_transform(dataframe_train[parch_column].values.reshape(-1,1))
+    dataframe_validation[parch_column] = k_bins_discretizer.transform(dataframe_validation[parch_column].values.reshape(-1,1))
+
+    dataframe_train[parch_column] = dataframe_train[parch_column].astype('int64')
+    dataframe_validation[parch_column] = dataframe_validation[parch_column].astype('int64')
+
+    return dataframe_train, dataframe_validation
+
+train_titanic, validation_titanic = binning_parch_column(train_titanic, validation_titanic, 'Parch')","Transforming the ""Parch"" column in categorical Bins.",6938909.0,,,,1.0,Hiperparametre Optimizasyonu
+24929,18444960.0,45.0,"def binning_totaltompanions_column(dataframe_train, dataframe_validation, totalcompanions_column):
+
+    k_bins_discretizer = KBinsDiscretizer(n_bins = 2, encode = 'ordinal', strategy = 'uniform')
+
+    dataframe_train[totalcompanions_column] = k_bins_discretizer.fit_transform(dataframe_train[totalcompanions_column].values.reshape(-1,1))
+    dataframe_validation[totalcompanions_column] = k_bins_discretizer.transform(dataframe_validation[totalcompanions_column].values.reshape(-1,1))
+
+    dataframe_train[totalcompanions_column] = dataframe_train[totalcompanions_column].astype('int64')
+    dataframe_validation[totalcompanions_column] = dataframe_validation[totalcompanions_column].astype('int64')
+
+    return dataframe_train, dataframe_validation
+
+train_titanic, validation_titanic = binning_totaltompanions_column(train_titanic, validation_titanic, 'TotalCompanions')","Transforming the ""TotalCompanions"" column in categorical Bins.",6938909.0,,,,1.0,Let's define a method that plots each Cat feature and a threshold of percentage importance per Cat feature-value to each Cat feature.
+24930,18444960.0,47.0,"def binning_ticketletters_column(dataframe_train, dataframe_validation, ticketletters_column):
+
+    k_bins_discretizer = KBinsDiscretizer(n_bins = 2, encode = 'ordinal', strategy = 'uniform')
+
+    dataframe_train[ticketletters_column] = k_bins_discretizer.fit_transform(dataframe_train[ticketletters_column].values.reshape(-1,1))
+    dataframe_validation[ticketletters_column] = k_bins_discretizer.transform(dataframe_validation[ticketletters_column].values.reshape(-1,1))
+
+    dataframe_train[ticketletters_column] = dataframe_train[ticketletters_column].astype('int64')
+    dataframe_validation[ticketletters_column] = dataframe_validation[ticketletters_column].astype('int64')
+
+    return dataframe_train, dataframe_validation
+
+train_titanic, validation_titanic = binning_ticketletters_column(train_titanic, validation_titanic, 'TicketLetters')","Transforming the ""TicketLetters"" column in categorical Bins.",6938909.0,,,,1.0,"Kurtosis AKA The 4th Statistical-Moment
+Now just before we fit the Winsorizer on the dataset, let's compute the Kurtosis score of the data, which is a score that computes how much outliers are in the dataset. Kurtosis indicates the outlier content within the data.
+The higher the Kurtosuis measure is, the more outliers are present and the longer the tails in the distribution of the histogram are"
+24931,18444960.0,49.0,"def binning_ticketnumbers_column(dataframe_train, dataframe_validation, ticketnumbers_column):
+
+    k_bins_discretizer = KBinsDiscretizer(n_bins = 3, encode = 'ordinal', strategy = 'quantile')
+
+    dataframe_train[ticketnumbers_column] = k_bins_discretizer.fit_transform(dataframe_train[ticketnumbers_column].values.reshape(-1,1))
+    dataframe_validation[ticketnumbers_column] = k_bins_discretizer.transform(dataframe_validation[ticketnumbers_column].values.reshape(-1,1))
+
+    dataframe_train[ticketnumbers_column] = dataframe_train[ticketnumbers_column].astype('int64')
+    dataframe_validation[ticketnumbers_column] = dataframe_validation[ticketnumbers_column].astype('int64')
+
+    return dataframe_train, dataframe_validation
+
+train_titanic, validation_titanic = binning_ticketnumbers_column(train_titanic, validation_titanic, 'TicketNumbers')","Transforming the ""TicketNumbers"" column in categorical Bins.",6938909.0,,,,1.0,"Working of gates in LSTMs
+First, LSTM cell takes the previous memory state Ct-1 and does element wise multiplication with forget gate ( to decide if present memory state Ct. If forget gate value is 0 then previous memory state is completely forgotten else f forget gate value is 1 then previous memory state is completely passed to the cell ( Remember f gate gives values between 0 and 1 ).
+Ct = Ct-1 * ft
+Calculating the new memory state:
+Ct = Ct + (It * C`
+Now, we calculate the output:
+Ht = tanh(C"
+24932,18444960.0,51.0,"def binning_ticketsymbols_column(dataframe_train, dataframe_validation, ticketsymbols_column):
+
+    k_bins_discretizer = KBinsDiscretizer(n_bins = 2, encode = 'ordinal', strategy = 'uniform')
+
+    dataframe_train[ticketsymbols_column] = k_bins_discretizer.fit_transform(dataframe_train[ticketsymbols_column].values.reshape(-1,1))
+    dataframe_validation[ticketsymbols_column] = k_bins_discretizer.transform(dataframe_validation[ticketsymbols_column].values.reshape(-1,1))
+
+    dataframe_train[ticketsymbols_column] = dataframe_train[ticketsymbols_column].astype('int64')
+    dataframe_validation[ticketsymbols_column] = dataframe_validation[ticketsymbols_column].astype('int64')
+
+    return dataframe_train, dataframe_validation
+
+train_titanic, validation_titanic = binning_ticketsymbols_column(train_titanic, validation_titanic, 'TicketSymbols')","Transforming the ""TicketSymbols"" column in categorical Bins.",6938909.0,,,,1.0,Define function for creating the neural network
+24933,18444960.0,53.0,"def binning_ticketcharacters_column(dataframe_train, dataframe_validation, ticketcharacters_column):
+
+    k_bins_discretizer = KBinsDiscretizer(n_bins = 2, encode = 'ordinal', strategy = 'quantile')
+
+    dataframe_train[ticketcharacters_column] = k_bins_discretizer.fit_transform(dataframe_train[ticketcharacters_column].values.reshape(-1,1))
+    dataframe_validation[ticketcharacters_column] = k_bins_discretizer.transform(dataframe_validation[ticketcharacters_column].values.reshape(-1,1))
+
+    dataframe_train[ticketcharacters_column] = dataframe_train[ticketcharacters_column].astype('int64')
+    dataframe_validation[ticketcharacters_column] = dataframe_validation[ticketcharacters_column].astype('int64')
+
+    return dataframe_train, dataframe_validation
+
+train_titanic, validation_titanic = binning_ticketcharacters_column(train_titanic, validation_titanic, 'TicketCharacters')","Transforming the ""TicketCharacters"" column in categorical Bins.",6938909.0,,,,1.0,"Prepare Model, Train and Evaluate"
+24934,18444960.0,55.0,"def merging_training_validation(dataframe_training, dataframe_validation, target):
+
+    dataframe_validation['DataClass'] = 'validation'
+
+    y_variable = dataframe_training[target]
+    dataframe_training['DataClass'] = 'train'
+    dataframe_training = dataframe_training.drop(columns = [target])
+
+    dataframe = pd.concat([dataframe_training, dataframe_validation])
+
+    return dataframe, y_variable
+
+titanic_dataframe, y_variable = merging_training_validation(train_titanic, validation_titanic, 'Survived')",Merging training and validation datasets to perform the encoding of all the categorical columns.,6938909.0,,,,1.0,Adding in augmentations
+24935,18444960.0,57.0,"def binarising_sex_nametype(dataframe, sex_column, nametype_column):
+
+    dataframe[sex_column] = dataframe[sex_column].replace({'male': 0, 'female': 1})
+    dataframe[nametype_column] = dataframe[nametype_column].replace({'single name': 0, 'double name': 1})
+
+    return dataframe
+
+titanic_dataframe = binarising_sex_nametype(titanic_dataframe, 'Sex', 'NameType')","Binarising the variable ""Sex"" and the variable ""NameType"".",6938909.0,,,,1.0,"Xb=create_data_batches(X[:10],test_data=Tru
+p=model.predict(X"
+24936,18444960.0,59.0,"def one_hot_pclass_embarked(dataframe, pclass_column, embarked_column, datatype_column):
+
+    data_type = dataframe[datatype_column]
+
+    dataframe = dataframe.drop(columns = [datatype_column])
+    dataframe = pd.get_dummies(dataframe)
+    dataframe[datatype_column] = data_type
+
+    return dataframe
+
+titanic_dataframe = one_hot_pclass_embarked(titanic_dataframe, 'Pclass', 'Embarked', 'DataClass')","One Hot Encoding the ""Pclass"" and the ""Embarked"" columns.",6938909.0,,,,1.0,Parse single example from TFRecord format
+24937,18444960.0,61.0,"def train_validation_splitting(dataframe, identifier_column, target_values):
+
+    train_dataframe = dataframe[dataframe[identifier_column] == 'train']
+    train_dataframe = train_dataframe.drop(columns = [identifier_column])
+    train_dataframe['Survived'] = target_values
+
+    validation_dataframe = dataframe[dataframe[identifier_column] == 'validation']
+    validation_dataframe = validation_dataframe.drop(columns = [identifier_column])
+
+    return train_dataframe, validation_dataframe
+
+train_titanic, validation_titanic = train_validation_splitting(titanic_dataframe, 'DataClass', y_variable)",Splitting the merged titanic dataframe in the train and validation dataframes.,6938909.0,,,,1.0,Shared functions
+24938,18444960.0,63.0,"def splitting_x_y(dataframe, target):
+
+    y_variable = dataframe[target]
+    x_variables = dataframe.drop(columns = [target])
+
+    return x_variables, y_variable
+
+x_variables, y_variable = splitting_x_y(train_titanic, 'Survived')",Splitting the training dataframe in the independent variables and the target variable.,6938909.0,,,,1.0,"Core evalution logic
+This is the core computing logic for running on evaluation end to end. Notice this is still unrelated with Fugue"
+26959,13256444.0,54.0,"def plotClassDistribution(feature, normalize=True):
+    temp = train[[feature, OUTPUT_COL]] #.dropna()
+    temp = pd.get_dummies(data=temp, columns=[OUTPUT_COL])
+    temp = temp.groupby(feature).agg(np.count_nonzero).reset_index()
+    
+    cat_cols = [OUTPUT_COL+""_""+str(i) for i in range(0, 2)]
+    if normalize:
+        temp[cat_cols] = temp[cat_cols].div(temp[cat_cols].sum(axis=1), axis=0)
+    else:
+        print(temp)
+    
+    plt.figure(figsize=(10, 8))
+    plt.plot(temp[cat_cols], temp[feature].astype('object'), 'o', markersize=10)
+    plt.grid()
+    plt.legend([""No Malware"", ""Has Malware""])
+    plt.xlabel(OUTPUT_COL)
+    plt.ylabel(feature)
+    plt.show()","Define a function to plot our distribution plots. Arguably, this is not a very good plotting method, but it works fine.",4575144.0,False,,,1.0,Training function
+26960,13256444.0,85.0,"def fixFeature9(dataset):
+    counts = train[feature].value_counts()
+    dataset[feature] = dataset[feature].cat.add_categories('NA').fillna('NA')
+    mapping = {
+                feature: 
+                   {""na"": ""NA"",
+                   ""fixers"": []
+                   }
+              }
+
+    return mapping, dataset
+
+mapping, train = fixFeature9(train.copy(deep=True))
+print(f""Feature: {feature} has {train[feature].isna().sum()} null values and {len(train[feature].unique())} unique categories"")
+
+categoricalFixerMappings.update(mapping)","Didn't bother doing anything apart from fillna. During original analysis, this was done at 3AM, so didn't fix this one",4575144.0,False,,,1.0,Compare answers with original values
+26961,13256444.0,89.0,"def fixFeature9a(dataset):
+    counts = train[feature].value_counts()
+    
+    dataset[feature] = dataset[feature].cat.add_categories('NOTA').fillna('NOTA')
+    
+    sub1k = counts[counts <= 1000].index
+    dataset[feature] = dataset[feature].apply(lambda x: 'NOTA' if x in sub1k else x)
+    
+    mapping = {
+                feature: 
+                   {""na"": ""NA"",
+                   ""fixers"": [{""NOTA"": sub1k}]
+                   }
+              }
+
+    return mapping, dataset
+    
+mapping, train = fixFeature9a(train.copy(deep=True))
+print(f""Feature: {feature} has {train[feature].isna().sum()} null values and {len(train[feature].unique())} unique categories"")
+
+categoricalFixerMappings.update(mapping)",I am going to collect the last 3 categories into 3.0,4575144.0,False,,,1.0,Cross validation
+26962,13256444.0,93.0,"def fixFeature10(dataset):
+    counts = train[feature].value_counts()
+    dataset[feature] = dataset[feature].cat.add_categories('NA').fillna('NA')
+    
+    mapping = {
+                feature: 
+                   {""na"": ""NA"",
+                   ""fixers"": []
+                   }
+              }
+
+    return mapping, dataset
+    
+mapping, train = fixFeature10(train.copy(deep=True))
+print(f""Feature: {feature} has {train[feature].isna().sum()} null values and {len(train[feature].unique())} unique categories"")
+
+categoricalFixerMappings.update(mapping)",Just fix the NAs,4575144.0,False,,,1.0,check accuracy
+26963,13256444.0,101.0,"def fixFeature12a(dataset):
+    counts = train[feature].value_counts()
+    dataset[feature] = dataset[feature].cat.add_categories('NOTA').fillna('NOTA')
+    
+    sub1k = counts[counts <= 1000].index
+    dataset[feature] = dataset[feature].apply(lambda x: 'NOTA' if x in sub1k else x)
+    
+    mapping = {
+                feature: 
+                   {""na"": ""NOTA"",
+                   ""fixers"": [{""NOTA"": sub1k}]
+                   }
+              }
+
+    return mapping, dataset
+    
+mapping, train = fixFeature12a(train.copy(deep=True))
+print(f""Feature: {feature} has {train[feature].isna().sum()} null values and {len(train[feature].unique())} unique categories"")
+
+categoricalFixerMappings.update(mapping)",Will collect the lower count ones and missing values into one category.,4575144.0,False,,,1.0,Train function
+26964,13256444.0,109.0,"def fixFeature15(dataset):
+    counts = train[feature].value_counts()
+    dataset[feature] = dataset[feature].cat.add_categories('sub_3k').fillna('sub_3k')
+    
+    sub3k = counts[counts < 3000].index
+    dataset[feature] = dataset[feature].apply(lambda x: 'sub_3k' if x in sub3k else x)
+    
+    range8k = counts[(counts >= 3000) & (counts <= 8000)].index
+    dataset[feature] = dataset[feature].apply(lambda x: 'range_3k_8k' if x in range8k else x)
+    
+    mapping = {
+                feature: 
+                   {""na"": ""sub_3k"",
+                   ""fixers"": [{""sub3k"": sub3k}, {""range_3k_8k"": range8k}]
+                   }
+              }
+
+    return mapping, dataset
+    
+mapping, train = fixFeature15(train.copy(deep=True))
+print(f""Feature: {feature} has {train[feature].isna().sum()} null values and {len(train[feature].unique())} unique categories"")
+
+categoricalFixerMappings.update(mapping)","In this feature, the data is well distributed over many categories. It would make a nice plot, but meh. I'll just bucket it",4575144.0,False,,,1.0,"Handle missing data
+We use the next function to fix any missing data"
+26965,13256444.0,113.0,"def fixFeature16a(dataset):
+    counts = train[feature].value_counts()
+    dataset[feature] = dataset[feature].cat.add_categories('NOTA').fillna('NOTA')
+    
+    sub10k = counts[counts < 10000].index
+    dataset[feature] = dataset[feature].apply(lambda x: 'NOTA' if x in sub10k else x)
+    
+    mapping = {
+                feature: 
+                   {""na"": ""NOTA"",
+                   ""fixers"": [{""NOTA"": sub10k}]
+                   }
+              }
+
+    return mapping, dataset
+    
+mapping, train = fixFeature16a(train.copy(deep=True))
+print(f""Feature: {feature} has {train[feature].isna().sum()} null values and {len(train[feature].unique())} unique categories"")
+
+categoricalFixerMappings.update(mapping)",I'll bucket everything under 10k count into a single bucket.,4575144.0,False,,,1.0,"Factorize
+Convert all strings into numbers so they can be better processed. The factorized data
+will be in fields prefixed with 'fac_'. The original fields will be left alone so they can 
+be read by humans."
+26966,13256444.0,117.0,"def fixFeature16(dataset):
+    counts = train[feature].value_counts()
+    dataset[feature] = dataset[feature].cat.add_categories('others').fillna('others')
+    
+    sub20k = counts[counts < 20000].index
+    dataset[feature] = dataset[feature].apply(lambda x: 'others' if x in sub20k else x)
+    
+    mapping = {
+                feature: 
+                   {""na"": ""others"",
+                   ""fixers"": [{""others"": sub20k}]
+                   }
+              }
+
+    return mapping, dataset
+    
+mapping, train = fixFeature16(train.copy(deep=True))
+print(f""Feature: {feature} has {train[feature].isna().sum()} null values and {len(train[feature].unique())} unique categories"")
+
+categoricalFixerMappings.update(mapping)","So for this, we took a 2-vs-all category sort of thing",4575144.0,False,,,1.0,"Create dummies
+This converts values into columns, so for example every class gets it own column."
+26967,13256444.0,136.0,"def fixFeature22(dataset):
+    counts = train[feature].value_counts()
+    dataset[feature] = dataset[feature].cat.add_categories('notW10').fillna('notW10')
+    
+    sub20k = counts[counts < 20000].index
+    dataset[feature] = dataset[feature].apply(lambda x: 'notW10' if x in sub20k else x)
+    
+    mapping = {
+                feature: 
+                   {""na"": ""notW10"",
+                   ""fixers"": [{""notW10"": sub20k}]
+                   }
+              }
+
+    return mapping, dataset
+    
+mapping, train = fixFeature22(train.copy(deep=True))
+print(f""Feature: {feature} has {train[feature].isna().sum()} null values and {len(train[feature].unique())} unique categories"")
+
+categoricalFixerMappings.update(mapping)","I will make this Windows 10 vs others. Stupid Windows, Linux is life",4575144.0,False,,,1.0,"Add features
+This will create features based on the data. At this point we are going for
+obvious features rather than analysising the data for features."
+26968,13256444.0,140.0,"def fixFeature23(dataset):
+    counts = train[feature].value_counts()
+    dataset[feature] = dataset[feature].fillna('x86')
+    
+    sub1k = counts[counts < 1000].index
+    dataset[feature] = dataset[feature].apply(lambda x: 'x86' if x in sub1k else x)
+    
+    mapping = {
+                feature: 
+                   {""na"": ""x86"",
+                   ""fixers"": [{""x86"": sub1k}]
+                   }
+              }
+
+    return mapping, dataset
+    
+mapping, train = fixFeature23(train.copy(deep=True))
+print(f""Feature: {feature} has {train[feature].isna().sum()} null values and {len(train[feature].unique())} unique categories"")
+print(train[feature].value_counts())
+
+categoricalFixerMappings.update(mapping)","I am very sorry ARM. You are awesome, but for now, you are a part of x86",4575144.0,False,,,1.0,"Scale data
+The models prefer data to be between 0 and This will create additional versions of fields (prefixed by 'sca_')
+for any fields which are not between zero and one (for example ag. It will leave the original fields alone 
+so we have something which is still meaningful to humans when analysing the data."
+26969,13256444.0,147.0,"def fixFeature25(dataset):
+    counts = train[feature].value_counts()
+    dataset[feature] = dataset[feature].cat.add_categories('others').fillna('others')
+    
+    sub25k = counts[counts < 25000].index
+    dataset[feature] = dataset[feature].apply(lambda x: 'others' if x in sub25k else x)
+    
+    mapping = {
+                feature: 
+                   {""na"": ""others"",
+                   ""fixers"": [{""others"": sub25k}]
+                   }
+              }
+
+    return mapping, dataset
+    
+mapping, train = fixFeature25(train.copy(deep=True))
+print(f""Feature: {feature} has {train[feature].isna().sum()} null values and {len(train[feature].unique())} unique categories"")
+print(train[feature].value_counts())
+
+categoricalFixerMappings.update(mapping)","The distribution of prediction feature seems to be uniform across categories. It might not be worth it to have this, but I will keep it, regularisation can remove it. Its such a clean feature.",4575144.0,False,,,1.0,"Clean data
+This is a single function which runs all the basic data cleansing functions.
+By making it a single function we can apply it to both trains and test data easily."
+26970,13256444.0,151.0,"def fixFeature26(dataset):
+    counts = train[feature].value_counts()
+    dataset[feature] = dataset[feature].cat.add_categories('others').fillna('others')
+    
+    sub25k = counts[counts < 25000].index
+    dataset[feature] = dataset[feature].apply(lambda x: 'others' if x in sub25k else x)
+    
+    mapping = {
+                feature: 
+                   {""na"": ""others"",
+                   ""fixers"": [{""others"": sub25k}]
+                   }
+              }
+
+    return mapping, dataset
+    
+mapping, train = fixFeature26(train.copy(deep=True))
+print(f""Feature: {feature} has {train[feature].isna().sum()} null values and {len(train[feature].unique())} unique categories"")
+print(train[feature].value_counts())
+
+categoricalFixerMappings.update(mapping)","Same analysis as the previous feature. This one is more likely to be useless because the majority category has too many entries.
+I feel bad about merging the servers with the trashy regular versions, but what to do.",4575144.0,False,,,1.0,"Balance data set
+At the moment the data has more people in the died result than survived result. This 
+means if a model just keeps picking died, it will learn a reasonable level of accurancy.
+Balancing the data set will give us equal numbers of alived and died results. 
+This should make the models learn without any bias.
+Question - Is the fact that more people died, a valid piece of data the models should be using?"
+26972,13256444.0,163.0,"def fixFeature29(dataset):
+    counts = train[feature].value_counts()
+    dataset[feature] = dataset[feature].cat.add_categories('others').fillna('others')
+    
+    sub25k = counts[counts < 25000].index
+    dataset[feature] = dataset[feature].apply(lambda x: 'others' if x in sub25k else x)
+    
+    mapping = {
+                feature: 
+                   {""na"": ""others"",
+                   ""fixers"": [{""others"": sub25k}]
+                   }
+              }
+
+    return mapping, dataset
+    
+mapping, train = fixFeature29(train.copy(deep=True))
+print(f""Feature: {feature} has {train[feature].isna().sum()} null values and {len(train[feature].unique())} unique categories"")
+print(train[feature].value_counts())
+
+categoricalFixerMappings.update(mapping)","I don't feel good about bucketing here, because the class distribution across categories isn't nice. However, if I don't bucket, I remove this feature. So let L1 regularisation decide that.",4575144.0,False,,,1.0,"Fit and score
+This gives a standard way of fiting and scoring the models regardless of type."
+26973,13256444.0,170.0,"def fixFeature31(dataset):
+    counts = train[feature].value_counts()
+    dataset[feature] = dataset[feature].cat.add_categories('others').fillna('others')
+    
+    sub25k = counts[counts < 25000].index
+    dataset[feature] = dataset[feature].apply(lambda x: 'others' if x in sub25k else x)
+    
+    mapping = {
+                feature: 
+                   {""na"": ""others"",
+                   ""fixers"": [{""others"": sub25k}]
+                   }
+              }
+
+    return mapping, dataset
+    
+mapping, train = fixFeature31(train.copy(deep=True))
+print(f""Feature: {feature} has {train[feature].isna().sum()} null values and {len(train[feature].unique())} unique categories"")
+print(train[feature].value_counts())
+
+categoricalFixerMappings.update(mapping)",Gonna do 3-vs-all. Seems like an unhelpful feature.,4575144.0,False,,,1.0,"Random forest model
+Create a random forest model, score and test it."
+26974,13256444.0,177.0,"def fixFeature33(dataset):
+    counts = train[feature].value_counts()
+    dataset[feature] = dataset[feature].cat.add_categories('sub_10k').fillna('sub_10k')
+    
+    sub10k = counts[counts < 10000].index
+    dataset[feature] = dataset[feature].apply(lambda x: 'sub_10k' if x in sub10k else x)
+    
+    sub20k = counts[(counts >= 10000) & (counts < 20000)].index
+    dataset[feature] = dataset[feature].apply(lambda x: 'range_10_20k' if x in sub20k else x)
+    
+    mapping = {
+                feature: 
+                   {""na"": ""others"",
+                   ""fixers"": [{""sub_10k"": sub10k}, {""range_10_20k"": sub20k}]
+                   }
+              }
+
+    return mapping, dataset
+    
+mapping, train = fixFeature33(train.copy(deep=True))
+print(f""Feature: {feature} has {train[feature].isna().sum()} null values and {len(train[feature].unique())} unique categories"")
+print(train[feature].value_counts())
+
+categoricalFixerMappings.update(mapping)","Bucket and fix it, not even going to think about it.",4575144.0,False,,,1.0,"SVC model
+Create a random forest model, score and test it."
+26975,13256444.0,185.0,"def fixFeature35(dataset):
+    counts = train[feature].value_counts()
+    dataset[feature] = dataset[feature].fillna('OFFLINE')
+    
+    sub5k = counts[counts < 5000].index
+    dataset[feature] = dataset[feature].apply(lambda x: 'OFFLINE' if x in sub5k else x)
+    
+    mapping = {
+                feature: 
+                   {""na"": ""OFFLINE"",
+                   ""fixers"": [{""OFFLINE"": sub5k}]
+                   }
+              }
+
+    return mapping, dataset
+    
+mapping, train = fixFeature35(train.copy(deep=True))
+print(f""Feature: {feature} has {train[feature].isna().sum()} null values and {len(train[feature].unique())} unique categories"")
+print(train[feature].value_counts())
+
+categoricalFixerMappings.update(mapping)","I am going to convert UNKNOWN into Offline, because you don't know about the state, because the machine is offline. Or the pirated version disables internet access for that particular software.",4575144.0,False,,,1.0,"Decision tree model
+Create a decision Tree model, score and test it."
+26976,13256444.0,189.0,"def fixFeature36(dataset):
+    counts = train[feature].value_counts()
+    dataset[feature] = dataset[feature].cat.add_categories('others').fillna('others')
+    
+    sub30k = counts[counts < 30000].index
+    dataset[feature] = dataset[feature].apply(lambda x: 'others' if x in sub30k else x)
+    
+    mapping = {
+                feature: 
+                   {""na"": ""others"",
+                   ""fixers"": [{""others"": sub30k}]
+                   }
+              }
+
+    return mapping, dataset
+    
+mapping, train = fixFeature36(train.copy(deep=True))
+print(f""Feature: {feature} has {train[feature].isna().sum()} null values and {len(train[feature].unique())} unique categories"")
+print(train[feature].value_counts())
+
+categoricalFixerMappings.update(mapping)",Group the categories with too few counts into 'others',4575144.0,False,,,1.0,"Logistic regression model
+Create a logistic regression model model, score and test it."
+30415,17657914.0,4.0,"string = ""harkirat""
+print(""The length of string is ""+string + "" ""+ str(len(string)))
+
+def length_of_string(string):
+    count = 0
+    for letter in string:
+        count = count + 1
+    return ""The length of string is ""+ string + "" ""+ str(count)
+
+length_of_string(""Harkirat"")",Write a Python program that prints the length of a string,4282234.0,False,,,1.0,Function which return the count and the index of mismatched data
+30416,17657914.0,8.0,"def reverse_a_string(string):
+        return string[::-1]
+reverse_a_string("""")
+
+#or
+
+print("""".join(reversed(""Harkirat"")))","Write a Python Program that prints the reversed version of a string.
+The program must preserve uppercase and lowercase letters.
+If the string is empty, print it intact.",4282234.0,False,,,1.0,Function to drop data by index
+30417,17657914.0,14.0,"def contains_number(string):
+    for letter in string:
+        if letter.isdigit() == True:
+            return True
+            break
+    else:
+        return False
+contains_number(""Harkirat123"")","Write a Python program that check if a string contains numbers.
+If it does, print True. Else, print False.",4282234.0,False,,,1.0,Image Rotation
+30418,17657914.0,33.0,"def indices_with_elem(my_list):
+    if not my_list:
+        print(""Empty"")
+    else:
+        for i,elem in enumerate(my_list):
+            print(i,elem,end=""\n"")
+
+indices_with_elem([1,2,3,4,5])","Write a Python program that prints the elements of a list followed their corresponding indices.
+
+Each element and its index must be on the same line separated by a space.
+
+If the list is empty, print ""Empty List"".",4282234.0,False,,,1.0,Horizontal translation
+30419,17657914.0,35.0,"def remove_element(my_list,elem):
+    if not my_list:
+        return ""Empty List""
+    elif my_list.count(elem) == 0:
+        return ""Not Found""
+    else:
+        for i in range(my_list.count(elem)):
+            my_list.remove(elem)
+        return my_list
+
+remove_element([1,2,3,4],3)","Write a Python program that removes all occurrences of the element elem_to_remove from a list.
+
+The output of the program should be the new list with the element removed.
+
+If the element is not found in the list, print the message ""Not Found"".
+
+If the list is empty, print ""Empty List"".",4282234.0,False,,,1.0,Vertical translation
+30421,17657914.0,46.0,"def secound_smallest(my_list):
+    return sorted(set(my_list))[1]
+
+secound_smallest([1,4,5,5,6,7,8,9,11,11,12])","Write a Python program that prints the second smallest value in a list.
+
+If the list is empty or only has one element, print None.",4282234.0,False,,,1.0,Translation along negative diagonal
+30422,17657914.0,50.0,"def flatten_list(my_list):
+    Flattened = []
+    for elem in my_list:
+        if isinstance(elem,list):
+            for nested_elem in elem:
+                Flattened.append(nested_elem)
+        else:
+            Flattened.append(elem)
+    return Flattened
+
+flatten_list([[1,2,3],[4,5,6],[7,8,9]])
+            ","Write a Python program that prints a ""flattened"" version of a list that contains nested lists.
+
+""Flattened"" means that all the elements in the nested lists should be added to a main list such that it doesn't contain any nested lists, just the individual.
+
+The list could contain other elements that are not lists or other sequences, so you must check the type of each element and act appropriately.
+
+If the list is empty, print an empty list.",4282234.0,False,,,1.0,Flip Image
+30423,17657914.0,52.0,"import itertools
+def permutations(my_list):
+    for permutation in itertools.permutations(my_list):
+        print(permutation)
+permutations([1,2,3])","Write a Python program that generates and prints all the possible permutations of a list.
+
+A permutation is a possible arrangement of the elements of the list. For example, [2, 1, 3] is a permutation of [1, 2, 3].
+
+Print each permutation as a list on a separate line. You can print them as lists or tuples.
+
+Include the list itself as a permutation.",4282234.0,False,,,1.0,Zoom image
+30424,17657914.0,68.0,"nested_list = [[""a"", 1], [""b"", 2], [""c"", 3], [""d"", 4]]
+
+def dict_from_nested_list(nested_list):
+    my_dict = {}
+    for item in nested_list:
+        my_dict.update({item[0]:item[1]})
+    return my_dict
+dict_from_nested_list([[""a"", 1], [""b"", 2], [""c"", 3], [""d"", 4]])","Write a Python program that creates a dictionary from the values contained in nested lists.
+
+Each nested list has this format [value1, value2].
+
+value1 should be the key in the dictionary and value2 should be its corresponding value.
+
+If there are no nested lists, print an empty dictionary.",4282234.0,False,,,1.0,Splitting into train and test set
+30425,17657914.0,77.0,"def dict_to_list(my_dict):
+    nested_list = []
+    for key,value in my_dict.items():
+        nested_list.append([key,value])
+    return nested_list
+
+dict_to_list({
+	""description"": ""shoe"",
+	""price"": 4.56,
+	""colors"": [""green"", ""blue"", ""red""],
+})
+    ","Write a Python program that takes the content of a dictionary and converts it into a list of lists.
+
+Each nested list should contain a key as the first element and its corresponding value as the second element.
+
+Print the final list of lists.",4282234.0,False,,,1.0,"and how old are they ?
+Let's take a look at the age distribution of data scientists from top-5 places + Austria."
+30426,17657914.0,80.0,"def letter_consonant_vowel(string):
+    for char in string.lower():
+        if char in (""a"",""e"",""i"",""o"",""u""):
+            print(f""{char} is a vowel"")
+        elif char.isalpha():
+            print(f""{char} is consonant"")
+        else:
+            print(f""{char} is not a letter"")
+            
+letter_consonant_vowel(""Score: 36"")","Write a Python program that prints a descriptive message indicating if each character in a string is a vowel or a consonant. For example: "" is a ""
+
+If the character is a special character, number, or symbol, print "" is not a letter"".
+
+If the string is empty, print ""Empty String"".",4282234.0,False,,,1.0,Do they have all a PhD ?
+30429,17657914.0,94.0,"def floyd_traingle(num_of_rows):
+    num = 1
+    for i in range(1,num_of_rows+1):
+        for j in range(i):
+            print(num,end = "" "")
+            num +=1
+        print("""")
+        
+floyd_traingle(4)     ","Write a Python program that prints Floyd's Triangle with n number of rows.
+The value of n should be entered by the user. You may assume that it is a positive integer.
+
+Floyd's Triangle is made with consecutive numbers that fill the rows of the triangle (as shown below).
+
+🔹 Expected Output:
+If n is equal to 3:
+
+1 
+2 3
+4 5 6",4282234.0,False,,,1.0,"Except Car Height, all variables show a positive correlation with respect to price."
+30431,17657914.0,98.0,"def asterick_diamond(n):
+    if n%2 == 0:
+        return ""Only odd numbers can be used""
+    else:
+        middle_row = (n+2)//2
+        for i in range(middle_row):
+            print("" ""*(middle_row-i),""*"" * (i*2 + 1))
+        for i in range(middle_row-2,-1,-1):
+            print("" ""*(middle_row-i),""*"" * (i*2 + 1))
+asterick_diamond(5)","Write a Python program that prints a diamond made with asterisks where the diamond's height (number of rows) is determined by the value of the variable height
+
+You can (optionally) ask the user to enter the value of height.
+
+This value can only have an odd number of rows, so you should print a descriptive message if the user enters an even value.",4282234.0,False,,,1.0,Function to Create Distance based upon Latitude and Longitude .
+30432,17657914.0,101.0,"def find_sum(my_list):
+    if len(my_list)==0:
+        return 0
+    else:
+        return my_list[0] + find_sum(my_list[1:])
+find_sum([1,2,3,4,5])","Write a Python program that finds the sum of a list (or tuple) of numbers recursively.
+
+Print the total sum.
+
+If the list (or tuple) is empty, print 0.",4282234.0,False,,,1.0,"Implementing our modified SEIR model
+First, we need to recreate the SEIR model differential equations from above."
+30433,17657914.0,103.0,"def fibonacci_seq(n):
+    if n==1 or n==0:
+        return n
+    else:
+        return fibonacci_seq(n-1) + fibonacci_seq(n-2)
+                  
+fibonacci_seq(9)","Write a Python program that calculates and prints the nth Fibonacci number.
+
+The value of n represents the position of the element in the sequence.
+
+The initial value of n should be 0.
+
+You may assume that the value of n is a non-negative integer.
+
+The Fibonacci sequence is a series of numbers where the next number is the result of adding the previous two numbers. The sequence starts with 0 and 1.",4282234.0,False,,,1.0,"Viewing the embeddings of largest counties:
+We now look at what the embeddings of the largest counties look like plotted on the map. This will help us understand how well the auto-encoder is group the relevant counties."
+30434,17657914.0,105.0,"def factorial(n):
+    if n == 0 or n == 1:
+        return 1
+    else:
+        return n * factorial(n-1)
+factorial(5)","Write a Python program that calculates and prints the value of the factorial of the number num using recursion.
+The factorial of a number x is denoted by x! and it is equal to x * (x-1) * (x-2) * ... * 1, the product of all positive integers less than or equal to the number.
+The value of 0! is equal to 1 by mathematical convention.",4282234.0,False,,,1.0,"Implementation of loss function
+This method can be easily integrated inside a torch.nn.Module to build, for example, the correlated loss."
+30435,17657914.0,107.0,"def calculate_sum(n):
+    if n == 0:
+        return 0
+    else:
+        return (n % 10) + calculate_sum(n//10)
+calculate_sum(111)","Write a Python program that calculates and prints the sum of the digits of a positive integer num.
+
+The program must find the sum recursively.
+
+If the integer has only one digit, print the integer as the total sum.",4282234.0,False,,,1.0,User Activities
+30436,17657914.0,109.0,"def raised_to_power(number,power):
+    if power==0:
+        return 1
+    else:
+        return number * raised_to_power(number,power-1)
+    
+raised_to_power(4,3)","Write a Python program that find the value of a raised to the power b recursively.
+
+The operation is a**b in Python, where a is the base and b is the exponent.
+
+If the value of b is 0, the result is automatically 1 because every number raised to the power 0 is 1.",4282234.0,False,,,1.0,Dependency Graph
+30437,17657914.0,111.0,"def GCD(a,b):
+    if b == 0:
+        return a
+    else:
+        return GCD(b,a%b)
+GCD(60,48)",Write a Python program that finds and prints the Greatest Common Divisor (GCD) of the numbers a and b (the largest number that divides them both),4282234.0,False,,,1.0,"Scraped Yearly Readings
+The differences and patterns learned from yearly readings of UCF can be useful, and could be translated to meter readings of other sites. In order to analyze patterns and missing readings, df_site0 has to be assigned with 3 years of full timeframe index. Data analysis would be more accurate that way."
+30438,17657914.0,115.0,"def vowel_count(string):
+    if not string:
+        return 0
+    elif string[0] in ('a','e','i','o','u'):
+        return 1 + vowel_count(string[1:])
+    else:
+        return vowel_count(string[1:])
+vowel_count(""Harkirat"")","Write a Python program that counts the number of vowels in a string recursively.
+
+If the string is empty or only contains one consonant, print 0.
+
+The program should be case-insensitive. Therefore, vowels in uppercase should also be counted.",4282234.0,False,,,1.0,"We’ll create a function called process_images.
+This function will perform all preprocessing work that we require for the data. This function is called further down the machine learning workflow."
+30439,17657914.0,117.0,"def asterick_pattern(n):
+    if n==1:
+        print(""*"")
+    else:
+        print(""*"" * n)
+        asterick_pattern(n-1)
+
+asterick_pattern(6)","Write a Python program that prints the pattern of asterisks shown below for a given value of n.
+
+The program must include a recursive function.
+
+n represents the number of rows in the resulting pattern and the number of asterisks printed on the first row.",4282234.0,False,,,1.0,Checking for Null values
+30440,17657914.0,122.0,"import math
+def area_of_circle(radius):
+    return ""Area of circle is "" + str(round(math.pi * radius **2,2))
+area_of_circle(5)","Write a Python program that finds the area of a circle from the value of the diameter d.
+
+The value of d should be provided by the user.
+
+The area of a circle is equal to pi*(radius)^2. The radius is the value of the diameter divided by 2.
+
+Round the value of the area to two decimal places.
+
+You may assume that the value of the diameter will be non-negative integer.",4282234.0,False,,,1.0,"I choose 50 tokens from the sentence. So if the length of text bigger then 80% of max_len (50* = 40) I use the first 25 + last 25 tokens, so in this way, we have a better context. 
+This technique will be useful in text with different, long lengths of the sentence, in this situation is not so critical. BTW, it improves training."
+30649,28251362.0,54.0,"def subplot_distribution_boxplot(index, df_column, ax, column):
+  g = sns.boxplot(
+      data=df_character_predictions,
+      x=column,
+      ax=ax,
+    )
+  g.set_xlabel(column.title())
+
+subplot_grid(
+  df_character_predictions.select_dtypes(include=np.number),
+  subplot_distribution_boxplot,
+  distribution_plot_height=2.5,
+  distribution_plot_width=6,
+  # wspace=.5,
+  hspace=.5,
+)","Seeing the distribution with a boxplot, while maybe not as clear as the KDE, it helps us identify the outliers, and the amount",9149668.0,,,,1.0,Convert RLE to Masks
+30650,28251362.0,62.0,"df_culture = df_character_predictions.copy()
+
+def get_cult(value):
+  value = value.lower()
+  v = [k for (k, v) in CULTURE_DICT.items() if value in v]
+  return v[0] if len(v) > 0 else value.title()
+
+df_culture.loc[:, ""culture""] = [get_cult(x) for x in df_culture.culture.fillna("""")]
+data = df_culture.groupby([""culture"", ""isAlive""]).count()[""name""].unstack().copy(deep = True)
+data.loc[:, ""total""]= data.sum(axis = 1)
+p = data[data.index != """"].sort_values(""total"")[[0, 1]].plot.barh(stacked = True, rot = 0, figsize = (14, 12),)",Per culture,9149668.0,,,,1.0,ANOVA TEST
+30651,28251362.0,172.0,"def col_to_dictionary(df, col_name):
+  columns = [ col for col in df.columns ]
+  if col_name not in columns: return False
+
+  dataset = df.copy()
+  dictionary = pd.factorize(dataset[col_name].fillna(''))
+  dictionary = dict(zip(dictionary[1], dictionary[0]))
+
+  def mapper(element):
+    if (not element) or (element not in dictionary.keys()): return element
+
+    return dictionary[element]
+  dataset[col_name] = dataset[col_name].apply(mapper)
+
+  return dataset",Converts a column to numbers,9149668.0,,,,1.0,We will calculate the percentage of Default_On_Payment against the Num_Dependents
+30652,28251362.0,179.0,"def col_to_one_hot_encoding(dataset, col_name):
+  columns = [ col for col in dataset.columns ]
+  if col_name not in columns: return False
+
+  df = dataset.copy()
+  df_encoded = pd.get_dummies(df[col_name], prefix=col_name, dummy_na=True)
+  df = df.drop(columns=[col_name])
+  df = df.join(df_encoded)
+
+  return df",Spreads all the values of a column into n columns,9149668.0,,,,1.0,"Polynomial Model
+We want to try and capture the data using a polynomial function. A polynomial is defined by the degree, or the highest power for the x-values. A line has a degree of 1 because it is of the form y=m1∗x+c where m is the slope and c is the intercept. A third degree polynomial would have the form y=m3∗x3+m2∗x2+m1∗x+c and so on. The higher the degree of the polynomial, the more flexible the model.
+The following function creates a polynomial with the specified number of degrees and plots the results. We can use these results to determine the optimal degrees to achieve the right balance between over and underfitting."
+30653,28251362.0,194.0,"from sklearn.preprocessing import MinMaxScaler
+
+scaler = None
+
+def mean_normalize(dataframe):
+  global scaler
+
+  backup_normalized_columns = dataframe.columns
+  if not scaler:
+    scaler = MinMaxScaler()
+    scaler.fit(dataframe)
+
+  return pd.DataFrame(scaler.transform(dataframe), columns=backup_normalized_columns)","Data Normalization
+All the values must be between 0 and 1 with the lowest amount of standard deviation possible so that, having all of the values in the same scale, the models can perform at it's best",9149668.0,,,,1.0,"This is not the way we're used to looking at a tic-tac-toe board, so I'll write a function render() to render the board."
+30654,28251362.0,201.0,"def fill_distributed(dataset):
+  """"""
+  https://stackoverflow.com/questions/44867219/pandas-filling-na-values-to-be-filled-based-on-distribution-of-existing-values
+  """"""
+  dataframe = dataset.copy()
+
+  for col in dataframe.columns:
+    s = dataframe[col].value_counts(normalize=True)
+    values = s
+    indexes = s.index
+    missing = dataframe[col].isnull()
+
+    dataframe.loc[missing, col] = np.random.choice(indexes, size=len(dataframe[missing]), p=values)
+
+  return dataframe","Distributes randomly a dataset, instead of filling it with a 0, a bad idea, but adds noise to the values, it was just to try it out, I wouldn't recomend it",9149668.0,,,,1.0,Need a new function for the DQN agent to play against a random opponent.
+30656,28251362.0,259.0,"def display_score(score, label = 'score'):
+  print(f'{label} {round(score * 100, 2)}%')",It standarizes the output of the score so that it always uses the same format,9149668.0,,,,1.0,"Cross validate the data, so we can use a test set to check accuracy, before submitting."
+30657,28251362.0,262.0,"default_target_names = ['Deceased', 'Alive']
+
+def cmatrix(
+  y_test,
+  y_pred,
+  # cmap: str = 'YlGnBu',
+  # cmap: str = 'BlorRd',
+  # cmap: str = 'Reds',
+  # cmap: str = 'RdBu',
+  cmap: str = 'Blues',
+  target_names: List[str] = default_target_names,
+  title: str = 'Example',
+) -> np.ndarray:
+  df_cm = confusion_matrix(y_test, y_pred)
+  df_cm = df_cm.astype('float') / df_cm.sum(axis = 1)[:, np.newaxis]
+  # df_cm = df_cm * 100
+
+  # plt.figure(figsize = (10, 7))
+  # plt.figure(figsize = (20, 10))
+  _ = sns.heatmap(
+    df_cm,
+    square=True,
+    annot=True,
+    # annot_kws={""size"": 13},
+    annot_kws={'fontsize': 14},
+    cmap=cmap,
+    # fmt='g',
+    xticklabels=target_names,
+    yticklabels=target_names,
+    cbar=True,
+    cbar_kws={'orientation': 'horizontal'},
+  ).set(
+    xlabel='Predicted Class',
+    ylabel='Actual Class',
+    title=f'{title} - Confusion Matrix'
+  )
+  plt.show()
+
+  print(classification_report(y_test, y_pred, target_names=target_names))
+
+  return df_cm","It computes the confusion matrix with some default target names, and it also prints the classification report",9149668.0,,,,1.0,Create our CNN Model
+30658,28251362.0,264.0,"def make_cm(p, title: str):
+    cm = confusion_matrix(y_test, np.argmax(p, axis = 1))
+    cm = cm.astype('float') / cm.sum(axis = 1)[:, np.newaxis]
+    _ = sns.heatmap(
+      cm,
+      square=True,
+      xticklabels=default_target_names,
+      annot=True,
+      annot_kws={'fontsize': 13},
+      yticklabels=default_target_names,
+      cbar=True,
+      cbar_kws={'orientation': 'horizontal'},
+      cmap='Blues'
+    ).set(
+      xlabel='Predicted Class',
+      ylabel='Actual Class',
+      title=title
+    )",The far more detailed version from shaildeliwala,9149668.0,,,,1.0,We've decided to add some simple logging to our to_smash function from the previous exercise.
+30659,28251362.0,266.0,"def plot_model_explainability(
+  X_explainability: pd.DataFrame,
+  coeficients,
+  title: str = ''
+) -> None:
+  df_logistic = pd.DataFrame(list(zip(X_explainability.columns, coeficients[0])))
+  df_logistic = df_logistic.reindex(
+    df_logistic[1].abs().sort_values().index
+  ).set_index(0)
+  ax = df_logistic.plot.barh(
+    width=.6,
+    legend="""",
+    figsize = (12, 9)
+  )
+  ax.set_title(
+    title,
+    y = 1.03,
+    fontsize = 16.
+  )
+  _ = ax.set(frame_on = False, xlabel = """", xticklabels = """", ylabel = """")
+
+  for i, label in enumerate(list(df_logistic.index)):
+      score = df_logistic.loc[label][1]
+      ax.annotate('%.2f' % score, (score + (-.12 if score < 0 else .02), i - .2), fontsize = 10.5)","Explainability
+Some models can give you their weights, which can help, to a certain degree, help us understand how they're making decisions",9149668.0,,,,1.0,"Exercises
+You could write the function get_mae yourself. For now, we'll supply it. This is the same function you read about in the previous lesson. Just run the cell below."
+30660,28251362.0,268.0,"def scale_data(X_train: pd.DataFrame, display: bool = False) -> pd.DataFrame:
+  scaler = preprocessing.StandardScaler().fit(X_train)
+
+  if display:
+    print('mean_', scaler.mean_)
+    print('scale_', scaler.scale_)
+
+  X_scaled = scaler.transform(X_train)
+
+  return X_scaled","StandardScaler
+We've already scaled the data, but just in case there's a chance to work with new, unscaled data, there's this normalization helper function, we used minmax before because of the number of outliers, but here we'll use Standard",9149668.0,,,,1.0,"normalize images in the range [-1,1] for better performance"
+30661,28251362.0,271.0,"def to_pca(
+  values: pd.DataFrame,
+  n_components: int = 2,
+  display: bool = False,
+  pca_model: PCA = None,
+  y_true: pd.DataFrame = None,
+  scale: bool = False
+) -> Tuple[pd.DataFrame, PCA]:
+  scaled_values = values
+  if scale:
+    scaled_values = scale_data(values)
+
+  if not pca_model:
+    pca = PCA(n_components=n_components)
+    pca.fit(scaled_values, y_true)
+  else:
+    pca = pca_model
+
+  if display:
+    print('explained_variance_ratio_', pca.explained_variance_ratio_.sum() * 100)
+    # print('singular_values_', pca.singular_values_)
+
+  X_transform = pca.transform(scaled_values)
+
+  return X_transform, pca",This is the helper function,9149668.0,,,,1.0,"define the function that trains the generator and discriminator in a batch,
+a pair of images at a time. The two discriminators and the two generators are trained
+via this function with the help of the tape gradient:"
+30662,28251362.0,273.0,"def plot_pca_explainability(
+  X_values: pd.DataFrame,
+  y_values: pd.DataFrame,
+  step_range = None,
+) -> pd.DataFrame:
+  pca_explainability = []
+
+  if not step_range:
+    n_columns = len(X_values.columns)
+    n_columns = n_columns if n_columns < 10 else int(n_columns * .5)
+    # n_steps = 20
+    n_steps = min(10, n_columns)
+    step_range = range(1, n_columns, int(n_columns / n_steps))
+
+  for n_components in step_range:
+    pca = PCA(n_components)
+    pca.fit(X_values, y_values)
+
+    pca_explainability.append([
+      n_components,
+      pca.explained_variance_ratio_.sum(),
+    ])
+
+  df_pca_explainability = pd.DataFrame(pca_explainability, columns=['n_components', 'explainability'])
+  plt.figure(figsize=(20, 10))
+  _ = sns.lineplot(
+    data=df_pca_explainability,
+    x='n_components',
+    y='explainability'
+  )
+  # plt.ylim(0, 1)
+
+  return df_pca_explainability","Before anything else, we must plot to see the ideal number of components, we'll use the elbow method. For that we'll use simple plotting system",9149668.0,,,,1.0,"Categorical feature encoding and feature reduction
+The following part is a strict copy & paste from the first kernel, so for detailed explaination please check it out there.
+ Frequency Encoding"
+30663,28251362.0,284.0,"def to_ica(
+  values: pd.DataFrame,
+  n_components: int = 2,
+  display: bool = False,
+  ica_model: PCA = None,
+  y_true: pd.DataFrame = None,
+  scale: bool = False
+):
+  scaled_values = values
+  if scale:
+    scaled_values = scale_data(values)
+
+  if not ica_model:
+    ica = FastICA(n_components=n_components)
+    ica.fit(scaled_values, y_true)
+  else:
+    ica = ica_model
+  if display:
+    # print('explained_variance_ratio_', ica.explained_variance_ratio_.sum())
+    # print('singular_values_', ica.singular_values_)
+    print('ica', ica)
+
+  X_transform = ica.fit_transform(scaled_values)
+
+  return X_transform, ica","We, once again, create a helper function, similar to the one created for PCA",9149668.0,,,,1.0,Binary Encoding
+30665,28251362.0,437.0,"def fit_model(
+  model,
+  train_values: pd.DataFrame,
+  test_values: pd.DataFrame,
+  epochs: int = 50,
+  batch_size: int = 80,
+  validation_split: float = .2,
+  verbose: int = 1,
+  shuffle: bool = True
+) -> tf.keras.callbacks.History:
+  return model.fit(
+    train_values,
+    test_values,
+    # epochs=25,
+    epochs=50,
+    # batch_size=128,
+    batch_size=80,
+    use_multiprocessing=True,
+    workers=workers,
+    validation_split=.2,
+    callbacks=[
+      tf.keras.callbacks.EarlyStopping(
+        patience=2,
+        monitor='val_accuracy'
+      ),
+    ],
+    shuffle=shuffle,
+    verbose=verbose
+  )",The training function as to have an standarized fitting in all of our examples,9149668.0,,,,1.0,"Sklearn K-fold & OOF function
+Next up next provide a K-fold function that generate out-of-fold predictions for train and test data."
+30666,28251362.0,439.0,"def evaluate_model(
+  model,
+  X_evaluation,
+  y_evaluation,
+  verbose: int = 1
+) -> Tuple[float]:
+  return model.evaluate(
+    X_evaluation,
+    y_evaluation,
+    verbose=verbose,
+    use_multiprocessing=True,
+    workers=workers
+  )",The evaluation method,9149668.0,,,,1.0,"Xgboost K-fold & OOF function
+In this part, we are going to use the native interface of XGB and LGB, so the following functions are tailor for this. For sure it would be easiler just to call the respective sklearn api, but the native interfaces provide some nice additional capability. For instance, the 'hist' option to use fast histogram in XGB is only available via the native interface as far as I know. 
+Also, we need to provide the following function to convert probability into rank for these two OOF function. The needs to use normalised rank instead of predicted probabilities will become appearent later in this notebook :)"
+30667,28251362.0,464.0,"def build_single_shot_model(n_features: int):
+  model = Sequential(
+    name='Single-Shot-Deep-Learning-Model',
+    layers=[
+      Dense(
+        name='Input-Layer',
+        units=1,
+        activation='relu',
+        input_dim=n_features,
+      ),
+      Dense(
+        name='Output-Layer',
+        units=1,
+        # units=2,
+        activation='sigmoid',
+        # activation='softmax',
+      ),
+    ]
+  )
+
+  model.compile(
+    optimizer=tf.optimizers.Adam(
+      learning_rate=0.00001,
+    ),
+    loss='binary_crossentropy',
+    metrics=['accuracy'],
+  )
+
+  model.summary()
+
+  return model",Architecture,9149668.0,,,,1.0,"The following is the k-fold function for XGB to generate OOF predictions, this function is very much similar to its sklearn counter part. The difference is that we need to use the XGB interface to facilitate the classifer, also we provide an option cover probability into rank."
+34627,6123475.0,12.0,"def initialize_parameters(layer_dims):
+    parameters = {}
+    L = len(layer_dims)           
+    for l in range(1, L):
+        parameters['W' + str(l)] = np.random.randn(layer_dims[l], layer_dims[l-1])*0.01
+        parameters['b' + str(l)] = np.zeros((layer_dims[l],1))
+    return parameters  ",Initialize the Weights and Biases for all layers,3503325.0,False,,,1.0,"generateParents is our parent generation function. Since it's the simplest to do, we will do it first. population will hold the total number of offsprings each generation will hold and for the first generation, it will be the total number of randomly generated parents.
+size holds the current total number of MP3s being processed."
+34628,6123475.0,14.0,"def linear_forward(A, W, b):
+    Z = np.dot(W,A)+b
+    cache = (A, W, b)
+    return Z, cache",Linear Forward propagation,3503325.0,False,,,1.0,"totalSize is a simple function that measures the total space used by all selected MP3s in this particular chromosome (dat. size holds the current total number of MP3s being processed. For every bit in the chromosome, we check if it's one and if so, we increment s by the size of the MP3 file corresponding to this bit."
+34629,6123475.0,16.0,"def sigmoid(z):
+    A = 1/(1 + np.exp(-z))
+    activation_cache = A.copy()
+    return A, activation_cache",Define sigmoid activation function for binary classification layer,3503325.0,False,,,1.0,"reduceSize is the function we use to randomly mutate the chromosome in a way that reduces the total size of the MP3 files described by this chromosome to fit on one CD. so as long as the totalSize of the chromosome exceeds 700, we pick a random bit and if it's 1, we change it to"
+34630,6123475.0,18.0,"def relu(z):
+    A = z*(z > 0)
+    activation_cache = z
+    return A, activation_cache",Define relu activation function for Hidden layers,3503325.0,False,,,1.0,"mutate is our mutation function. Mutations happen in real life when new offsprings are created, usually mutations would have a mutation rate, but we are omitting that in this tutorial for simplicity. Our mutation function randomly picks a bit and toggles it's value."
+34631,6123475.0,20.0,"def linear_activation_forward(A_prev, W, b, activation):
+    if activation == ""sigmoid"":
+        Z, linear_cache = linear_forward(A_prev, W, b)
+        A, activation_cache = sigmoid(Z)
+    elif activation == ""relu"":
+        Z, linear_cache = linear_forward(A_prev, W, b)
+        A, activation_cache = relu(Z)
+    cache = (linear_cache, activation_cache)
+    return A, cache",Apply the activation code over the linear forward propagation,3503325.0,False,,,1.0,fixChromosomes this function takes the current generation (dat and applies the reduceSize function on chromosomes where necessary. It also applies the fitness function and adds that to the generation data so that each chromosome has a corresponding fitness. This is also sorted so that the ones on top have the highest fitness (remember the -1 sig
+34632,6123475.0,22.0,"def forward_propagation(minibatch_X, parameters):
+    caches = []
+    A = minibatch_X
+    L = len(parameters) // 2                  
+    for l in range(1, L):
+        A_prev = A 
+        A, cache = linear_activation_forward(A_prev, parameters['W' + str(l)], parameters['b' + str(l)], ""relu"")
+        caches.append(cache)
+    AL, cache = linear_activation_forward(A, parameters['W' + str(L)], parameters['b' + str(L)], ""sigmoid"")
+    caches.append(cache)
+    return AL, caches",Aggregate the Forward propagation all together,3503325.0,False,,,1.0,crossover this function takes 2 parents and does a random crossover between their chromosomes. It picks a random index i and splits both mom and dad on the ith index then cross combines both of them to generate 2 children. Those children are then mutated through the mutation function
+34633,6123475.0,24.0,"def compute_cost(AL, Y,parameters,lambd ):
+    m = Y.shape[1]
+    cost = (-1/m)*np.sum(np.multiply(Y,np.log(AL))+np.multiply((1-Y),np.log(1-AL)))
+    cost = np.squeeze(cost)  
+    
+    L = len(parameters) // 2 
+    regularization = 0;
+    
+    for l in range(L):
+        regularization +=  np.sum(np.square(parameters[""W"" + str(l + 1)]))
+        
+    L2_regularization_cost = lambd / (2 * m) * regularization
+    cost = cost + L2_regularization_cost
+    return cost",Calculate the cross-entropy cost function,3503325.0,False,,,1.0,"newGeneration is the function that takes the current generation and produces the next generation from it. This is done by taking the top 4 parents fitness wise and crossing over every pair of them to generate new offsprings. However due to the particular setup of the problem, we are very likely to have a near optimal solution straight out of the first generation due to randomness and our reduction function. Because of this, we can add back the top 2 parents into the new generation to ensure that we do not lose any optimal results that are created in previous generations."
+34634,6123475.0,26.0,"def random_mini_batches(X, Y, mini_batch_size=64, seed=0):
+    np.random.seed(seed)  
+    m = X.shape[1] 
+    mini_batches = []
+
+    permutation = list(np.random.permutation(m))
+    shuffled_X = X[:, permutation]
+    shuffled_Y = Y[:, permutation].reshape((1, m))
+    
+    num_complete_minibatches = math.floor(m / mini_batch_size) 
+    for k in range(0, num_complete_minibatches):
+        mini_batch_X = shuffled_X[:, k * mini_batch_size:(k + 1) * mini_batch_size]
+        mini_batch_Y = shuffled_Y[:, k * mini_batch_size:(k + 1) * mini_batch_size]
+        mini_batch = (mini_batch_X, mini_batch_Y)
+        mini_batches.append(mini_batch)
+
+    if m % mini_batch_size != 0:
+        mini_batch_X = shuffled_X[:, (k + 1) * mini_batch_size:]
+        mini_batch_Y = shuffled_Y[:, (k + 1) * mini_batch_size:]
+        mini_batch = (mini_batch_X, mini_batch_Y)
+        mini_batches.append(mini_batch)
+
+    return mini_batches",Compute the Mini-batches by determined size,3503325.0,False,,,1.0,Train the network
+34635,6123475.0,28.0,"def initialize_velocity(parameters):
+    L = len(parameters) // 2  
+    v = {}
+    for l in range(L):
+        v[""dW"" + str(l + 1)] = np.zeros(parameters['W' + str(l + 1)].shape)
+        v[""db"" + str(l + 1)] = np.zeros(parameters['b' + str(l + 1)].shape)
+    return v",Initialize Velocity parameters that is needed in momentum gradients updating,3503325.0,False,,,1.0,Test accuracy
+34636,6123475.0,30.0,"def update_parameters_with_momentum(parameters, grads, v, beta, learning_rate):
+    L = len(parameters) // 2  
+    for l in range(L):
+        v[""dW"" + str(l + 1)] = beta * v[""dW"" + str(l + 1)] + (1 - beta) * grads['dW' + str(l + 1)]
+        v[""db"" + str(l + 1)] = beta * v[""db"" + str(l + 1)] + (1 - beta) * grads['db' + str(l + 1)]
+        parameters[""W"" + str(l + 1)] = parameters[""W"" + str(l + 1)] - learning_rate * v[""dW"" + str(l + 1)]
+        parameters[""b"" + str(l + 1)] = parameters[""b"" + str(l + 1)] - learning_rate * v[""db"" + str(l + 1)]
+    return parameters, v",Update parameters using momentum gradients,3503325.0,False,,,1.0,Utils
+34637,6123475.0,32.0,"def initialize_adam(parameters):
+    L = len(parameters) // 2 
+    v = {}
+    s = {}
+    for l in range(L):
+        v[""dW"" + str(l + 1)] = np.zeros(parameters['W' + str(l + 1)].shape)
+        v[""db"" + str(l + 1)] = np.zeros(parameters['b' + str(l + 1)].shape)
+        s[""dW"" + str(l + 1)] = np.zeros(parameters['W' + str(l + 1)].shape)
+        s[""db"" + str(l + 1)] = np.zeros(parameters['b' + str(l + 1)].shape)
+    return v, s",Initialize adam optimizer parameters that is needed in adam gradients updating,3503325.0,False,,,1.0,"Encode Id Features
+We have 10 Stores in each Store we have 3049 Itema os total items we need to encode is 10 * 3049 = 30490
+In web-traffic-implementation what he did was take each web-page and extract page features like (site, country, agent, et from urls then encoded as a page vector or think like embedding for page.
+Same idea i am following hear, total we have 30490 items each iteam have there categories like (item_id, dept_id, cat_id, store_id, state_i
+From those categories we uniquely identify the items"
+34639,6123475.0,36.0,"def update_parameters_with_gd(parameters, grads, learning_rate):
+    L = len(parameters) // 2 
+    for l in range(L):
+        parameters[""W"" + str(l+1)] = parameters[""W""+str(l+1)]-learning_rate*grads[""dW""+str(l+1)]
+        parameters[""b"" + str(l+1)] = parameters[""b""+str(l+1)]-learning_rate*grads[""db""+str(l+1)]
+    return parameters",Update parameters using normal BGD gradients,3503325.0,False,,,1.0,dataframe convert to Pytorch tensors
+34640,6123475.0,38.0,"def linear_backward(dZ, cache,lambd):
+    A_prev, W, b = cache
+    m = A_prev.shape[1]
+    dW = (1/m)*np.dot(dZ,A_prev.T) + lambd / m * W
+    db = (1/m)*np.sum(dZ, axis=1, keepdims = True)
+    dA_prev = np.dot(W.T,dZ)
+    return dA_prev, dW, db",Linear backpropagation calculation,3503325.0,False,,,1.0,"Encoder Decoder Model
+Model has two main parts: encoder and decoder."
+34641,6123475.0,40.0,"def sigmoid_backward(dA, activation_cache):
+    return dA*(activation_cache*(1-activation_cache))",Calculate sigmoid activation derivative function for binary classification layer backpropagation calculations,3503325.0,False,,,1.0,"Non-Penalty Goal Per Match
+On the other hand, The penalties considered the easiest scoring opportunity, and penalty specialist is another talent that we aren't looking for now (some defenders are penalty specialists in doesn't need to be a striker to score a penalt, And because not all the players took the equal numbers of penalties (some players don't take any penalty at al, so it's something available for all players, So we are going to exclude the penalty goals from our calculations"
+34642,6123475.0,42.0,"def relu_backward(dA, activation_cache):
+    return dA*(activation_cache > 0)",Calculate relu activation derivative function for hiddin layers backpropagation calculations,3503325.0,False,,,1.0,"ok, WOW!! Messi scored around 15% of his goals from penalties (30 penaltie, Cristiano scored around 22% (43) and Zalatan scored around 23%(35), no wonder most of them fell down in the NPGPM table, Luiz Suarez jumped to the 2nd
+Let's have a look at removing penalties from our old top scorers"
+34643,6123475.0,44.0,"    
+def linear_activation_backward(dA, cache, activation, lambd):
+    linear_cache, activation_cache = cache
+    if activation == ""relu"":
+        dZ = relu_backward(dA, activation_cache)
+        dA_prev, dW, db = linear_backward(dZ, linear_cache,lambd)        
+    elif activation == ""sigmoid"":
+        dZ = sigmoid_backward(dA, activation_cache)
+        dA_prev, dW, db = linear_backward(dZ, linear_cache,lambd)    
+    return dA_prev, dW, db",Apply the Linear activation code over the linear backward propagation,3503325.0,False,,,1.0,"We stated before that what we are looking for is a striker who can scores whenever he got a chance, so now we know How many attempts each player make on goal that average player can score?
+To discover this value we should look for two qualities 
+ The players with the most attempts made on goal, it's clear that the opportunities and chances created to each player depends on the striker skills and his teammates skills, So it shouldn't be weird to find the most attempts created to the players playing in the strongest clubs in their league, In addition to playing in front of weak opponents 
+ The best players to use these chances in order to score a goal
+Note: All calculations made on Expected goals exclude the penalties in order to be fair enough 
+So First let's see the Distribution of goals and attempts and their mean (we will include only the players with 10 goals or more to remove non-striker player"
+34644,6123475.0,46.0,"def backward_propagation(minibatch_X, minibatch_Y, caches, lambd):
+    grads = {}
+    L = len(caches) 
+    m = minibatch_X.shape[1]
+    minibatch_Y = minibatch_Y.reshape(1,minibatch_X.shape[1])
+    dAL = - (np.divide(minibatch_Y, minibatch_X) - np.divide(1 - minibatch_Y, 1 - minibatch_X))
+    current_cache = caches[L-1]
+    grads[""dA"" + str(L-1)], grads[""dW"" + str(L)], grads[""db"" + str(L)] = linear_activation_backward(dAL, current_cache, ""sigmoid"", lambd)
+    for l in reversed(range(L-1)):
+        current_cache = caches[l]
+        dA_prev_temp, dW_temp, db_temp = linear_activation_backward(grads[""dA"" + str(l + 1)], current_cache, ""relu"", lambd)
+        grads[""dA"" + str(l)] = dA_prev_temp
+        grads[""dW"" + str(l + 1)] = dW_temp
+        grads[""db"" + str(l + 1)] = db_temp
+    return grads",Put all backppropagation together,3503325.0,False,,,1.0,"the most player made attempts on goal was Cristiano with attempts per match (which is a way hig with total attempts 1138, Although AvgGPA is which means that he has every match about 6 attempts on goal, avg scoring goals is 14% of those attempts he scored goals per match 
+Most of this list are players playing in top teams, which feed our theory that playing in top teams means more goals, but what if we sort them with Avg GPA to know even if you have fewer attempts because you playing in a small team or any other reason, How much often will you score?"
+34646,6123475.0,50.0,"def predict(X, y, parameters): 
+    m = X.shape[1]
+    p = np.zeros((1,m), dtype = np.int)
+    AL, caches = forward_propagation(X, parameters)
+    for i in range(0, AL.shape[1]):
+        if AL[0,i] > 0.5:
+            p[0,i] = 1
+        else:
+            p[0,i] = 0
+    print(str(np.mean((p[0,:] == y[0,:]))))
+    return p",**Predection function to use the model and check the results **,3503325.0,False,,,1.0,"Look at the data
+First, we will need some plotting routine.
+* Green are pick-up locations
+* Red are drop-offs"
