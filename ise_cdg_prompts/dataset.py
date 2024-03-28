@@ -1,16 +1,24 @@
+from abc import abstractmethod
+from dataclasses import dataclass
 from typing import Tuple
 import pandas as pd
 from ise_cdg_data.dataset import Md4DefDatasetInterface
+from torch._tensor import Tensor
 
 
+@dataclass
 class CodeMarkdown:
-    def __init__(self, code: str, markdown: str) -> None:
-        self.code = code
-        self.markdown = markdown
+    code: str
+    markdown: str
 
 
-# TODO: In usage, Replace the concrete with the interface
 class PromptDataset(Md4DefDatasetInterface):
+    @abstractmethod
+    def __getitem__(self, index) -> "CodeMarkdown":
+        pass
+
+
+class SimplePromptDataset(PromptDataset):
     def __init__(self, path: str) -> None:
         super().__init__()
         self.df: "pd.DataFrame" = pd.read_csv(path)

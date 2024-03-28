@@ -1,1 +1,1 @@
-from .main import PromptSample, PromptSampler
+from .main import TaskSampler
