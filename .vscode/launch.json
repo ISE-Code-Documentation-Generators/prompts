@@ -17,31 +17,5 @@
             "cwd": "${workspaceRoot}",
             "args": []
         },
-        {
-            "name": "Run Read Data",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${workspaceRoot}\\src\\read_data\\main.py",
-            "console": "integratedTerminal",
-            "justMyCode": false,
-            "env": {
-                "PYTHONPATH": "${workspaceRoot}"
-            },
-            "cwd": "${workspaceRoot}",
-            "args": []
-        },
-        {
-            "name": "Run Prev. Read Data",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${workspaceRoot}\\src\\read_data2.py",
-            "console": "integratedTerminal",
-            "justMyCode": false,
-            "env": {
-                "PYTHONPATH": "${workspaceRoot}"
-            },
-            "cwd": "${workspaceRoot}",
-            "args": []
-        },
     ]
 }
