@@ -11,6 +11,12 @@ VERSION = "0.0.1"
 DESCRIPTION = "To be added in the future"
 
 
+llama_dependencies = [
+    "llama-index-program-openai==0.1.4",
+    "llama-index-llms-llama-api==0.1.4",
+    "llama-index==0.10.23",
+]
+
 setuptools.setup(
     name="ise_cdg_prompts",
     version=VERSION,
@@ -22,14 +28,10 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     include_package_data=True,
     install_requires=[
-        "ise_cdg_models @ git+https://github.com/ISE-Code-Documentation-Generators/models.git",
         "ise_cdg_data @ git+https://github.com/ISE-Code-Documentation-Generators/data.git",
         "ise_cdg_utility @ git+https://github.com/ISE-Code-Documentation-Generators/utility.git",
-    ] + [
-        "llama-index-program-openai==0.1.4",
-        "llama-index-llms-llama-api==0.1.4",
-        "llama-index==0.10.23"
-    ],
+    ]
+    + llama_dependencies,
     classifiers=[
         "Intended Audience :: Science/Research",
         "Programming Language :: Python :: 3",
