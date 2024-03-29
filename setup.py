@@ -17,6 +17,11 @@ llama_dependencies = [
     "llama-index==0.10.23",
 ]
 
+dolly_dependencies = [
+    "accelerate==0.28.0",
+    "transformers==4.39.1",
+]
+
 setuptools.setup(
     name="ise_cdg_prompts",
     version=VERSION,
@@ -31,7 +36,8 @@ setuptools.setup(
         "ise_cdg_data @ git+https://github.com/ISE-Code-Documentation-Generators/data.git",
         "ise_cdg_utility @ git+https://github.com/ISE-Code-Documentation-Generators/utility.git",
     ]
-    + llama_dependencies,
+    + llama_dependencies
+    + dolly_dependencies,
     classifiers=[
         "Intended Audience :: Science/Research",
         "Programming Language :: Python :: 3",
