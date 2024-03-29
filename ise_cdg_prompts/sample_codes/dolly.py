@@ -6,7 +6,6 @@ import os
 import json
 
 import torch, random, pandas as pd
-from transformers import pipeline
 from ise_cdg_utility.metrics import NLPMetricInterface, CodeMetric, get_metrics
 from ise_cdg_data.tokenize import get_source_and_markdown_tokenizers
 
@@ -28,9 +27,6 @@ def dataset_get_source(index: int, project_id=None):
     if project_id is not None:
         df = df[df["project_ID"] == project_id]
     return str(df.iloc[index]["source"])
-
-
-# In[ ]:
 
 
 class Pipeline:
@@ -106,9 +102,6 @@ def generate_prompt_data(samples):
     return prompt_list, grund_truth
 
 
-# In[ ]:
-
-
 sample_size = 10
 shot_size = 5
 
@@ -138,8 +131,7 @@ def get_samples():
 prompt_list, ground_truth = generate_prompt_data(get_samples())
 
 
-# In[ ]:
-
+from transformers import pipeline
 
 dolly = pipeline(
     model="databricks/dolly-v2-3b",
@@ -149,22 +141,13 @@ dolly = pipeline(
 )
 
 
-# In[ ]:
-
-
 def prompt_model(input):
     dolly_response = dolly(input, max_new_tokens=100)
     return dolly_response[0]["generated_text"]
 
 
-# In[ ]:
-
-
 metrics: Dict[CodeMetric, NLPMetricInterface] = get_metrics()
 _, md_tokenizer = get_source_and_markdown_tokenizers(cleanse_markdown=False)
-
-
-# In[ ]:
 
 
 references = []
@@ -176,16 +159,11 @@ for i in range(len(ground_truth)):
 print(references)
 
 
-# In[ ]:
-
-
 for metric in metrics.values():
     metric.set_references(references)
 
 
-# In[ ]:
-
-
+print("waiting for dolly")
 candidates = []
 for i in range(len(prompt_list)):
     prompt = prompt_list[i]
@@ -193,9 +171,6 @@ for i in range(len(prompt_list)):
     candidates.append(candidate)
 
 print(candidates)
-
-
-# In[ ]:
 
 
 results = {}
@@ -207,13 +182,7 @@ for metric_name, metric in metrics.items():
     results[metric_name.value] = result
 
 
-# In[ ]:
-
-
 results
-
-
-# In[ ]:
 
 
 # Open a file in write mode
