@@ -1,12 +1,14 @@
 from typing import TYPE_CHECKING, List
 
+from ise_cdg_prompts.prompt_generation_visitor.main import PromptGenerationVisitor
+
 
 if TYPE_CHECKING:
     from ise_cdg_prompts.task import Task
     from ise_cdg_prompts.dataset import CodeMarkdown
 
 
-class TaskPromptGenerationVisitor:
+class SepehrPromptGenerationVisitor(PromptGenerationVisitor):
     def visit_task(self, task: "Task") -> str:
         return (
             "For now, Just read these template Markdown and Code pairs.\n"
