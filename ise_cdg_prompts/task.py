@@ -1,10 +1,13 @@
 from typing import TYPE_CHECKING, List
 
+from ise_cdg_prompts.prompt_generation_visitor.sepehr import (
+    SepehrPromptGenerationVisitor,
+)
+
 
 if TYPE_CHECKING:
     from ise_cdg_prompts.dataset import CodeMarkdown
-
-from ise_cdg_prompts.prompt_generation_visitor import TaskPromptGenerationVisitor
+    from ise_cdg_prompts.prompt_generation_visitor.main import PromptGenerationVisitor
 
 
 class Task:
@@ -15,7 +18,7 @@ class Task:
     ):
         self.templates = templates
         self.question = question
-        self.__visitor = TaskPromptGenerationVisitor()
+        self.__visitor: "PromptGenerationVisitor" = SepehrPromptGenerationVisitor()
 
     def get_prompt(self) -> str:
         return self.__visitor.visit_task(self)
