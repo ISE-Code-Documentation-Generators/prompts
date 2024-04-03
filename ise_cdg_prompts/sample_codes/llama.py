@@ -11,18 +11,27 @@ prompt_sampler = RandomTaskSampler(
     shot_size=4,
 )
 
-tasks = prompt_sampler.generate_samples()
-print(tasks[0].get_prompt(), tasks[0].get_ground_truth())
-
 if TYPE_CHECKING:
     from ise_cdg_prompts.llm_api import LLM_API
+    from ise_cdg_prompts.utils.custom_io import Custom_IO
 
+from ise_cdg_prompts.utils.custom_io import JSON_IO
 from ise_cdg_prompts.llm_api.llama import Llama_API
 
 llm_api: "LLM_API" = Llama_API()
+io: "Custom_IO" = JSON_IO(".")
 
-task_responses = Pipeline(tasks).to_map(
-    lambda task: llm_api.get_response(task.get_prompt())
+tasks = prompt_sampler.generate_samples()
+sample_outputs = (
+    Pipeline(tasks)
+    .to_map(
+        lambda task: {
+            "prompt": task.get_prompt(),
+            "response": llm_api.get_response(task.get_prompt()),
+            "ground_truth": task.get_ground_truth(),
+        }
+    )
+    .to_list()
 )
 
-task_responses.to_map(print)
+io.write(sample_outputs, "samples.json")
