@@ -14,6 +14,7 @@ prompt_sampler = RandomTaskSampler(
 if TYPE_CHECKING:
     from ise_cdg_prompts.llm_api import LLM_API
     from ise_cdg_prompts.utils.custom_io import Custom_IO
+    from ise_cdg_prompts.task import Task
 
 from ise_cdg_prompts.utils.custom_io import JSON_IO
 from ise_cdg_prompts.llm_api.llama import Llama_API
@@ -21,7 +22,17 @@ from ise_cdg_prompts.llm_api.llama import Llama_API
 llm_api: "LLM_API" = Llama_API()
 io: "Custom_IO" = JSON_IO(".")
 
+from ise_cdg_prompts.prompt_generation_visitor.ashkan import AshkanPromptGenerator
+
+prompt_generation_visitor = AshkanPromptGenerator()
+
+
+def jj(task: "Task"):
+    task._Task__visitor = prompt_generation_visitor
+
+
 tasks = prompt_sampler.generate_samples()
+Pipeline(tasks).to_map(jj)
 sample_outputs = (
     Pipeline(tasks)
     .to_map(
