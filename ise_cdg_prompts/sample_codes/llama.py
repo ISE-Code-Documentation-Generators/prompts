@@ -14,31 +14,24 @@ prompt_sampler = RandomTaskSampler(
 if TYPE_CHECKING:
     from ise_cdg_prompts.llm_api import LLM_API
     from ise_cdg_prompts.utils.custom_io import Custom_IO
-    from ise_cdg_prompts.task import Task
+    from ise_cdg_prompts.prompt_generation_visitor.main import PromptGenerationVisitor
 
 from ise_cdg_prompts.utils.custom_io import JSON_IO
 from ise_cdg_prompts.llm_api.llama import Llama_API
+from ise_cdg_prompts.prompt_generation_visitor.ashkan import AshkanPromptGenerator
 
 llm_api: "LLM_API" = Llama_API()
 io: "Custom_IO" = JSON_IO(".")
-
-from ise_cdg_prompts.prompt_generation_visitor.ashkan import AshkanPromptGenerator
-
-prompt_generation_visitor = AshkanPromptGenerator()
+prompt_generation_visitor: "PromptGenerationVisitor" = AshkanPromptGenerator()
 
 tasks = prompt_sampler.generate_samples()
-
 sample_outputs = (
     Pipeline(tasks)
     .to_map(
         lambda task: {
-            "prompt": task.get_prompt(
-                visitor=prompt_generation_visitor,
-            ),
+            "prompt": task.get_prompt(visitor=prompt_generation_visitor),
             "response": llm_api.get_response(
-                task.get_prompt(
-                    visitor=prompt_generation_visitor,
-                )
+                task.get_prompt(visitor=prompt_generation_visitor)
             ),
             "ground_truth": task.get_ground_truth(),
         }
