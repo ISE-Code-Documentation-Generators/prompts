@@ -18,4 +18,9 @@ class DollyUnitTest(PromptsUnitTest):
         )
 
 
+if __name__ == "__main__":
+    import unittest
+
+    unittest.main()
+
 # unittest.main(argv=[""], defaultTest="DollyUnitTest", verbosity=2, exit=False)
