@@ -28,12 +28,16 @@ class MockTaskSampler(TaskSampler):
 class GeneralTaskFunctionalityTest(PromptsUnitTest):
     def test_default(self):
         from ise_cdg_prompts.dataset import SimplePromptDataset
+        from ise_cdg_prompts.prompt_generation_visitor.sepehr import (
+            SepehrPromptGenerationVisitor,
+        )
 
         self._assert_tasks_validity(
             tasks=MockTaskSampler(
                 dataset=SimplePromptDataset(path="final_dataset.csv")
             ).generate_samples(),
             expected_tasks_file_name="task_results.json",
+            prompt_generation_visitor=SepehrPromptGenerationVisitor(),
         )
 
 

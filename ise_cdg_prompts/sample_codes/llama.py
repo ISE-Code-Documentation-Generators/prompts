@@ -26,19 +26,20 @@ from ise_cdg_prompts.prompt_generation_visitor.ashkan import AshkanPromptGenerat
 
 prompt_generation_visitor = AshkanPromptGenerator()
 
-
-def jj(task: "Task"):
-    task._Task__visitor = prompt_generation_visitor
-
-
 tasks = prompt_sampler.generate_samples()
-Pipeline(tasks).to_map(jj)
+
 sample_outputs = (
     Pipeline(tasks)
     .to_map(
         lambda task: {
-            "prompt": task.get_prompt(),
-            "response": llm_api.get_response(task.get_prompt()),
+            "prompt": task.get_prompt(
+                visitor=prompt_generation_visitor,
+            ),
+            "response": llm_api.get_response(
+                task.get_prompt(
+                    visitor=prompt_generation_visitor,
+                )
+            ),
             "ground_truth": task.get_ground_truth(),
         }
     )

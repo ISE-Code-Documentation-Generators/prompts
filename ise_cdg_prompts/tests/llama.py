@@ -1,6 +1,9 @@
 from typing import List
 import unittest
 
+from ise_cdg_prompts.prompt_generation_visitor.sepehr import (
+    SepehrPromptGenerationVisitor,
+)
 from ise_cdg_prompts.tests.main import PromptsUnitTest
 
 
@@ -20,6 +23,7 @@ class LlamaUnitTests(PromptsUnitTest):
         self._assert_tasks_validity(
             tasks=prompt_sampler.generate_samples(),
             expected_tasks_file_name="llama_results.json",
+            prompt_generation_visitor=SepehrPromptGenerationVisitor(),
         )
 
 

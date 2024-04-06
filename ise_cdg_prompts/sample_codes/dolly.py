@@ -24,13 +24,27 @@ get_samples = ProjectIDTaskSampler(
 ).generate_samples
 
 
+from ise_cdg_prompts.prompt_generation_visitor.ashkan import AshkanPromptGenerator
+from ise_cdg_prompts.prompt_generation_visitor.main import PromptGenerationVisitor
+
+visitor: "PromptGenerationVisitor" = AshkanPromptGenerator()
+
 
 def generate_prompt_data(samples: List["Task"]):
-    prompt_list = Pipeline(samples).to_map(lambda sample: sample.get_prompt()).to_list()
+    prompt_list = (
+        Pipeline(samples)
+        .to_map(
+            lambda sample: sample.get_prompt(
+                visitor=visitor,
+            )
+        )
+        .to_list()
+    )
     grund_truth = (
         Pipeline(samples).to_map(lambda sample: sample.get_ground_truth()).to_list()
     )
     return prompt_list, grund_truth
+
 
 def main():
     prompt_list, ground_truth = generate_prompt_data(get_samples())
