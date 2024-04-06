@@ -6,6 +6,8 @@ from .main import LLM_API
 
 
 class Dolly(LLM_API):
+    name: str = 'Dolly'
+
     default_dolly_kwargs = dict(
         model="databricks/dolly-v2-3b",
         torch_dtype=torch.bfloat16,
