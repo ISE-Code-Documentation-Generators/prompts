@@ -1,6 +1,5 @@
 import random
 from typing import TYPE_CHECKING, List
-from ise_cdg_prompts.prompt_generation_visitor.ashkan import AshkanPromptGenerator
 from ise_cdg_prompts.sample.main import TaskSampler
 
 if TYPE_CHECKING:
@@ -20,9 +19,9 @@ class ProjectIDTaskSampler(TaskSampler):
         self.shot_size = shot_size
 
     def generate_samples(self) -> List["Task"]:
+        # TODO breaking PLK
         df = self.dataset.df
         samples = []
-        ashkan_visitor = AshkanPromptGenerator()
         for pid in df["project_ID"].unique():
             qid = qid = random.sample(range(0, len(df[df["project_ID"] == pid])), 1)[0]
             template_indices = [
@@ -37,6 +36,5 @@ class ProjectIDTaskSampler(TaskSampler):
                 question_index=qid,
                 template_indices=template_indices,
             )
-            task._Task__visitor = ashkan_visitor
             samples.append(task)
         return samples

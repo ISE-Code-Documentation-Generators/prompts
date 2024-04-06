@@ -24,5 +24,4 @@ class AshkanPromptGenerator(PromptGenerationVisitor):
         )
 
     def visit_template(self, template: "CodeMarkdown", index: int) -> str:
-        # TODO bug: reverse code-markdown
-        return f"#Code\n{template.markdown}\n" + f"#Summary: {template.code}\n"
+        return f"#Code\n{template.code}\n" + f"#Summary: {template.markdown}\n"

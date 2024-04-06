@@ -18,13 +18,15 @@ class Task:
     ):
         self.templates = templates
         self.question = question
-        self.__visitor: "PromptGenerationVisitor" = SepehrPromptGenerationVisitor()
 
-    def get_prompt(self) -> str:
-        return self.__visitor.visit_task(self)
+    def get_prompt(self, visitor: "PromptGenerationVisitor") -> str:
+        return visitor.visit_task(self)
 
     def get_ground_truth(self) -> str:
         return self.question.markdown
 
-    def to_json(self):
-        return [self.get_prompt(), self.get_ground_truth()]
+    def to_json(self, visitor: "PromptGenerationVisitor"):
+        return [
+            self.get_prompt(visitor=visitor),
+            self.get_ground_truth(),
+        ]

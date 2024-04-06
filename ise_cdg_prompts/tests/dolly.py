@@ -6,6 +6,9 @@ class DollyUnitTest(PromptsUnitTest):
         import random
         from ise_cdg_prompts.dataset import SimplePromptDataset
         from ise_cdg_prompts.sample.project_id import ProjectIDTaskSampler
+        from ise_cdg_prompts.prompt_generation_visitor.ashkan import (
+            AshkanPromptGenerator,
+        )
 
         random.seed(0)
         self._assert_tasks_validity(
@@ -15,7 +18,13 @@ class DollyUnitTest(PromptsUnitTest):
                 shot_size=5,
             ).generate_samples(),
             expected_tasks_file_name="dolly_results.json",
+            prompt_generation_visitor=AshkanPromptGenerator(),
         )
 
+
+if __name__ == "__main__":
+    import unittest
+
+    unittest.main()
 
 # unittest.main(argv=[""], defaultTest="DollyUnitTest", verbosity=2, exit=False)
