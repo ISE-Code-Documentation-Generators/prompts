@@ -3,6 +3,7 @@
 
 from typing import Dict, List
 import json
+import typing
 
 import torch, random, pandas as pd
 from ise_cdg_utility.metrics import NLPMetricInterface, CodeMetric, get_metrics
@@ -11,6 +12,8 @@ from ise_cdg_data.tokenize import get_source_and_markdown_tokenizers
 from ise_cdg_prompts.sample.project_id import ProjectIDTaskSampler
 from ise_cdg_prompts.task import Task
 from ise_cdg_prompts.utils.pipeline import Pipeline
+if typing.TYPE_CHECKING:
+    from ise_cdg_prompts.llm_api import LLM_API
 
 
 random.seed(4444)
@@ -33,19 +36,9 @@ def generate_prompt_data(samples: List["Task"]):
     return prompt_list, grund_truth
 
 def main():
+    from ise_cdg_prompts.llm_api.dolly import Dolly
     prompt_list, ground_truth = generate_prompt_data(get_samples())
-    from transformers import pipeline
-
-    dolly = pipeline(
-        model="databricks/dolly-v2-3b",
-        torch_dtype=torch.bfloat16,
-        trust_remote_code=True,
-        device_map="auto",
-    )
-
-    def prompt_model(input):
-        dolly_response = dolly(input, max_new_tokens=100)
-        return dolly_response[0]["generated_text"]
+    dolly_api: "LLM_API" = Dolly()
 
     metrics: Dict[CodeMetric, NLPMetricInterface] = get_metrics()
     _, md_tokenizer = get_source_and_markdown_tokenizers(cleanse_markdown=False)
@@ -65,7 +58,7 @@ def main():
     candidates = []
     for i in range(len(prompt_list)):
         prompt = prompt_list[i]
-        candidate = md_tokenizer(prompt_model(prompt))
+        candidate = md_tokenizer(dolly_api.get_response(prompt))
         candidates.append(candidate)
 
     print(candidates)
