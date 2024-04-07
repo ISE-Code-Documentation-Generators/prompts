@@ -2,7 +2,7 @@ from typing import List, Dict
 from ise_cdg_utility.metrics.enums import CodeMetric
 from ise_cdg_utility.metrics.interface import NLPMetricInterface, VectorizedNLPMetric
 from ise_cdg_data.tokenize import get_source_and_markdown_tokenizers
-from ise_cdg_data.summarize import get_gensim_summarizer
+from ise_cdg_data.summarize import get_sumy_summarizer
 
 
 class LLMNLPMetricAdaptor(VectorizedNLPMetric):
@@ -10,7 +10,7 @@ class LLMNLPMetricAdaptor(VectorizedNLPMetric):
         self.p95_len = p95_len
         self.nlp_metric = nlp_metric
         _, self.md_tokenizer = get_source_and_markdown_tokenizers(cleanse_markdown=False)
-        self.summarizer = get_gensim_summarizer()
+        self.summarizer = get_sumy_summarizer(2)
 
     def set_references(self, references: List[str]) -> None:
         new_references = []
