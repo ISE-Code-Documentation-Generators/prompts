@@ -11,7 +11,10 @@ import random
 # In[2]:
 
 
-get_ipython().system("pip install pandas")
+# get_ipython().system("pip install pandas")
+# get_ipython().system('pip install -U "transformers==4.38.1" --upgrade')
+# get_ipython().system("pip install accelerate")
+# get_ipython().system("pip install -i https://pypi.org/simple/ bitsandbytes")
 
 
 # In[4]:
@@ -46,7 +49,7 @@ def prompt_creator(markdown, code, index):
 
 # In[67]:
 
-
+random.seed(0)
 randomlist = [
     random.sample(range(0, dataset.shape[0]), shot_size + 1) for i in range(batch_size)
 ]
@@ -72,7 +75,7 @@ for batch in range(batch_size):
 
 
 i = 9
-with open("prompt_{}.txt".format(i + 1), "w") as f:
+with open("./prompt_{}.txt".format(i + 1), "w") as f:
     f.write(str(prompt_list[i]))
 
 
@@ -90,7 +93,7 @@ len(prompt_list)
 # In[ ]:
 
 
-get_ipython().system("pip install accelerate")
+# get_ipython().system("pip install accelerate")
 
 
 # In[ ]:
@@ -153,11 +156,6 @@ print(tokenizer.decode(outputs[0]))
 # ## Quantized loading 7b
 
 # In[ ]:
-
-
-get_ipython().system('pip install -U "transformers==4.38.1" --upgrade')
-get_ipython().system("pip install accelerate")
-get_ipython().system("pip install -i https://pypi.org/simple/ bitsandbytes")
 
 
 # In[ ]:
@@ -261,7 +259,28 @@ prompt = pipeline.tokenizer.apply_chat_template(
 outputs = pipeline(
     prompt, max_new_tokens=512, do_sample=True, temperature=0.7, top_k=50, top_p=0.95
 )
-print(outputs[0]["generated_text"])
+# print(outputs[0]["generated_text"])
 
 
 # In[ ]:
+
+
+def generate_response(prompt_content):
+    messages = [
+        {
+            "role": "user",
+            "content": prompt_content,
+        },
+    ]
+    prompt = pipeline.tokenizer.apply_chat_template(
+        messages, tokenize=False, add_generation_prompt=True
+    )
+    outputs = pipeline(
+        prompt,
+        max_new_tokens=512,
+        do_sample=True,
+        temperature=0.7,
+        top_k=50,
+        top_p=0.95,
+    )
+    return outputs[0]["generated_text"]
