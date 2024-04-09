@@ -75,8 +75,8 @@ for batch in range(batch_size):
 
 
 i = 9
-with open("./prompt_{}.txt".format(i + 1), "w") as f:
-    f.write(str(prompt_list[i]))
+# with open("./prompt_{}.txt".format(i + 1), "w") as f:
+#     f.write(str(prompt_list[i]))
 
 
 # In[27]:
