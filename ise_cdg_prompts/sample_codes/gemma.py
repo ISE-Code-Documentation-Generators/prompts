@@ -24,7 +24,6 @@ def prompt_creator(markdown, code, index):
     result = result + "Start Code " + str(index) + ": " + str(code) + "\n"
     return result
 
-
 random.seed(0)
 randomlist = [
     random.sample(range(0, dataset.shape[0]), shot_size + 1) for i in range(batch_size)
@@ -33,12 +32,16 @@ prompt_list = []
 grund_truth = []
 for batch in range(batch_size):
     prompt = ""
-    for shot in range(shot_size):
-        prompt = prompt + prompt_creator(
-            dataset.loc[randomlist[batch][shot]]["markdown"],
-            dataset.loc[randomlist[batch][shot]]["source"],
-            shot + 1,
-        )
+    def generate_templates_prompt():
+        prompt = ""
+        for shot in range(shot_size):
+            prompt = prompt + prompt_creator(
+                dataset.loc[randomlist[batch][shot]]["markdown"],
+                dataset.loc[randomlist[batch][shot]]["source"],
+                shot + 1,
+            )
+        return prompt
+    prompt += generate_templates_prompt()
     prompt_list.append(
         prompt
         + "\nGenerate markdown for the bottom code according to the four samples above\n Code: "
