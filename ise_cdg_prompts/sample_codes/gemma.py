@@ -1,44 +1,22 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[3]:
-
-
-import pandas as pd
-import random
-
-
-# In[2]:
-
-
 # get_ipython().system("pip install pandas")
 # get_ipython().system('pip install -U "transformers==4.38.1" --upgrade')
 # get_ipython().system("pip install accelerate")
 # get_ipython().system("pip install -i https://pypi.org/simple/ bitsandbytes")
 
 
-# In[4]:
+import pandas as pd
+import random
 
 
 batch_size = 10
 shot_size = 4
-
-
-# In[20]:
-
 
 # Load dataset containing markdown and code cells
 dataset_path = "./final_dataset.csv"
 dataset = pd.read_csv(dataset_path)
 
 
-# In[21]:
-
-
 dataset.dropna(subset=["source", "markdown"], inplace=True)
-
-
-# In[39]:
 
 
 def prompt_creator(markdown, code, index):
@@ -46,8 +24,6 @@ def prompt_creator(markdown, code, index):
     result = result + "Start Code " + str(index) + ": " + str(code) + "\n"
     return result
 
-
-# In[67]:
 
 random.seed(0)
 randomlist = [
@@ -71,34 +47,19 @@ for batch in range(batch_size):
     grund_truth.append(str(dataset.loc[randomlist[batch][shot_size]]["markdown"]))
 
 
-# In[71]:
-
 
 i = 9
 # with open("./prompt_{}.txt".format(i + 1), "w") as f:
 #     f.write(str(prompt_list[i]))
 
 
-# In[27]:
-
-
 len(prompt_list)
 
 
-#!/usr/bin/env python
-# coding: utf-8
-
 # ## Load Gemma 2b
-
-# In[ ]:
 
 
 # get_ipython().system("pip install accelerate")
-
-
-# In[ ]:
-
-
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import os
 
@@ -106,10 +67,6 @@ os.environ["HF_TOKEN"] = "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"
 
 tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b-it")
 model = AutoModelForCausalLM.from_pretrained("google/gemma-2b-it", device_map="auto")
-
-
-# In[ ]:
-
 
 input_text = """
                 from transformers import AutoTokenizer, AutoModelForCausalLM
@@ -125,18 +82,11 @@ outputs = model.generate(**input_ids, max_length=600)
 print(tokenizer.decode(outputs[0]))
 
 
-# In[ ]:
-
-
 input_text = "Write me a poem about Machine Learning."
 input_ids = tokenizer(input_text, return_tensors="pt").to("cuda")
 
 outputs = model.generate(**input_ids, max_length=50)
 print(tokenizer.decode(outputs[0]))
-
-
-# In[ ]:
-
 
 input_text = """
                 input_text = "Write me a poem about Machine Learning."
@@ -154,13 +104,6 @@ print(tokenizer.decode(outputs[0]))
 
 
 # ## Quantized loading 7b
-
-# In[ ]:
-
-
-# In[ ]:
-
-
 from transformers import AutoTokenizer, pipeline, AutoModelForCausalLM
 import torch
 import os
@@ -177,9 +120,6 @@ pipeline = pipeline(
         "quantization_config": {"load_in_4bit": True},
     },
 )
-
-
-# In[ ]:
 
 
 messages = [
@@ -260,10 +200,6 @@ outputs = pipeline(
     prompt, max_new_tokens=512, do_sample=True, temperature=0.7, top_k=50, top_p=0.95
 )
 # print(outputs[0]["generated_text"])
-
-
-# In[ ]:
-
 
 def generate_response(prompt_content):
     messages = [
