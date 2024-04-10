@@ -9,6 +9,7 @@ import pandas as pd
 import random
 
 from ise_cdg_prompts.dataset import CodeMarkdown, PromptDataset
+from ise_cdg_prompts.prompt_generation_visitor.main import PromptGenerationVisitor
 from ise_cdg_prompts.task import Task
 from ise_cdg_prompts.utils.pipeline import Pipeline
 
@@ -37,28 +38,30 @@ class AlirezaDataset(PromptDataset):
 dataset = AlirezaDataset(path="./final_dataset.csv")
 
 
-def prompt_creator(code_markdown: "CodeMarkdown", index):
-    result = "Start Markdown " + str(index) + ": " + code_markdown.markdown + "\n"
-    result = result + "Start Code " + str(index) + ": " + code_markdown.code + "\n"
-    return result
-
-
-def generate_templates_prompt(templates: List[CodeMarkdown]):
-    prompt = ""
-    for shot in range(shot_size):
-        prompt = prompt + prompt_creator(
-            code_markdown=templates[shot],
-            index=shot + 1,
+class AlirezaPromptGenerationVisitor(PromptGenerationVisitor):
+    def visit_task(self, task: "Task") -> str:
+        return (
+            self.generate_templates_prompt(templates=task.templates)
+            + "\nGenerate markdown for the bottom code according to the four samples above\n Code: "
+            + task.get_ground_truth()
         )
-    return prompt
+
+    def prompt_creator(self, code_markdown: "CodeMarkdown", index):
+        result = "Start Markdown " + str(index) + ": " + code_markdown.markdown + "\n"
+        result = result + "Start Code " + str(index) + ": " + code_markdown.code + "\n"
+        return result
 
 
-def generate_prompt(task: "Task"):
-    return (
-        generate_templates_prompt(templates=task.templates)
-        + "\nGenerate markdown for the bottom code according to the four samples above\n Code: "
-        + task.get_ground_truth()
-    )
+    def generate_templates_prompt(self, templates: List[CodeMarkdown]):
+        prompt = ""
+        for shot in range(shot_size):
+            prompt = prompt + self.prompt_creator(
+                code_markdown=templates[shot],
+                index=shot + 1,
+            )
+        return prompt
+
+prompt_generation_visitor = AlirezaPromptGenerationVisitor()
 
 
 def get_templates(task_list):
@@ -88,7 +91,7 @@ for batch in range(batch_size):
 prompt_list = []
 grund_truth = []
 for batch in range(batch_size):
-    prompt_list.append(generate_prompt(tasks[batch]))
+    prompt_list.append(prompt_generation_visitor.visit_task(tasks[batch]))
     grund_truth.append(tasks[batch].get_ground_truth())
 
 i = 9
