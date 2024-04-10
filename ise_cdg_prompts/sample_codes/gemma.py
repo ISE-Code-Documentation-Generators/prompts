@@ -7,6 +7,8 @@
 import pandas as pd
 import random
 
+from ise_cdg_prompts.dataset import CodeMarkdown
+
 
 batch_size = 10
 shot_size = 4
@@ -19,9 +21,9 @@ dataset = pd.read_csv(dataset_path)
 dataset.dropna(subset=["source", "markdown"], inplace=True)
 
 
-def prompt_creator(markdown, code, index):
-    result = "Start Markdown " + str(index) + ": " + str(markdown) + "\n"
-    result = result + "Start Code " + str(index) + ": " + str(code) + "\n"
+def prompt_creator(code_markdown: "CodeMarkdown", index):
+    result = "Start Markdown " + str(index) + ": " + str(code_markdown.markdown) + "\n"
+    result = result + "Start Code " + str(index) + ": " + str(code_markdown.code) + "\n"
     return result
 
 
@@ -29,9 +31,11 @@ def generate_templates_prompt(template_random_list):
     prompt = ""
     for shot in range(shot_size):
         prompt = prompt + prompt_creator(
-            dataset.loc[template_random_list[shot]]["markdown"],
-            dataset.loc[template_random_list[shot]]["source"],
-            shot + 1,
+            code_markdown=CodeMarkdown(
+                dataset.loc[template_random_list[shot]]["source"],
+                dataset.loc[template_random_list[shot]]["markdown"],
+            ),
+            index=shot + 1,
         )
     return prompt
 
@@ -60,9 +64,7 @@ prompt_list = []
 grund_truth = []
 for batch in range(batch_size):
     prompt_list.append(generate_prompt(task_list=randomlist[batch]))
-    grund_truth.append(
-        str(dataset.loc[get_assignment(randomlist[batch])]["markdown"])
-    )
+    grund_truth.append(str(dataset.loc[get_assignment(randomlist[batch])]["markdown"]))
 
 
 i = 9
