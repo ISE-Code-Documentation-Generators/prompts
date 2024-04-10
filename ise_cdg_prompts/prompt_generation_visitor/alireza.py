@@ -1,9 +1,8 @@
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, List
 from ise_cdg_prompts.prompt_generation_visitor.main import PromptGenerationVisitor
 
 
 if TYPE_CHECKING:
-    from typing import List
     from ise_cdg_prompts.task import Task
     from ise_cdg_prompts.dataset import CodeMarkdown
 
