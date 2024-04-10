@@ -81,8 +81,8 @@ for batch in range(batch_size):
 prompt_list = []
 grund_truth = []
 for batch in range(batch_size):
-    prompt_list.append(generate_prompt(task))
-    grund_truth.append(get_assignment(task).markdown)
+    prompt_list.append(generate_prompt(tasks[batch]))
+    grund_truth.append(get_assignment(tasks[batch]).markdown)
 
 i = 9
 # with open("./prompt_{}.txt".format(i + 1), "w") as f:
