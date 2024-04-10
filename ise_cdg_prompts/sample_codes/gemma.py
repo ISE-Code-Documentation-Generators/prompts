@@ -66,34 +66,7 @@ batch_size = 10
 random.seed(0)
 
 
-class AlirezaTaskSampler(TaskSampler):
-    def __init__(
-        self,
-        dataset: "PromptDataset",
-        shot_size: int,
-        sample_size: int,
-    ) -> None:
-        super().__init__(dataset=dataset)
-        self.__shot_size = shot_size
-        self.__sample_size = sample_size
-
-    def generate_samples(self) -> List[Task]:
-        return [
-            self._indices_to_task(
-                template_indices=self.__generate_template_indices(),
-                question_index=self.__generate_question_index(),
-            )
-            for i in range(self.__sample_size)
-        ]
-
-    def __generate_question_index(self) -> int:
-        return random.sample(range(0, self.dataset.__len__()), 1)[0]
-
-    def __generate_template_indices(self) -> List[int]:
-        return random.sample(range(0, self.dataset.__len__()), self.__shot_size)
-
-
-task_sampler = AlirezaTaskSampler(
+task_sampler = RandomTaskSampler(
     dataset=dataset,
     shot_size=4,
     sample_size=10,
