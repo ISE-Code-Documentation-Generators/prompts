@@ -24,6 +24,18 @@ def prompt_creator(markdown, code, index):
     result = result + "Start Code " + str(index) + ": " + str(code) + "\n"
     return result
 
+
+def generate_templates_prompt(template_random_list):
+    prompt = ""
+    for shot in range(shot_size):
+        prompt = prompt + prompt_creator(
+            dataset.loc[template_random_list[shot]]["markdown"],
+            dataset.loc[template_random_list[shot]]["source"],
+            shot + 1,
+        )
+    return prompt
+
+
 random.seed(0)
 randomlist = [
     random.sample(range(0, dataset.shape[0]), shot_size + 1) for i in range(batch_size)
@@ -32,15 +44,6 @@ prompt_list = []
 grund_truth = []
 for batch in range(batch_size):
     prompt = ""
-    def generate_templates_prompt(template_random_list):
-        prompt = ""
-        for shot in range(shot_size):
-            prompt = prompt + prompt_creator(
-                dataset.loc[template_random_list[shot]]["markdown"],
-                dataset.loc[template_random_list[shot]]["source"],
-                shot + 1,
-            )
-        return prompt
     prompt += generate_templates_prompt(template_random_list=randomlist[batch])
     prompt_list.append(
         prompt
@@ -48,7 +51,6 @@ for batch in range(batch_size):
         + str(dataset.loc[randomlist[batch][shot_size]]["source"])
     )
     grund_truth.append(str(dataset.loc[randomlist[batch][shot_size]]["markdown"]))
-
 
 
 i = 9
@@ -203,6 +205,7 @@ outputs = pipeline(
     prompt, max_new_tokens=512, do_sample=True, temperature=0.7, top_k=50, top_p=0.95
 )
 # print(outputs[0]["generated_text"])
+
 
 def generate_response(prompt_content):
     messages = [
