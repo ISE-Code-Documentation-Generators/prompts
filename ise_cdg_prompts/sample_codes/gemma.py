@@ -10,12 +10,10 @@ import random
 
 from ise_cdg_prompts.dataset import CodeMarkdown, PromptDataset
 from ise_cdg_prompts.prompt_generation_visitor.main import PromptGenerationVisitor
+from ise_cdg_prompts.sample.main import TaskSampler
+from ise_cdg_prompts.sample.random import RandomTaskSampler
 from ise_cdg_prompts.task import Task
 from ise_cdg_prompts.utils.pipeline import Pipeline
-
-
-batch_size = 10
-shot_size = 4
 
 
 class AlirezaDataset(PromptDataset):
@@ -51,7 +49,6 @@ class AlirezaPromptGenerationVisitor(PromptGenerationVisitor):
         result = result + "Start Code " + str(index) + ": " + code_markdown.code + "\n"
         return result
 
-
     def __visit_templates(self, templates: List[CodeMarkdown]):
         prompt = ""
         for index, template in enumerate(templates):
@@ -61,24 +58,48 @@ class AlirezaPromptGenerationVisitor(PromptGenerationVisitor):
             )
         return prompt
 
+
 prompt_generation_visitor = AlirezaPromptGenerationVisitor()
 
 
+batch_size = 10
 random.seed(0)
-randomlist = [
-    random.sample(range(0, len(dataset)), shot_size + 1) for i in range(batch_size)
-]
-tasks: List["Task"] = []
-for batch in range(batch_size):
-    task_list = randomlist[batch]
-    tasks.append(
-        Task(
-            question=dataset[task_list[shot_size]],
-            templates=Pipeline(task_list[:shot_size])
-            .to_map(lambda ind: dataset[ind])
-            .to_list(),
-        )
-    )
+
+
+class AlirezaTaskSampler(TaskSampler):
+    def __init__(
+        self,
+        dataset: "PromptDataset",
+        shot_size: int,
+        sample_size: int,
+    ) -> None:
+        super().__init__(dataset=dataset)
+        self.__shot_size = shot_size
+        self.__sample_size = sample_size
+
+    def generate_samples(self) -> List[Task]:
+        return [
+            self._indices_to_task(
+                template_indices=self.__generate_template_indices(),
+                question_index=self.__generate_question_index(),
+            )
+            for i in range(self.__sample_size)
+        ]
+
+    def __generate_question_index(self) -> int:
+        return random.sample(range(0, self.dataset.__len__()), 1)[0]
+
+    def __generate_template_indices(self) -> List[int]:
+        return random.sample(range(0, self.dataset.__len__()), self.__shot_size)
+
+
+task_sampler = AlirezaTaskSampler(
+    dataset=dataset,
+    shot_size=4,
+    sample_size=10,
+)
+
+tasks = task_sampler.generate_samples()
 
 prompt_list = []
 grund_truth = []
