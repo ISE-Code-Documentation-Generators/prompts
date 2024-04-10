@@ -54,10 +54,10 @@ class AlirezaPromptGenerationVisitor(PromptGenerationVisitor):
 
     def __visit_templates(self, templates: List[CodeMarkdown]):
         prompt = ""
-        for shot in range(shot_size):
+        for index, template in enumerate(templates):
             prompt = prompt + self.__visit_template(
-                code_markdown=templates[shot],
-                index=shot + 1,
+                code_markdown=template,
+                index=index + 1,
             )
         return prompt
 
