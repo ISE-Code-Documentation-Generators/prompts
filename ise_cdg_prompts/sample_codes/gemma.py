@@ -66,14 +66,17 @@ random.seed(0)
 randomlist = [
     random.sample(range(0, dataset.shape[0]), shot_size + 1) for i in range(batch_size)
 ]
-prompt_list = []
-grund_truth = []
+tasks = []
 for batch in range(batch_size):
     task_list = randomlist[batch]
     task = Pipeline(task_list).to_map(lambda ind: get_item(dataset, ind)).to_list()
+    tasks.append(task)
+
+prompt_list = []
+grund_truth = []
+for batch in range(batch_size):
     prompt_list.append(generate_prompt(task))
     grund_truth.append(get_assignment(task).markdown)
-
 
 i = 9
 # with open("./prompt_{}.txt".format(i + 1), "w") as f:
