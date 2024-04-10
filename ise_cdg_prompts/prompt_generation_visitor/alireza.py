@@ -20,7 +20,7 @@ class AlirezaPromptGenerationVisitor(PromptGenerationVisitor):
         result = result + "Start Code " + str(index) + ": " + code_markdown.code + "\n"
         return result
 
-    def __visit_templates(self, templates: List[CodeMarkdown]):
+    def __visit_templates(self, templates: List["CodeMarkdown"]):
         prompt = ""
         for index, template in enumerate(templates):
             prompt = prompt + self.__visit_template(
