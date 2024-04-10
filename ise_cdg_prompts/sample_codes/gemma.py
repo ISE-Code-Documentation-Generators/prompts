@@ -21,6 +21,13 @@ dataset = pd.read_csv(dataset_path)
 dataset.dropna(subset=["source", "markdown"], inplace=True)
 
 
+def get_item(dataset, index: int) -> CodeMarkdown:
+    return CodeMarkdown(
+        dataset.loc[index]["source"],
+        dataset.loc[index]["markdown"],
+    )
+
+
 def prompt_creator(code_markdown: "CodeMarkdown", index):
     result = "Start Markdown " + str(index) + ": " + str(code_markdown.markdown) + "\n"
     result = result + "Start Code " + str(index) + ": " + str(code_markdown.code) + "\n"
@@ -31,10 +38,7 @@ def generate_templates_prompt(template_random_list):
     prompt = ""
     for shot in range(shot_size):
         prompt = prompt + prompt_creator(
-            code_markdown=CodeMarkdown(
-                dataset.loc[template_random_list[shot]]["source"],
-                dataset.loc[template_random_list[shot]]["markdown"],
-            ),
+            code_markdown=get_item(dataset, template_random_list[shot]),
             index=shot + 1,
         )
     return prompt
