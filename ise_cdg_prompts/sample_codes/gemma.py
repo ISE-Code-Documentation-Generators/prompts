@@ -9,6 +9,7 @@ import pandas as pd
 import random
 
 from ise_cdg_prompts.dataset import CodeMarkdown, PromptDataset
+from ise_cdg_prompts.task import Task
 from ise_cdg_prompts.utils.pipeline import Pipeline
 
 
@@ -52,11 +53,11 @@ def generate_templates_prompt(templates: List[CodeMarkdown]):
     return prompt
 
 
-def generate_prompt(task: List[CodeMarkdown]):
+def generate_prompt(task: "Task"):
     return (
-        generate_templates_prompt(templates=get_templates(task))
+        generate_templates_prompt(templates=task.templates)
         + "\nGenerate markdown for the bottom code according to the four samples above\n Code: "
-        + get_assignment(task).code
+        + task.get_ground_truth()
     )
 
 
@@ -72,17 +73,23 @@ random.seed(0)
 randomlist = [
     random.sample(range(0, len(dataset)), shot_size + 1) for i in range(batch_size)
 ]
-tasks = []
+tasks: List["Task"] = []
 for batch in range(batch_size):
     task_list = randomlist[batch]
-    task = Pipeline(task_list).to_map(lambda ind: dataset[ind]).to_list()
-    tasks.append(task)
+    tasks.append(
+        Task(
+            question=dataset[task_list[shot_size]],
+            templates=Pipeline(task_list[:shot_size])
+            .to_map(lambda ind: dataset[ind])
+            .to_list(),
+        )
+    )
 
 prompt_list = []
 grund_truth = []
 for batch in range(batch_size):
     prompt_list.append(generate_prompt(tasks[batch]))
-    grund_truth.append(get_assignment(tasks[batch]).markdown)
+    grund_truth.append(tasks[batch].get_ground_truth())
 
 i = 9
 # with open("./prompt_{}.txt".format(i + 1), "w") as f:
