@@ -23,14 +23,14 @@ dataset.dropna(subset=["source", "markdown"], inplace=True)
 
 def get_item(dataset, index: int) -> CodeMarkdown:
     return CodeMarkdown(
-        dataset.loc[index]["source"],
-        dataset.loc[index]["markdown"],
+        str(dataset.loc[index]["source"]),
+        str(dataset.loc[index]["markdown"]),
     )
 
 
 def prompt_creator(code_markdown: "CodeMarkdown", index):
-    result = "Start Markdown " + str(index) + ": " + str(code_markdown.markdown) + "\n"
-    result = result + "Start Code " + str(index) + ": " + str(code_markdown.code) + "\n"
+    result = "Start Markdown " + str(index) + ": " + code_markdown.markdown + "\n"
+    result = result + "Start Code " + str(index) + ": " + code_markdown.code + "\n"
     return result
 
 
@@ -48,7 +48,7 @@ def generate_prompt(task_list):
     return (
         generate_templates_prompt(template_random_list=get_templates(task_list))
         + "\nGenerate markdown for the bottom code according to the four samples above\n Code: "
-        + str(get_item(dataset, get_assignment(task_list)).code)
+        + get_item(dataset, get_assignment(task_list)).code
     )
 
 
