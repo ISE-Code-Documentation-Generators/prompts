@@ -8,7 +8,7 @@ from typing import List
 import pandas as pd
 import random
 
-from ise_cdg_prompts.dataset import CodeMarkdown, PromptDataset
+from ise_cdg_prompts.dataset import CodeMarkdown, PromptDataset, SimplePromptDataset
 from ise_cdg_prompts.prompt_generation_visitor.main import PromptGenerationVisitor
 from ise_cdg_prompts.sample.main import TaskSampler
 from ise_cdg_prompts.sample.random import RandomTaskSampler
@@ -16,20 +16,10 @@ from ise_cdg_prompts.task import Task
 from ise_cdg_prompts.utils.pipeline import Pipeline
 
 
-class AlirezaDataset(PromptDataset):
+class AlirezaDataset(SimplePromptDataset):
     def __init__(self, path: str) -> None:
-        super().__init__()
-        self.df: "pd.DataFrame" = pd.read_csv(path)
+        super().__init__(path)
         self.df.dropna(subset=["source", "markdown"], inplace=True)
-
-    def __getitem__(self, index) -> "CodeMarkdown":
-        return CodeMarkdown(
-            str(self.df.loc[index]["source"]),
-            str(self.df.loc[index]["markdown"]),
-        )
-
-    def __len__(self) -> int:
-        return self.df.shape[0]
 
 
 # Load dataset containing markdown and code cells
