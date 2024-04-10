@@ -4,10 +4,12 @@
 # get_ipython().system("pip install -i https://pypi.org/simple/ bitsandbytes")
 
 
+from typing import List
 import pandas as pd
 import random
 
 from ise_cdg_prompts.dataset import CodeMarkdown
+from ise_cdg_prompts.utils.pipeline import Pipeline
 
 
 batch_size = 10
@@ -34,21 +36,21 @@ def prompt_creator(code_markdown: "CodeMarkdown", index):
     return result
 
 
-def generate_templates_prompt(template_random_list):
+def generate_templates_prompt(templates: List[CodeMarkdown]):
     prompt = ""
     for shot in range(shot_size):
         prompt = prompt + prompt_creator(
-            code_markdown=get_item(dataset, template_random_list[shot]),
+            code_markdown=templates[shot],
             index=shot + 1,
         )
     return prompt
 
 
-def generate_prompt(task_list):
+def generate_prompt(task: List[CodeMarkdown]):
     return (
-        generate_templates_prompt(template_random_list=get_templates(task_list))
+        generate_templates_prompt(templates=get_templates(task))
         + "\nGenerate markdown for the bottom code according to the four samples above\n Code: "
-        + get_item(dataset, get_assignment(task_list)).code
+        + get_assignment(task).code
     )
 
 
@@ -67,8 +69,10 @@ randomlist = [
 prompt_list = []
 grund_truth = []
 for batch in range(batch_size):
-    prompt_list.append(generate_prompt(task_list=randomlist[batch]))
-    grund_truth.append(str(dataset.loc[get_assignment(randomlist[batch])]["markdown"]))
+    task_list = randomlist[batch]
+    task = Pipeline(task_list).to_map(lambda ind: get_item(dataset, ind)).to_list()
+    prompt_list.append(generate_prompt(task))
+    grund_truth.append(get_assignment(task).markdown)
 
 
 i = 9
