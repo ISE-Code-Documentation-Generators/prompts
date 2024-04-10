@@ -43,11 +43,15 @@ randomlist = [
 prompt_list = []
 grund_truth = []
 for batch in range(batch_size):
-    prompt_list.append(
-        generate_templates_prompt(template_random_list=randomlist[batch])
-        + "\nGenerate markdown for the bottom code according to the four samples above\n Code: "
-        + str(dataset.loc[randomlist[batch][shot_size]]["source"])
-    )
+
+    def generate_prompt():
+        return (
+            generate_templates_prompt(template_random_list=randomlist[batch])
+            + "\nGenerate markdown for the bottom code according to the four samples above\n Code: "
+            + str(dataset.loc[randomlist[batch][shot_size]]["source"])
+        )
+
+    prompt_list.append(generate_prompt())
     grund_truth.append(str(dataset.loc[randomlist[batch][shot_size]]["markdown"]))
 
 
