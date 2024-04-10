@@ -41,35 +41,27 @@ dataset = AlirezaDataset(path="./final_dataset.csv")
 class AlirezaPromptGenerationVisitor(PromptGenerationVisitor):
     def visit_task(self, task: "Task") -> str:
         return (
-            self.generate_templates_prompt(templates=task.templates)
+            self.__visit_templates(templates=task.templates)
             + "\nGenerate markdown for the bottom code according to the four samples above\n Code: "
             + task.get_ground_truth()
         )
 
-    def prompt_creator(self, code_markdown: "CodeMarkdown", index):
+    def __visit_template(self, code_markdown: "CodeMarkdown", index):
         result = "Start Markdown " + str(index) + ": " + code_markdown.markdown + "\n"
         result = result + "Start Code " + str(index) + ": " + code_markdown.code + "\n"
         return result
 
 
-    def generate_templates_prompt(self, templates: List[CodeMarkdown]):
+    def __visit_templates(self, templates: List[CodeMarkdown]):
         prompt = ""
         for shot in range(shot_size):
-            prompt = prompt + self.prompt_creator(
+            prompt = prompt + self.__visit_template(
                 code_markdown=templates[shot],
                 index=shot + 1,
             )
         return prompt
 
 prompt_generation_visitor = AlirezaPromptGenerationVisitor()
-
-
-def get_templates(task_list):
-    return task_list[:shot_size]
-
-
-def get_assignment(task_list):
-    return task_list[shot_size]
 
 
 random.seed(0)
