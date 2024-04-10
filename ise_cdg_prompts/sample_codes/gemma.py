@@ -8,26 +8,32 @@ from typing import List
 import pandas as pd
 import random
 
-from ise_cdg_prompts.dataset import CodeMarkdown
+from ise_cdg_prompts.dataset import CodeMarkdown, PromptDataset
 from ise_cdg_prompts.utils.pipeline import Pipeline
 
 
 batch_size = 10
 shot_size = 4
 
+
+class AlirezaDataset(PromptDataset):
+    def __init__(self, path: str) -> None:
+        super().__init__()
+        self.df: "pd.DataFrame" = pd.read_csv(path)
+        self.df.dropna(subset=["source", "markdown"], inplace=True)
+
+    def __getitem__(self, index) -> "CodeMarkdown":
+        return CodeMarkdown(
+            str(self.df.loc[index]["source"]),
+            str(self.df.loc[index]["markdown"]),
+        )
+
+    def __len__(self) -> int:
+        return self.df.shape[0]
+
+
 # Load dataset containing markdown and code cells
-dataset_path = "./final_dataset.csv"
-dataset = pd.read_csv(dataset_path)
-
-
-dataset.dropna(subset=["source", "markdown"], inplace=True)
-
-
-def get_item(dataset, index: int) -> CodeMarkdown:
-    return CodeMarkdown(
-        str(dataset.loc[index]["source"]),
-        str(dataset.loc[index]["markdown"]),
-    )
+dataset = AlirezaDataset(path="./final_dataset.csv")
 
 
 def prompt_creator(code_markdown: "CodeMarkdown", index):
@@ -64,12 +70,12 @@ def get_assignment(task_list):
 
 random.seed(0)
 randomlist = [
-    random.sample(range(0, dataset.shape[0]), shot_size + 1) for i in range(batch_size)
+    random.sample(range(0, len(dataset)), shot_size + 1) for i in range(batch_size)
 ]
 tasks = []
 for batch in range(batch_size):
     task_list = randomlist[batch]
-    task = Pipeline(task_list).to_map(lambda ind: get_item(dataset, ind)).to_list()
+    task = Pipeline(task_list).to_map(lambda ind: dataset[ind]).to_list()
     tasks.append(task)
 
 prompt_list = []
