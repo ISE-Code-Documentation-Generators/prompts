@@ -48,7 +48,7 @@ def generate_prompt(task_list):
     return (
         generate_templates_prompt(template_random_list=get_templates(task_list))
         + "\nGenerate markdown for the bottom code according to the four samples above\n Code: "
-        + str(dataset.loc[get_assignment(task_list)]["source"])
+        + str(get_item(dataset, get_assignment(task_list)).code)
     )
 
 
