@@ -62,7 +62,6 @@ class AlirezaPromptGenerationVisitor(PromptGenerationVisitor):
 prompt_generation_visitor = AlirezaPromptGenerationVisitor()
 
 
-batch_size = 10
 random.seed(0)
 
 
@@ -74,11 +73,14 @@ task_sampler = RandomTaskSampler(
 
 tasks = task_sampler.generate_samples()
 
-prompt_list = []
-grund_truth = []
-for batch in range(batch_size):
-    prompt_list.append(prompt_generation_visitor.visit_task(tasks[batch]))
-    grund_truth.append(tasks[batch].get_ground_truth())
+
+prompt_list = (
+    Pipeline(tasks)
+    .to_map(lambda task: prompt_generation_visitor.visit_task(task))
+    .to_list()
+)
+grund_truth = Pipeline(tasks).to_map(lambda task: task.get_ground_truth()).to_list()
+
 
 i = 9
 # with open("./prompt_{}.txt".format(i + 1), "w") as f:
