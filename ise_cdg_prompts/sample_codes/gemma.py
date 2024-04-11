@@ -108,11 +108,10 @@ import os
 
 os.environ["HF_TOKEN"] = "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"
 
-model = "google/gemma-7b-it"
 # use quantized model
 pipeline = pipeline(
     "text-generation",
-    model=model,
+    model="google/gemma-7b-it",
     model_kwargs={
         "torch_dtype": torch.float16,
         "quantization_config": {"load_in_4bit": True},
