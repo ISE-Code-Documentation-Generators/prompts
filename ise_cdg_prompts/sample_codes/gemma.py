@@ -51,7 +51,6 @@ grund_truth = Pipeline(tasks).to_map(lambda task: task.get_ground_truth()).to_li
 # ## Load Gemma 2b
 from typing import List
 
-kossher: List[str] = []
 
 # get_ipython().system("pip install accelerate")
 
@@ -60,20 +59,25 @@ from ise_cdg_prompts.llm_api.gemma import Gemma
 
 model = Gemma()
 
-input_text = """
+
+model_inputs: List[dict] = [
+    {
+        "input_text": """
                 from transformers import AutoTokenizer, AutoModelForCausalLM
 
                 tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b")
                 model = AutoModelForCausalLM.from_pretrained("google/gemma-2b", device_map="auto")
 
                 # This code is doing:
-              """
-kossher.append(model.get_response(input_text=input_text, max_length=600))
-
-input_text = "Write me a poem about Machine Learning."
-kossher.append(model.get_response(input_text=input_text, max_length=50))
-
-input_text = """
+              """,
+        "model_kwargs": {"max_length": 600},
+    },
+    {
+        "input_text": "Write me a poem about Machine Learning.",
+        "model_kwargs": {"max_length": 50},
+    },
+    {
+        "input_text": """
                 input_text = "Write me a poem about Machine Learning."
                 input_ids = tokenizer(input_text, return_tensors="pt").to("cuda")
 
@@ -81,8 +85,20 @@ input_text = """
                 print(tokenizer.decode(outputs[0]))
 
                 # This code is doing:
-              """
-kossher.append(model.get_response(input_text=input_text, max_length=800))
+              """,
+        "model_kwargs": {"max_length": 800},
+    },
+]
+kossher: List[str] = (
+    Pipeline(model_inputs)
+    .to_map(
+        lambda model_input: model.get_response(
+            input_text=model_input["input_text"], **model_input["kwargs"]
+        )
+    )
+    .to_list()
+)
+
 
 import unittest
 
