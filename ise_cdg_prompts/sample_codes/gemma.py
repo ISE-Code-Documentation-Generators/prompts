@@ -51,18 +51,24 @@ from typing import List
 kossher: List[str] = []
 
 # get_ipython().system("pip install accelerate")
-from transformers import AutoTokenizer, AutoModelForCausalLM
-import os
+from ise_cdg_prompts.llm_api.main import LLM_API
+class Gemma(LLM_API):
+    def __init__(self) -> None:
+        super().__init__()
+        from transformers import AutoTokenizer, AutoModelForCausalLM
+        import os
 
-os.environ["HF_TOKEN"] = "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"
+        os.environ["HF_TOKEN"] = "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"
 
-tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b-it")
-model = AutoModelForCausalLM.from_pretrained("google/gemma-2b-it", device_map="auto")
+        self.tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b-it")
+        self.model = AutoModelForCausalLM.from_pretrained("google/gemma-2b-it", device_map="auto")
 
-def gemma_get_response(input_text: str, **model_kwargs) -> str:
-    input_ids = tokenizer(input_text, return_tensors="pt").to("cuda")
-    outputs = model.generate(**input_ids, **model_kwargs)
-    return tokenizer.decode(outputs[0])
+    def get_response(self, input_text: str, **model_kwargs) -> str:
+        input_ids = self.tokenizer(input_text, return_tensors="pt").to("cuda")
+        outputs = self.model.generate(**input_ids, **model_kwargs)
+        return self.tokenizer.decode(outputs[0])
+
+model = Gemma()
 
 input_text = """
                 from transformers import AutoTokenizer, AutoModelForCausalLM
@@ -72,10 +78,10 @@ input_text = """
 
                 # This code is doing:
               """
-kossher.append(gemma_get_response(input_text=input_text, max_length=600))
+kossher.append(model.get_response(input_text=input_text, max_length=600))
 
 input_text = "Write me a poem about Machine Learning."
-kossher.append(gemma_get_response(input_text=input_text, max_length=50))
+kossher.append(model.get_response(input_text=input_text, max_length=50))
 
 input_text = """
                 input_text = "Write me a poem about Machine Learning."
@@ -86,7 +92,7 @@ input_text = """
 
                 # This code is doing:
               """
-kossher.append(gemma_get_response(input_text=input_text, max_length=800))
+kossher.append(model.get_response(input_text=input_text, max_length=800))
 
 import unittest
 
