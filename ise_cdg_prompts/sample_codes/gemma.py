@@ -49,7 +49,7 @@ grund_truth = Pipeline(tasks).to_map(lambda task: task.get_ground_truth()).to_li
 
 
 # ## Load Gemma 2b
-from typing import List
+from typing import List, Dict
 
 
 # get_ipython().system("pip install accelerate")
@@ -102,15 +102,16 @@ class KossherLLMTest(unittest.TestCase):
         return "gemma_llm_results.json"
 
     def test_default(self):
+        gemma_llm_logs = self.io.read(self.file_name_test_default())
         kossher: List[str] = (
-            Pipeline(model_inputs)
+            Pipeline(gemma_llm_logs["inputs"])
             .to_map(lambda model_input: model.get_response(**model_input))
             .to_list()
         )
-        self.io.write(
-            {"inputs": model_inputs, "outputs": kossher}, self.file_name_test_default()
-        )
-        kos = self.io.read(self.file_name_test_default())["outputs"]
+        # self.io.write(
+        #     {"inputs": model_inputs, "outputs": kossher}, self.file_name_test_default()
+        # )
+        kos = gemma_llm_logs["outputs"]
         self.assertEqual(kossher, kos)
 
 
