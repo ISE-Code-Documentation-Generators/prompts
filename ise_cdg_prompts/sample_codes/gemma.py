@@ -55,9 +55,8 @@ from typing import List
 # get_ipython().system("pip install accelerate")
 
 
-from ise_cdg_prompts.llm_api.gemma import Gemma
+from ise_cdg_prompts.llm_api.gemma import model
 
-model = Gemma()
 
 
 model_inputs: List[dict] = [

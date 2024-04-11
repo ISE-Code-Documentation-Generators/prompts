@@ -22,3 +22,6 @@ class Gemma(LLM_API):
         input_ids = self.tokenizer(input_text, return_tensors="pt").to("cuda")
         outputs = self.model.generate(**input_ids, **model_kwargs)
         return self.tokenizer.decode(outputs[0])
+
+
+model = Gemma()
