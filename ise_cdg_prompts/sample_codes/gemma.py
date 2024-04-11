@@ -58,7 +58,6 @@ from typing import List
 from ise_cdg_prompts.llm_api.gemma import model
 
 
-
 model_inputs: List[dict] = [
     {
         "input_text": """
@@ -88,15 +87,6 @@ model_inputs: List[dict] = [
         "max_length": 800,
     },
 ]
-kossher: List[str] = (
-    Pipeline(model_inputs)
-    .to_map(
-        lambda model_input: model.get_response(
-            **model_input
-        )
-    )
-    .to_list()
-)
 
 
 import unittest
@@ -112,8 +102,15 @@ class KossherLLMTest(unittest.TestCase):
         return "gemma_llm_results.json"
 
     def test_default(self):
-        self.io.write({"inputs": model_inputs, "outputs": kossher}, self.file_name_test_default())
-        kos = self.io.read(self.file_name_test_default())['outputs']
+        kossher: List[str] = (
+            Pipeline(model_inputs)
+            .to_map(lambda model_input: model.get_response(**model_input))
+            .to_list()
+        )
+        self.io.write(
+            {"inputs": model_inputs, "outputs": kossher}, self.file_name_test_default()
+        )
+        kos = self.io.read(self.file_name_test_default())["outputs"]
         self.assertEqual(kossher, kos)
 
 
