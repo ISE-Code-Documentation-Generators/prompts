@@ -92,7 +92,7 @@ kossher: List[str] = (
     Pipeline(model_inputs)
     .to_map(
         lambda model_input: model.get_response(
-            input_text=model_input["input_text"], **model_input["kwargs"]
+            input_text=model_input["input_text"], **model_input["model_kwargs"]
         )
     )
     .to_list()
