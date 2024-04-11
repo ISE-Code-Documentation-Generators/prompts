@@ -112,8 +112,8 @@ class KossherLLMTest(unittest.TestCase):
         return "gemma_llm_results.json"
 
     def test_default(self):
-        # self.io.write(kossher, self.file_name_test_default())
-        kos = self.io.read(self.file_name_test_default())
+        self.io.write({"inputs": model_inputs, "outputs": kossher}, self.file_name_test_default())
+        kos = self.io.read(self.file_name_test_default())['outputs']
         self.assertEqual(kossher, kos)
 
 
