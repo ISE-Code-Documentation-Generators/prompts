@@ -111,8 +111,7 @@ class KossherLLMTest(unittest.TestCase):
         # self.io.write(
         #     {"inputs": model_inputs, "outputs": kossher}, self.file_name_test_default()
         # )
-        kos = gemma_llm_logs["outputs"]
-        self.assertEqual(kossher, kos)
+        self.assertEqual(kossher, gemma_llm_logs["outputs"])
 
 
 unittest.main(argv=[""], defaultTest="KossherLLMTest", verbosity=2, exit=False)
