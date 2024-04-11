@@ -7,7 +7,9 @@
 import random
 
 from ise_cdg_prompts.dataset import SimplePromptDataset
-from ise_cdg_prompts.prompt_generation_visitor.alireza import AlirezaPromptGenerationVisitor
+from ise_cdg_prompts.prompt_generation_visitor.alireza import (
+    AlirezaPromptGenerationVisitor,
+)
 from ise_cdg_prompts.prompt_generation_visitor.main import PromptGenerationVisitor
 from ise_cdg_prompts.sample.random import RandomTaskSampler
 from ise_cdg_prompts.utils.pipeline import Pipeline
@@ -48,25 +50,13 @@ grund_truth = Pipeline(tasks).to_map(lambda task: task.get_ground_truth()).to_li
 
 # ## Load Gemma 2b
 from typing import List
+
 kossher: List[str] = []
 
 # get_ipython().system("pip install accelerate")
-from ise_cdg_prompts.llm_api.main import LLM_API
-class Gemma(LLM_API):
-    def __init__(self) -> None:
-        super().__init__()
-        from transformers import AutoTokenizer, AutoModelForCausalLM
-        import os
 
-        os.environ["HF_TOKEN"] = "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"
 
-        self.tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b-it")
-        self.model = AutoModelForCausalLM.from_pretrained("google/gemma-2b-it", device_map="auto")
-
-    def get_response(self, input_text: str, **model_kwargs) -> str:
-        input_ids = self.tokenizer(input_text, return_tensors="pt").to("cuda")
-        outputs = self.model.generate(**input_ids, **model_kwargs)
-        return self.tokenizer.decode(outputs[0])
+from ise_cdg_prompts.llm_api.gemma import Gemma
 
 model = Gemma()
 
@@ -96,6 +86,7 @@ kossher.append(model.get_response(input_text=input_text, max_length=800))
 
 import unittest
 
+
 class KossherLLMTest(unittest.TestCase):
     def setUp(self):
         from ise_cdg_prompts.utils.custom_io import JSON_IO
@@ -109,6 +100,7 @@ class KossherLLMTest(unittest.TestCase):
         # self.io.write(kossher, self.file_name_test_default())
         kos = self.io.read(self.file_name_test_default())
         self.assertEqual(kossher, kos)
+
 
 unittest.main(argv=[""], defaultTest="KossherLLMTest", verbosity=2, exit=False)
 
