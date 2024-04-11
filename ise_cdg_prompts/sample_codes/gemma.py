@@ -69,11 +69,11 @@ model_inputs: List[dict] = [
 
                 # This code is doing:
               """,
-        "model_kwargs": {"max_length": 600},
+        "max_length": 600,
     },
     {
         "input_text": "Write me a poem about Machine Learning.",
-        "model_kwargs": {"max_length": 50},
+        "max_length": 50,
     },
     {
         "input_text": """
@@ -85,14 +85,14 @@ model_inputs: List[dict] = [
 
                 # This code is doing:
               """,
-        "model_kwargs": {"max_length": 800},
+        "max_length": 800,
     },
 ]
 kossher: List[str] = (
     Pipeline(model_inputs)
     .to_map(
         lambda model_input: model.get_response(
-            input_text=model_input["input_text"], **model_input["model_kwargs"]
+            **model_input
         )
     )
     .to_list()
