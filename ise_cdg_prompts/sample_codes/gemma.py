@@ -55,40 +55,6 @@ from typing import List, Dict
 # get_ipython().system("pip install accelerate")
 
 
-from ise_cdg_prompts.llm_api.gemma import model
-
-
-model_inputs: List[dict] = [
-    {
-        "input_text": """
-                from transformers import AutoTokenizer, AutoModelForCausalLM
-
-                tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b")
-                model = AutoModelForCausalLM.from_pretrained("google/gemma-2b", device_map="auto")
-
-                # This code is doing:
-              """,
-        "max_length": 600,
-    },
-    {
-        "input_text": "Write me a poem about Machine Learning.",
-        "max_length": 50,
-    },
-    {
-        "input_text": """
-                input_text = "Write me a poem about Machine Learning."
-                input_ids = tokenizer(input_text, return_tensors="pt").to("cuda")
-
-                outputs = model.generate(**input_ids)
-                print(tokenizer.decode(outputs[0]))
-
-                # This code is doing:
-              """,
-        "max_length": 800,
-    },
-]
-
-
 import unittest
 
 
@@ -102,7 +68,9 @@ class KossherLLMTest(unittest.TestCase):
         return "gemma_llm_results.json"
 
     def test_default(self):
-        gemma_llm_logs = self.io.read(self.file_name_test_default())
+        from ise_cdg_prompts.llm_api.gemma import model
+
+        gemma_llm_logs: Dict = self.io.read(self.file_name_test_default())
         kossher: List[str] = (
             Pipeline(gemma_llm_logs["inputs"])
             .to_map(lambda model_input: model.get_response(**model_input))
