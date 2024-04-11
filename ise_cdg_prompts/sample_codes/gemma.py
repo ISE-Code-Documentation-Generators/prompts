@@ -94,6 +94,7 @@ print(tokenizer.decode(outputs[0]))
 
 
 # ## Quantized loading 7b
+model = None
 from transformers import AutoTokenizer, pipeline, AutoModelForCausalLM
 import torch
 import os
