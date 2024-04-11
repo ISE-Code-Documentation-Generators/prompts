@@ -47,7 +47,8 @@ grund_truth = Pipeline(tasks).to_map(lambda task: task.get_ground_truth()).to_li
 
 
 # ## Load Gemma 2b
-
+from typing import List
+kossher: List[str] = []
 
 # get_ipython().system("pip install accelerate")
 from transformers import AutoTokenizer, AutoModelForCausalLM
@@ -70,13 +71,14 @@ input_ids = tokenizer(input_text, return_tensors="pt").to("cuda")
 
 outputs = model.generate(**input_ids, max_length=600)
 print(tokenizer.decode(outputs[0]))
-
+kossher.append(tokenizer.decode(outputs[0]))
 
 input_text = "Write me a poem about Machine Learning."
 input_ids = tokenizer(input_text, return_tensors="pt").to("cuda")
 
 outputs = model.generate(**input_ids, max_length=50)
 print(tokenizer.decode(outputs[0]))
+kossher.append(tokenizer.decode(outputs[0]))
 
 input_text = """
                 input_text = "Write me a poem about Machine Learning."
@@ -91,6 +93,25 @@ input_ids = tokenizer(input_text, return_tensors="pt").to("cuda")
 
 outputs = model.generate(**input_ids, max_length=800)
 print(tokenizer.decode(outputs[0]))
+kossher.append(tokenizer.decode(outputs[0]))
+
+import unittest
+
+class KossherLLMTest(unittest.TestCase):
+    def setUp(self):
+        from ise_cdg_prompts.utils.custom_io import JSON_IO
+
+        self.io = JSON_IO("./")
+
+    def file_name_test_default(self) -> str:
+        return "gemma_llm_results.json"
+
+    def test_default(self):
+        self.io.write(kossher, self.file_name_test_default())
+        kos = self.io.read(self.file_name_test_default())
+        self.assertEqual(kossher, kos)
+
+unittest.main(argv=[""], defaultTest="KossherLLMTest", verbosity=2, exit=False)
 
 
 # ## Quantized loading 7b
