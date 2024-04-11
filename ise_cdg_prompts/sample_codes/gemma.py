@@ -72,11 +72,9 @@ input_text = """
 
                 # This code is doing:
               """
-print(gemma_get_response(input_text=input_text, max_length=600))
 kossher.append(gemma_get_response(input_text=input_text, max_length=600))
 
 input_text = "Write me a poem about Machine Learning."
-print(gemma_get_response(input_text=input_text, max_length=50))
 kossher.append(gemma_get_response(input_text=input_text, max_length=50))
 
 input_text = """
@@ -88,7 +86,6 @@ input_text = """
 
                 # This code is doing:
               """
-print(gemma_get_response(input_text=input_text, max_length=800))
 kossher.append(gemma_get_response(input_text=input_text, max_length=800))
 
 import unittest
