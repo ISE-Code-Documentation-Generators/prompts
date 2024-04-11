@@ -46,14 +46,6 @@ prompt_list = (
 grund_truth = Pipeline(tasks).to_map(lambda task: task.get_ground_truth()).to_list()
 
 
-i = 9
-# with open("./prompt_{}.txt".format(i + 1), "w") as f:
-#     f.write(str(prompt_list[i]))
-
-
-len(prompt_list)
-
-
 # ## Load Gemma 2b
 
 
