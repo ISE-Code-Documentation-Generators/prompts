@@ -29,4 +29,4 @@ class KossherLLMTest(unittest.TestCase):
         self.assertEqual(kossher, gemma_llm_logs["outputs"])
 
 
-unittest.main(argv=[""], defaultTest="KossherLLMTest", verbosity=2, exit=False)
+unittest.main(module=__name__, argv=[""], defaultTest="KossherLLMTest", verbosity=2, exit=False)
