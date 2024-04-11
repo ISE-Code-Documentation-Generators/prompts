@@ -59,6 +59,11 @@ os.environ["HF_TOKEN"] = "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"
 tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b-it")
 model = AutoModelForCausalLM.from_pretrained("google/gemma-2b-it", device_map="auto")
 
+def gemma_get_response(input_text: str, **model_kwargs) -> str:
+    input_ids = tokenizer(input_text, return_tensors="pt").to("cuda")
+    outputs = model.generate(**input_ids, **model_kwargs)
+    return tokenizer.decode(outputs[0])
+
 input_text = """
                 from transformers import AutoTokenizer, AutoModelForCausalLM
 
@@ -67,18 +72,12 @@ input_text = """
 
                 # This code is doing:
               """
-input_ids = tokenizer(input_text, return_tensors="pt").to("cuda")
-
-outputs = model.generate(**input_ids, max_length=600)
-print(tokenizer.decode(outputs[0]))
-kossher.append(tokenizer.decode(outputs[0]))
+print(gemma_get_response(input_text=input_text, max_length=600))
+kossher.append(gemma_get_response(input_text=input_text, max_length=600))
 
 input_text = "Write me a poem about Machine Learning."
-input_ids = tokenizer(input_text, return_tensors="pt").to("cuda")
-
-outputs = model.generate(**input_ids, max_length=50)
-print(tokenizer.decode(outputs[0]))
-kossher.append(tokenizer.decode(outputs[0]))
+print(gemma_get_response(input_text=input_text, max_length=50))
+kossher.append(gemma_get_response(input_text=input_text, max_length=50))
 
 input_text = """
                 input_text = "Write me a poem about Machine Learning."
@@ -89,11 +88,8 @@ input_text = """
 
                 # This code is doing:
               """
-input_ids = tokenizer(input_text, return_tensors="pt").to("cuda")
-
-outputs = model.generate(**input_ids, max_length=800)
-print(tokenizer.decode(outputs[0]))
-kossher.append(tokenizer.decode(outputs[0]))
+print(gemma_get_response(input_text=input_text, max_length=800))
+kossher.append(gemma_get_response(input_text=input_text, max_length=800))
 
 import unittest
 
@@ -107,7 +103,7 @@ class KossherLLMTest(unittest.TestCase):
         return "gemma_llm_results.json"
 
     def test_default(self):
-        self.io.write(kossher, self.file_name_test_default())
+        # self.io.write(kossher, self.file_name_test_default())
         kos = self.io.read(self.file_name_test_default())
         self.assertEqual(kossher, kos)
 
