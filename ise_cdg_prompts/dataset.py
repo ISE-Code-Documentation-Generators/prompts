@@ -1,6 +1,7 @@
 from abc import abstractmethod
 from dataclasses import dataclass
 from typing import Tuple
+import typing
 import pandas as pd
 from ise_cdg_data.dataset import Md4DefDatasetInterface
 from torch._tensor import Tensor
@@ -19,15 +20,20 @@ class PromptDataset(Md4DefDatasetInterface):
 
 
 class SimplePromptDataset(PromptDataset):
-    def __init__(self, path: str) -> None:
+    default_md_key = "markdown"
+    default_src_key = "source"
+
+    def __init__(self, path: str, md_key: typing.Optional[str] = None, src_key: typing.Optional[str] = None) -> None:
         super().__init__()
         self.df: "pd.DataFrame" = pd.read_csv(path)
+        self.md_key = md_key or self.default_md_key
+        self.src_key = src_key or self.default_src_key
 
     def __get_markdown(self, index: int) -> str:
-        return str(self.df.iloc[index]["markdown"])
+        return str(self.df.iloc[index][self.md_key])
 
     def __get_source(self, index: int) -> str:
-        return str(self.df.iloc[index]["source"])
+        return str(self.df.iloc[index][self.src_key])
 
     def __getitem__(self, index) -> "CodeMarkdown":
         return CodeMarkdown(
