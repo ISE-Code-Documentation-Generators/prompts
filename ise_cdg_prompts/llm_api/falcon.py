@@ -22,6 +22,7 @@ class Falcon(LLM_API):
             trust_remote_code=True,
             device_map="auto",
         )
+    
 
     def get_response(self, prompt: str) -> str:
         response = self.pipeline(
@@ -32,4 +33,8 @@ class Falcon(LLM_API):
             num_return_sequences=1,
             eos_token_id=self.tokenizer.eos_token_id,
         )
-        return response[0]["generated_text"]
+        response_text = response[0]["generated_text"]
+        if response_text.startswith(prompt):
+            response_text = response_text[len(prompt):]
+
+        return response_text
