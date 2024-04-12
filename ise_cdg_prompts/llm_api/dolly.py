@@ -5,13 +5,13 @@ from .main import LLM_API
 
 
 class Dolly(LLM_API):
-    name: str = 'Dolly'
+    name: str = "Dolly"
 
     default_dolly_kwargs = dict(
-        model="databricks/dolly-v2-2-8b", 
-        torch_dtype=torch.bfloat16, 
+        model="databricks/dolly-v2-2-8b",
+        torch_dtype=torch.bfloat16,
         trust_remote_code=True,
-        device_map="auto"
+        device_map="auto",
     )
 
     def __init__(self, **kwargs) -> None:
@@ -21,4 +21,3 @@ class Dolly(LLM_API):
     def get_response(self, prompt: str) -> str:
         dolly_response = self.__dolly(prompt)
         return dolly_response[0]["generated_text"]
-

@@ -21,15 +21,17 @@ class LLMNLPMetricAdaptor(VectorizedNLPMetric):
         self.nlp_metric.set_references(new_references)
 
     def __call__(self, candidates: List[str]):
+        _summarized = 0
         new_candidates = []
         for i in range(len(candidates)):
             candid = candidates[i]
             if len(candid) > self.p95_len:
                 candid = self.summarizer(candid)
+                _summarized += 1
             candidate = self.md_tokenizer(candid)
             new_candidates.append(candidate)
+        print(f"Warning: summarized {_summarized} candidates for {self.nlp_metric.__class__.__name__}!")
         return self.nlp_metric(new_candidates)
-
 
 
 def get_metrics() -> Dict[CodeMetric, LLMNLPMetricAdaptor]:
