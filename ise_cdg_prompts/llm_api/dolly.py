@@ -1,4 +1,3 @@
-
 import torch
 from transformers import pipeline
 
@@ -9,10 +8,10 @@ class Dolly(LLM_API):
     name: str = 'Dolly'
 
     default_dolly_kwargs = dict(
-        model="databricks/dolly-v2-3b",
-        torch_dtype=torch.bfloat16,
+        model="databricks/dolly-v2-2-8b", 
+        torch_dtype=torch.bfloat16, 
         trust_remote_code=True,
-        device_map="auto",
+        device_map="auto"
     )
 
     def __init__(self, **kwargs) -> None:
@@ -20,6 +19,6 @@ class Dolly(LLM_API):
         self.__dolly = pipeline(**self.default_dolly_kwargs, **kwargs)
 
     def get_response(self, prompt: str) -> str:
-        dolly_response = self.__dolly(prompt, max_new_tokens=100)
+        dolly_response = self.__dolly(prompt)
         return dolly_response[0]["generated_text"]
 
