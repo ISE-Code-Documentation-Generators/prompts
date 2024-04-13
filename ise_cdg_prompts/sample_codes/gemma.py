@@ -65,13 +65,28 @@ pipeline = pipeline(
         "quantization_config": {"load_in_4bit": True},
     },
 )
+def generate_response(prompt_content):
+    messages = [
+        {
+            "role": "user",
+            "content": prompt_content,
+        },
+    ]
+    prompt = pipeline.tokenizer.apply_chat_template(
+        messages, tokenize=False, add_generation_prompt=True
+    )
+    outputs = pipeline(
+        prompt,
+        max_new_tokens=512,
+        do_sample=True,
+        temperature=0.7,
+        top_k=50,
+        top_p=0.95,
+    )
+    return outputs[0]["generated_text"]
 
 kossher2 = []
-
-messages = [
-    {
-        "role": "user",
-        "content": """
+print(generate_response(prompt_content="""
 
 Start Markdown 1: # Exercises
 You could write the function `get_mae` yourself. For now, we'll supply it. This is the same function you read about in the previous lesson. Just run the cell below.
@@ -136,38 +151,8 @@ Generate markdown for the bottom code according to the four samples above
     plt.show()
 
 
-    """,
-    },
-]
-prompt = pipeline.tokenizer.apply_chat_template(
-    messages, tokenize=False, add_generation_prompt=True
-)
-outputs = pipeline(
-    prompt, max_new_tokens=512, do_sample=True, temperature=0.7, top_k=50, top_p=0.95
-)
-print(outputs[0]["generated_text"])
+    """))
+# print(outputs[0]["generated_text"])
 kossher2.append(outputs[0]["generated_text"])
-
-
-def generate_response(prompt_content):
-    messages = [
-        {
-            "role": "user",
-            "content": prompt_content,
-        },
-    ]
-    prompt = pipeline.tokenizer.apply_chat_template(
-        messages, tokenize=False, add_generation_prompt=True
-    )
-    outputs = pipeline(
-        prompt,
-        max_new_tokens=512,
-        do_sample=True,
-        temperature=0.7,
-        top_k=50,
-        top_p=0.95,
-    )
-    return outputs[0]["generated_text"]
-
-print(generate_response(prompt_list[-1]))
+# print(generate_response(prompt_list[-1]))
 kossher2.append(generate_response(prompt_list[-1]))
