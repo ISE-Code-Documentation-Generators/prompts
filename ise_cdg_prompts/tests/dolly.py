@@ -1,8 +1,10 @@
 from ise_cdg_prompts.tests.main import PromptsUnitTest
 from ise_cdg_prompts.tests.utils import AssertionUtils
 
+import unittest
 
-class DollyUnitTest(PromptsUnitTest):
+
+class DollyUnitTest(unittest.TestCase):
     def test_sampler(self):
         import random
         from ise_cdg_prompts.dataset import SimplePromptDataset
@@ -25,8 +27,6 @@ class DollyUnitTest(PromptsUnitTest):
 
 
 if __name__ == "__main__":
-    import unittest
-
     unittest.main()
 
 # unittest.main(argv=[""], defaultTest="DollyUnitTest", verbosity=2, exit=False)
