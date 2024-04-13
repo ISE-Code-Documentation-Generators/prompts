@@ -21,7 +21,7 @@ class LlamaUnitTests(unittest.TestCase):
             shot_size=4,
         )
 
-        AssertionUtils().assert_tasks_validity(
+        AssertionUtils().assert_tasks_validity_with_prompt(
             self,
             tasks=prompt_sampler.generate_samples(),
             expected_tasks_file_name="llama_results.json",

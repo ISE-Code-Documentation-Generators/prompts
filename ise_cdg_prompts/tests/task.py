@@ -32,7 +32,7 @@ class GeneralTaskFunctionalityTest(unittest.TestCase):
             SepehrPromptGenerationVisitor,
         )
 
-        AssertionUtils().assert_tasks_validity(
+        AssertionUtils().assert_tasks_validity_with_prompt(
             self,
             tasks=MockTaskSampler(
                 dataset=SimplePromptDataset(path="final_dataset.csv")

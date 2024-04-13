@@ -14,7 +14,7 @@ class DollyUnitTest(unittest.TestCase):
         )
 
         random.seed(0)
-        AssertionUtils().assert_tasks_validity(
+        AssertionUtils().assert_tasks_validity_with_prompt(
             self,
             tasks=ProjectIDTaskSampler(
                 dataset=SimplePromptDataset(path="samples_dataset.csv"),
