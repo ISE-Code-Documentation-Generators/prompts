@@ -12,7 +12,6 @@ class KossherTest(PromptsUnitTest):
         from typing import TYPE_CHECKING
 
         if TYPE_CHECKING:
-            from ise_cdg_prompts.dataset import PromptDataset
             from ise_cdg_prompts.sample.main import TaskSampler
             from ise_cdg_prompts.prompt_generation_visitor.main import PromptGenerationVisitor
 
@@ -31,9 +30,8 @@ class KossherTest(PromptsUnitTest):
         from ise_cdg_prompts.sample.random import RandomTaskSampler
 
         # Load dataset containing markdown and code cells
-        dataset: "PromptDataset" = AlirezaDataset(path="./final_dataset.csv")
         task_sampler: "TaskSampler" = RandomTaskSampler(
-            dataset=dataset,
+            dataset=AlirezaDataset(path="./final_dataset.csv"),
             shot_size=4,
             sample_size=10,
         )
@@ -52,10 +50,6 @@ class KossherTest(PromptsUnitTest):
         jj = {"prompts": prompt_list, "ground_truths": grund_truth}
         # self.io.write(jj, self.file_name_test_default())
         kos = self.io.read(self.file_name_test_default())
-        # print("kiiiir")
-        # print(kir)
-        # print("koooos")
-        # print(kos)
         self.assertEqual(jj, kos)
 
 
