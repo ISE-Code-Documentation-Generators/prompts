@@ -5,7 +5,7 @@ from ise_cdg_prompts.utils.pipeline import Pipeline
 import unittest
 
 
-class KossherLLMTest(unittest.TestCase):
+class GemmaLLMTest(unittest.TestCase):
     def setUp(self):
         from ise_cdg_prompts.utils.custom_io import JSON_IO
 
@@ -18,15 +18,16 @@ class KossherLLMTest(unittest.TestCase):
         from ise_cdg_prompts.llm_api.gemma import model
 
         gemma_llm_logs: Dict = self.io.read(self.file_name_test_default())
-        kossher: List[str] = (
+        gemma_outputs: List[str] = (
             Pipeline(gemma_llm_logs["inputs"])
             .to_map(lambda model_input: model.get_response(**model_input))
             .to_list()
         )
         # self.io.write(
-        #     {"inputs": model_inputs, "outputs": kossher}, self.file_name_test_default()
+        #     {"inputs": model_inputs, "outputs": gemma_outputs}, self.file_name_test_default()
         # )
-        self.assertEqual(kossher, gemma_llm_logs["outputs"])
+        self.assertEqual(gemma_outputs, gemma_llm_logs["outputs"])
 
 
-unittest.main(module=__name__, argv=[""], defaultTest="KossherLLMTest", verbosity=2, exit=False)
+if __name__ == "__main__":
+    unittest.main()

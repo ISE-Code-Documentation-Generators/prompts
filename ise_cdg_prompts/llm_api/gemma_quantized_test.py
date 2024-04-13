@@ -5,7 +5,7 @@ from ise_cdg_prompts.utils.pipeline import Pipeline
 import unittest
 
 
-class KossherLLMTest2(unittest.TestCase):
+class GemmaQuantizedTest(unittest.TestCase):
     def setUp(self):
         from ise_cdg_prompts.utils.custom_io import JSON_IO
 
@@ -31,4 +31,4 @@ class KossherLLMTest2(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    unittest.main(argv=[""], defaultTest=KossherLLMTest2.__name__, verbosity=2, exit=False)
+    unittest.main(argv=[""], defaultTest=GemmaQuantizedTest.__name__, verbosity=2, exit=False)

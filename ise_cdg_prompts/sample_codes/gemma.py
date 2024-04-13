@@ -45,7 +45,7 @@ grund_truth = Pipeline(tasks).to_map(lambda task: task.get_ground_truth()).to_li
 
 
 # ## Load Gemma 2b
-from ise_cdg_prompts.llm_api.gemma_test import KossherLLMTest
+from ise_cdg_prompts.llm_api.gemma_test import GemmaLLMTest
 
 
 # ## Quantized loading 7b
