@@ -1,11 +1,9 @@
 import unittest
 
+from ise_cdg_prompts.tests.main import PromptsUnitTest
 
-class KossherTest(unittest.TestCase):
-    def setUp(self):
-        from ise_cdg_prompts.utils.custom_io import JSON_IO
 
-        self.io = JSON_IO("./ise_cdg_prompts/tests")
+class KossherTest(PromptsUnitTest):
 
     def file_name_test_default(self) -> str:
         return "gemma_results.json"
