@@ -1,4 +1,3 @@
-from ise_cdg_prompts.tests.main import PromptsUnitTest
 from ise_cdg_prompts.tests.utils import AssertionUtils
 
 import unittest
