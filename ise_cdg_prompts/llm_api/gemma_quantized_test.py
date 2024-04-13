@@ -16,13 +16,12 @@ class KossherLLMTest2(unittest.TestCase):
 
     def test_default(self):
         from ise_cdg_prompts.sample_codes.gemma import model
-        # from ise_cdg_prompts.llm_api.gemma import model
 
         gemma_llm_logs: Dict = self.io.read(self.file_name_test_default())
         gemma_outputs = Pipeline(gemma_llm_logs["inputs"]).to_map(model.generate_response).to_list()
-        # self.io.write(
-        #     {**gemma_llm_logs, "outputs": gemma_outputs}, self.file_name_test_default()
-        # )
+        self.io.write(
+            {"inputs": gemma_llm_logs["inputs"], "outputs": gemma_outputs}, self.file_name_test_default()
+        )
         # print(gemma_outputs[0])
         # print("-------")
         # print(gemma_llm_logs["outputs"][0])
