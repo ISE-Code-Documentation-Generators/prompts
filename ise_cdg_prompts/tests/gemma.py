@@ -1,33 +1,18 @@
-from typing import List
 import unittest
 
-
-from ise_cdg_prompts.tests.main import PromptsUnitTest
-
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from ise_cdg_prompts.task import Task
-    from ise_cdg_prompts.sample.main import TaskSampler
-    from ise_cdg_prompts.prompt_generation_visitor.main import PromptGenerationVisitor
-
 from ise_cdg_prompts.tests.utils import AssertionUtils
-from ise_cdg_prompts.utils.pipeline import Pipeline
 
 
 class GemmaUnitTests(unittest.TestCase):
     def test_default(self):
         import random
-
-        random.seed(0)
-
         from ise_cdg_prompts.alireza_dataset import AlirezaDataset
         from ise_cdg_prompts.prompt_generation_visitor.alireza import (
             AlirezaPromptGenerationVisitor,
         )
         from ise_cdg_prompts.sample.random import RandomTaskSampler
 
-        # Load dataset containing markdown and code cells
+        random.seed(0)
         AssertionUtils().assert_tasks_validity_with_prompt_and_ground_truth(
             self,
             tasks=RandomTaskSampler(
