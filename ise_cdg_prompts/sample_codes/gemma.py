@@ -66,6 +66,7 @@ pipeline = pipeline(
     },
 )
 
+kossher2 = []
 
 messages = [
     {
@@ -144,7 +145,8 @@ prompt = pipeline.tokenizer.apply_chat_template(
 outputs = pipeline(
     prompt, max_new_tokens=512, do_sample=True, temperature=0.7, top_k=50, top_p=0.95
 )
-# print(outputs[0]["generated_text"])
+print(outputs[0]["generated_text"])
+kossher2.append(outputs[0]["generated_text"])
 
 
 def generate_response(prompt_content):
@@ -166,3 +168,6 @@ def generate_response(prompt_content):
         top_p=0.95,
     )
     return outputs[0]["generated_text"]
+
+print(generate_response(prompt_list[-1]))
+kossher2.append(generate_response(prompt_list[-1]))
