@@ -11,30 +11,11 @@ if TYPE_CHECKING:
     from ise_cdg_prompts.sample.main import TaskSampler
     from ise_cdg_prompts.prompt_generation_visitor.main import PromptGenerationVisitor
 
+from ise_cdg_prompts.tests.utils import AssertionUtils
 from ise_cdg_prompts.utils.pipeline import Pipeline
 
 
-class GemmaUnitTests(PromptsUnitTest):
-    def _assert_tasks_validity(
-        self,
-        tasks: List["Task"],
-        prompt_generation_visitor: "PromptGenerationVisitor",
-        expected_tasks_file_name: str,
-    ):
-        prompt_list = (
-            Pipeline(tasks)
-            .to_map(lambda task: prompt_generation_visitor.visit_task(task))
-            .to_list()
-        )
-        ground_truths = (
-            Pipeline(tasks).to_map(lambda task: task.get_ground_truth()).to_list()
-        )
-
-        output = {"prompts": prompt_list, "ground_truths": ground_truths}
-        # self.io.write(output, expected_tasks_file_name)
-        expected_output = self.io.read(expected_tasks_file_name)
-        self.assertEqual(output, expected_output)
-
+class GemmaUnitTests(unittest.TestCase):
     def test_default(self):
         import random
 
@@ -47,7 +28,8 @@ class GemmaUnitTests(PromptsUnitTest):
         from ise_cdg_prompts.sample.random import RandomTaskSampler
 
         # Load dataset containing markdown and code cells
-        self._assert_tasks_validity(
+        AssertionUtils().assert_tasks_validity_with_prompt_and_ground_truth(
+            self,
             tasks=RandomTaskSampler(
                 dataset=AlirezaDataset(path="./final_dataset.csv"),
                 shot_size=4,
