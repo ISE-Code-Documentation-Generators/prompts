@@ -5,6 +5,7 @@ from ise_cdg_prompts.prompt_generation_visitor.sepehr import (
     SepehrPromptGenerationVisitor,
 )
 from ise_cdg_prompts.tests.main import PromptsUnitTest
+from ise_cdg_prompts.tests.utils import AssertionUtils
 
 
 class LlamaUnitTests(PromptsUnitTest):
@@ -20,7 +21,8 @@ class LlamaUnitTests(PromptsUnitTest):
             shot_size=4,
         )
 
-        self._assert_tasks_validity(
+        AssertionUtils().assert_tasks_validity(
+            self,
             tasks=prompt_sampler.generate_samples(),
             expected_tasks_file_name="llama_results.json",
             prompt_generation_visitor=SepehrPromptGenerationVisitor(),

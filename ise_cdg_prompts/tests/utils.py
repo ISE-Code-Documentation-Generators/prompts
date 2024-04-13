@@ -15,7 +15,7 @@ class AssertionUtils:
 
         self.io = JSON_IO("ise_cdg_prompts/tests")
 
-    def _assert_tasks_validity(
+    def assert_tasks_validity(
         self,
         unittest_module: "TestCase",
         tasks: List["Task"],
