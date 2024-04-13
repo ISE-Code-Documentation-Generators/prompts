@@ -47,13 +47,12 @@ class GemmaUnitTests(PromptsUnitTest):
         from ise_cdg_prompts.sample.random import RandomTaskSampler
 
         # Load dataset containing markdown and code cells
-        task_sampler: "TaskSampler" = RandomTaskSampler(
-            dataset=AlirezaDataset(path="./final_dataset.csv"),
-            shot_size=4,
-            sample_size=10,
-        )
         self._assert_tasks_validity(
-            tasks=task_sampler.generate_samples(),
+            tasks=RandomTaskSampler(
+                dataset=AlirezaDataset(path="./final_dataset.csv"),
+                shot_size=4,
+                sample_size=10,
+            ).generate_samples(),
             prompt_generation_visitor=AlirezaPromptGenerationVisitor(),
             expected_tasks_file_name="gemma_results.json",
         )
