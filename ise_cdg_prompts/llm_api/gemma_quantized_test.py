@@ -30,4 +30,5 @@ class KossherLLMTest2(unittest.TestCase):
         Pipeline(gemma_outputs).to_map(self.assertIsNotNone)
 
 
-unittest.main(argv=[""], defaultTest=KossherLLMTest2.__name__, verbosity=2, exit=False)
+if __name__ == "__main__":
+    unittest.main(argv=[""], defaultTest=KossherLLMTest2.__name__, verbosity=2, exit=False)
