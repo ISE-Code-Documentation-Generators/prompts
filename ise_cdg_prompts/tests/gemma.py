@@ -61,4 +61,5 @@ class KossherTest(unittest.TestCase):
         self.assertEqual(jj, kos)
 
 
-unittest.main(argv=[""], defaultTest="KossherTest", verbosity=2, exit=False)
+if __name__ == "__main__":
+    unittest.main(argv=[""], defaultTest=KossherTest.__name__, verbosity=2, exit=False)
