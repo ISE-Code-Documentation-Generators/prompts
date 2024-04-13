@@ -1,13 +1,15 @@
+from typing import List
 import unittest
+
 
 from ise_cdg_prompts.tests.main import PromptsUnitTest
 
 
-class KossherTest(PromptsUnitTest):
+class GemmaUnitTests(PromptsUnitTest):
 
     def file_name_test_default(self) -> str:
         return "gemma_results.json"
-
+    
     def test_default(self):
         from typing import TYPE_CHECKING
 
@@ -44,14 +46,13 @@ class KossherTest(PromptsUnitTest):
             .to_map(lambda task: prompt_generation_visitor.visit_task(task))
             .to_list()
         )
-        grund_truth = Pipeline(tasks).to_map(lambda task: task.get_ground_truth()).to_list()
+        ground_truths = Pipeline(tasks).to_map(lambda task: task.get_ground_truth()).to_list()
 
-        # generate_response(prompt_list[9])
-        jj = {"prompts": prompt_list, "ground_truths": grund_truth}
-        # self.io.write(jj, self.file_name_test_default())
-        kos = self.io.read(self.file_name_test_default())
-        self.assertEqual(jj, kos)
+        output = {"prompts": prompt_list, "ground_truths": ground_truths}
+        # self.io.write(output, self.file_name_test_default())
+        expected_output = self.io.read(self.file_name_test_default())
+        self.assertEqual(output, expected_output)
 
 
 if __name__ == "__main__":
-    unittest.main(argv=[""], defaultTest=KossherTest.__name__, verbosity=2, exit=False)
+    unittest.main(argv=[""], defaultTest=GemmaUnitTests.__name__, verbosity=2, exit=False)
