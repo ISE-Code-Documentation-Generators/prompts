@@ -15,7 +15,9 @@ class GemmaQuantizedTest(unittest.TestCase):
         return "gemma_quantized_llm_results.json"
 
     def test_default(self):
-        from ise_cdg_prompts.sample_codes.gemma import model
+        from ise_cdg_prompts.llm_api.gemma_quantized import GemmaQuantized
+
+        model = GemmaQuantized()
 
         gemma_llm_logs: Dict = self.io.read(self.file_name_test_default())
         gemma_outputs = Pipeline(gemma_llm_logs["inputs"]).to_map(model.generate_response).to_list()

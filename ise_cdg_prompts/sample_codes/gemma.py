@@ -6,6 +6,7 @@
 
 from typing import TYPE_CHECKING
 
+
 if TYPE_CHECKING:
     from ise_cdg_prompts.dataset import PromptDataset
     from ise_cdg_prompts.sample.main import TaskSampler
@@ -44,11 +45,10 @@ prompt_list = (
 grund_truth = Pipeline(tasks).to_map(lambda task: task.get_ground_truth()).to_list()
 
 
-# ## Load Gemma 2b
-from ise_cdg_prompts.llm_api.gemma_test import GemmaLLMTest
-
-
-# ## Quantized loading 7b
 from ise_cdg_prompts.llm_api.gemma_quantized import GemmaQuantized
+from ise_cdg_prompts.llm_api.gemma import Gemma
 
+# ## Load Gemma 2b
+model = Gemma()
+# ## Quantized loading 7b
 model = GemmaQuantized()
