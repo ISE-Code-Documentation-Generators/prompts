@@ -52,13 +52,9 @@ class GemmaUnitTests(PromptsUnitTest):
             shot_size=4,
             sample_size=10,
         )
-        prompt_generation_visitor: "PromptGenerationVisitor" = (
-            AlirezaPromptGenerationVisitor()
-        )
-
         self._assert_tasks_validity(
             tasks=task_sampler.generate_samples(),
-            prompt_generation_visitor=prompt_generation_visitor,
+            prompt_generation_visitor=AlirezaPromptGenerationVisitor(),
             expected_tasks_file_name="gemma_results.json",
         )
 
