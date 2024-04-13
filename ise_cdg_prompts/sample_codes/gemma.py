@@ -4,36 +4,37 @@
 # get_ipython().system("pip install -i https://pypi.org/simple/ bitsandbytes")
 
 
-import random
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from ise_cdg_prompts.dataset import PromptDataset
+    from ise_cdg_prompts.sample.main import TaskSampler
+    from ise_cdg_prompts.prompt_generation_visitor.main import PromptGenerationVisitor
 
 from ise_cdg_prompts.alireza_dataset import AlirezaDataset
 from ise_cdg_prompts.prompt_generation_visitor.alireza import (
     AlirezaPromptGenerationVisitor,
 )
-from ise_cdg_prompts.prompt_generation_visitor.main import PromptGenerationVisitor
 from ise_cdg_prompts.sample.random import RandomTaskSampler
 from ise_cdg_prompts.utils.pipeline import Pipeline
 
 
-# Load dataset containing markdown and code cells
-dataset = AlirezaDataset(path="./final_dataset.csv")
-
-
-prompt_generation_visitor: "PromptGenerationVisitor" = AlirezaPromptGenerationVisitor()
-
+import random
 
 random.seed(0)
 
 
-task_sampler = RandomTaskSampler(
+# Load dataset containing markdown and code cells
+dataset: "PromptDataset" = AlirezaDataset(path="./final_dataset.csv")
+task_sampler: "TaskSampler" = RandomTaskSampler(
     dataset=dataset,
     shot_size=4,
     sample_size=10,
 )
+prompt_generation_visitor: "PromptGenerationVisitor" = AlirezaPromptGenerationVisitor()
+
 
 tasks = task_sampler.generate_samples()
-
-
 prompt_list = (
     Pipeline(tasks)
     .to_map(lambda task: prompt_generation_visitor.visit_task(task))
