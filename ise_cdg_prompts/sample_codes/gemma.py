@@ -6,19 +6,13 @@
 
 import random
 
-from ise_cdg_prompts.dataset import SimplePromptDataset
+from ise_cdg_prompts.alireza_dataset import AlirezaDataset
 from ise_cdg_prompts.prompt_generation_visitor.alireza import (
     AlirezaPromptGenerationVisitor,
 )
 from ise_cdg_prompts.prompt_generation_visitor.main import PromptGenerationVisitor
 from ise_cdg_prompts.sample.random import RandomTaskSampler
 from ise_cdg_prompts.utils.pipeline import Pipeline
-
-
-class AlirezaDataset(SimplePromptDataset):
-    def __init__(self, path: str) -> None:
-        super().__init__(path)
-        self.df.dropna(subset=["source", "markdown"], inplace=True)
 
 
 # Load dataset containing markdown and code cells
