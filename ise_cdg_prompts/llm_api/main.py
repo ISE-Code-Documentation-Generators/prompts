@@ -15,5 +15,6 @@ def get_llms() -> List["LLM_API"]:
     from ise_cdg_prompts.llm_api.dolly import Dolly
     from ise_cdg_prompts.llm_api.falcon import Falcon
 
-    llms = [Dolly(), Falcon(), Llama_API()]
+    # llms = [Dolly(), Falcon(), Llama_API()]
+    llms = [Dolly()]
     return llms
