@@ -3,6 +3,8 @@ from .main import LLM_API
 
 
 class Llama_API(LLM_API):
+    name: str = "Llama"
+
     def get_response(self, prompt: str) -> str:
         try:
             return self.__llama.complete(prompt).text

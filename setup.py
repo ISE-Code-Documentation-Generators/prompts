@@ -7,7 +7,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
     long_description = "\n" + fh.read()
 
-VERSION = "0.0.1.1"
+VERSION = "0.0.1.4.3"
 DESCRIPTION = "To be added in the future"
 
 
@@ -17,9 +17,11 @@ llama_dependencies = [
     "llama-index==0.10.23",
 ]
 
+# set no version on these
 dolly_dependencies = [
-    # "accelerate==0.28.0",
-    # "transformers==4.39.1",
+    "transformers==4.39.3",
+    "accelerate==0.29.2",
+    "einops",
 ]
 
 setuptools.setup(
