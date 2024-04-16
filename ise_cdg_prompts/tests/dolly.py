@@ -1,7 +1,9 @@
-from ise_cdg_prompts.tests.main import PromptsUnitTest
+from ise_cdg_prompts.tests.utils import AssertionUtils
+
+import unittest
 
 
-class DollyUnitTest(PromptsUnitTest):
+class DollyUnitTest(unittest.TestCase):
     def test_sampler(self):
         import random
         from ise_cdg_prompts.dataset import SimplePromptDataset
@@ -11,7 +13,8 @@ class DollyUnitTest(PromptsUnitTest):
         )
 
         random.seed(0)
-        self._assert_tasks_validity(
+        AssertionUtils().assert_tasks_validity_with_prompt(
+            self,
             tasks=ProjectIDTaskSampler(
                 dataset=SimplePromptDataset(path="samples_dataset.csv"),
                 sample_size=10,
@@ -23,8 +26,6 @@ class DollyUnitTest(PromptsUnitTest):
 
 
 if __name__ == "__main__":
-    import unittest
-
     unittest.main()
 
 # unittest.main(argv=[""], defaultTest="DollyUnitTest", verbosity=2, exit=False)

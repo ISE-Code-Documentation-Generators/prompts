@@ -3,7 +3,7 @@ import unittest
 
 
 from ise_cdg_prompts.sample import TaskSampler
-from ise_cdg_prompts.tests.main import PromptsUnitTest
+from ise_cdg_prompts.tests.utils import AssertionUtils
 
 if TYPE_CHECKING:
     from ise_cdg_prompts.task import Task
@@ -25,14 +25,15 @@ class MockTaskSampler(TaskSampler):
         return list(range(0, self.dataset.__len__(), 4))
 
 
-class GeneralTaskFunctionalityTest(PromptsUnitTest):
+class GeneralTaskFunctionalityTest(unittest.TestCase):
     def test_default(self):
         from ise_cdg_prompts.dataset import SimplePromptDataset
         from ise_cdg_prompts.prompt_generation_visitor.sepehr import (
             SepehrPromptGenerationVisitor,
         )
 
-        self._assert_tasks_validity(
+        AssertionUtils().assert_tasks_validity_with_prompt(
+            self,
             tasks=MockTaskSampler(
                 dataset=SimplePromptDataset(path="final_dataset.csv")
             ).generate_samples(),
