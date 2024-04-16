@@ -22,7 +22,11 @@ class SimplePromptDataset(PromptDataset):
     def __init__(self, path: str) -> None:
         super().__init__()
         self.df: "pd.DataFrame" = pd.read_csv(path)
-        self.df.dropna(subset=["source", "markdown"], inplace=True)
+        self.__remove_null_values(df=self.df)
+    
+    @classmethod
+    def __remove_null_values(cls, df):
+        df.dropna(subset=["source", "markdown"], inplace=True)
 
     def __get_markdown(self, index: int) -> str:
         return str(self.df.iloc[index]["markdown"])
