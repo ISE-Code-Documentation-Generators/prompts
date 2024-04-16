@@ -23,16 +23,20 @@ class SimplePromptDataset(PromptDataset):
     default_md_key = "markdown"
     default_src_key = "source"
 
-    def __init__(self, path: str, md_key: typing.Optional[str] = None, src_key: typing.Optional[str] = None) -> None:
+    def __init__(
+        self,
+        path: str,
+        md_key: typing.Optional[str] = None,
+        src_key: typing.Optional[str] = None,
+    ) -> None:
         super().__init__()
         self.df: "pd.DataFrame" = pd.read_csv(path)
-        self.__remove_null_values(df=self.df)
         self.md_key = md_key or self.default_md_key
         self.src_key = src_key or self.default_src_key
-    
-    @classmethod
-    def __remove_null_values(cls, df):
-        df.dropna(subset=["source", "markdown"], inplace=True)
+        self.__remove_null_values(df=self.df)
+
+    def __remove_null_values(self, df):
+        df.dropna(subset=[self.src_key, self.md_key], inplace=True)
 
     def __get_markdown(self, index: int) -> str:
         return str(self.df.iloc[index][self.md_key])
