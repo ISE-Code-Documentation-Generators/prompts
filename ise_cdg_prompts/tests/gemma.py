@@ -6,7 +6,7 @@ from ise_cdg_prompts.tests.utils import AssertionUtils
 class GemmaUnitTests(unittest.TestCase):
     def test_default(self):
         import random
-        from ise_cdg_prompts.alireza_dataset import AlirezaDataset
+        from ise_cdg_prompts.dataset import SimplePromptDataset
         from ise_cdg_prompts.prompt_generation_visitor.alireza import (
             AlirezaPromptGenerationVisitor,
         )
@@ -16,7 +16,7 @@ class GemmaUnitTests(unittest.TestCase):
         AssertionUtils().assert_tasks_validity_with_prompt_and_ground_truth(
             self,
             tasks=RandomTaskSampler(
-                dataset=AlirezaDataset(path="./final_dataset.csv"),
+                dataset=SimplePromptDataset(path="./final_dataset.csv"),
                 shot_size=4,
                 sample_size=10,
             ).generate_samples(),
