@@ -14,6 +14,8 @@ def get_llms() -> List["LLM_API"]:
     from ise_cdg_prompts.llm_api.llama import Llama_API
     from ise_cdg_prompts.llm_api.dolly import Dolly
     from ise_cdg_prompts.llm_api.falcon import Falcon
+    from ise_cdg_prompts.llm_api.code_gemma_quantized import CodeGemmaQuantized
+    from ise_cdg_prompts.llm_api.gemma_quantized import GemmaQuantized
 
-    llms = [Dolly(), Falcon(), Llama_API()]
+    llms = [Dolly(), Falcon(), Llama_API(), GemmaQuantized(), CodeGemmaQuantized()]
     return llms
