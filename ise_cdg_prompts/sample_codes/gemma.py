@@ -12,6 +12,7 @@ if TYPE_CHECKING:
     from ise_cdg_prompts.sample.main import TaskSampler
     from ise_cdg_prompts.prompt_generation_visitor.main import PromptGenerationVisitor
 
+from ise_cdg_prompts.dataset import SimplePromptDataset
 from ise_cdg_prompts.utils.pipeline import Pipeline
 
 
@@ -20,14 +21,13 @@ import random
 random.seed(0)
 
 
-from ise_cdg_prompts.alireza_dataset import AlirezaDataset
 from ise_cdg_prompts.prompt_generation_visitor.alireza import (
     AlirezaPromptGenerationVisitor,
 )
 from ise_cdg_prompts.sample.random import RandomTaskSampler
 
 # Load dataset containing markdown and code cells
-dataset: "PromptDataset" = AlirezaDataset(path="./final_dataset.csv")
+dataset: "PromptDataset" = SimplePromptDataset(path="./final_dataset.csv")
 task_sampler: "TaskSampler" = RandomTaskSampler(
     dataset=dataset,
     shot_size=4,
