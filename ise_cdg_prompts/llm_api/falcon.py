@@ -27,7 +27,7 @@ class Falcon(LLM_API):
     def get_response(self, prompt: str) -> str:
         response = self.pipeline(
             prompt,
-            max_length=200,
+            max_new_tokens=100,
             do_sample=True,
             top_k=10,
             num_return_sequences=1,
