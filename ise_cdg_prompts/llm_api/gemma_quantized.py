@@ -2,6 +2,7 @@ from ise_cdg_prompts.llm_api.main import LLM_API
 
 
 class GemmaQuantized(LLM_API):
+    name: str = "Gemma"
     def __init__(self) -> None:
         from transformers import AutoTokenizer, pipeline, AutoModelForCausalLM
         import torch

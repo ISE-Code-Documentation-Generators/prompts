@@ -2,6 +2,7 @@ from ise_cdg_prompts.llm_api.main import LLM_API
 
 
 class CodeGemmaQuantized(LLM_API):
+    name: str = "CodeGemma"
     def __init__(self) -> None:
         from transformers import pipeline
         import torch

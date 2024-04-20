@@ -6,6 +6,7 @@ from ise_cdg_prompts.llm_api.main import LLM_API
 
 
 class Gemma(LLM_API):
+    name: str = "Gemma"
     def __init__(self) -> None:
         super().__init__()
         from transformers import AutoTokenizer, AutoModelForCausalLM
