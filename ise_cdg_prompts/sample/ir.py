@@ -39,7 +39,7 @@ class IRBasedTaskSampler(TaskSampler):
         for index in range(len(self.test_dataset)):
             query_code, query_markdown = (
                 self.test_dataset.get_raw_item("source", index),
-                self.test_dataset.get_raw_item("markdown", index),
+                self.test_dataset.get_raw_item("markdown_text", index),
             )
             results = self.ir.get_similar(query_code)[: self.__shot_size]
             question = CodeMarkdown(query_code, query_markdown)
@@ -48,7 +48,7 @@ class IRBasedTaskSampler(TaskSampler):
                 ind = result["corpus_id"]
                 template_code, template_markdown = (
                     self.train_dataset.get_raw_item("source", ind),
-                    self.train_dataset.get_raw_item("markdown", ind),
+                    self.train_dataset.get_raw_item("markdown_text", ind),
                 )
                 templates.append(CodeMarkdown(template_code, template_markdown))
             tasks.append(Task(question, templates))
