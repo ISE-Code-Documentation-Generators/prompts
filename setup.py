@@ -7,7 +7,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
     long_description = "\n" + fh.read()
 
-VERSION = "0.0.1.5.6"
+VERSION = "0.0.1.5.7"
 DESCRIPTION = "To be added in the future"
 
 
@@ -36,6 +36,7 @@ setuptools.setup(
     packages=setuptools.find_packages(),
     include_package_data=True,
     install_requires=[
+        "tqdm",
         "ise_cdg_data @ git+https://github.com/ISE-Code-Documentation-Generators/data.git",
         "ise_cdg_utility @ git+https://github.com/ISE-Code-Documentation-Generators/utility.git",
     ]

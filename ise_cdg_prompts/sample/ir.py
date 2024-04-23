@@ -1,5 +1,6 @@
 import random
 from typing import TYPE_CHECKING, List
+from tqdm import tqdm
 
 from ise_cdg_prompts.dataset import CodeMarkdown
 from ise_cdg_prompts.sample.main import TaskSampler
@@ -36,7 +37,7 @@ class IRBasedTaskSampler(TaskSampler):
 
     def generate_samples(self) -> List[Task]:
         tasks: List[Task] = []
-        for index in range(len(self.test_dataset)):
+        for index in tqdm(range(len(self.test_dataset))):
             query_code, query_markdown = (
                 self.test_dataset.get_raw_item("source", index),
                 self.test_dataset.get_raw_item("markdown_text", index),
