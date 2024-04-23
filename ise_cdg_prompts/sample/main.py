@@ -12,8 +12,6 @@ if TYPE_CHECKING:
 
 
 class TaskSampler(metaclass=ABCMeta):
-    def __init__(self, dataset: "PromptDataset") -> None:
-        self.dataset = dataset
 
     @abstractmethod
     def generate_samples(self) -> List["Task"]:
@@ -21,12 +19,13 @@ class TaskSampler(metaclass=ABCMeta):
 
     def _indices_to_task(
         self,
+        dataset: "PromptDataset",
         question_index: int,
         template_indices: List["int"],
     ) -> Task:
         return Task(
-            question=self.dataset[question_index],
+            question=dataset[question_index],
             templates=Pipeline(template_indices)
-            .to_map(self.dataset.__getitem__)
+            .to_map(dataset.__getitem__)
             .to_list(),
         )

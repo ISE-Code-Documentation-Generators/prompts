@@ -16,13 +16,15 @@ class RandomTaskSampler(TaskSampler):
         shot_size: int,
         sample_size: int,
     ) -> None:
-        super().__init__(dataset=dataset)
+        super().__init__()
+        self.dataset = dataset
         self.__shot_size = shot_size
         self.__sample_size = sample_size
 
     def generate_samples(self) -> List[Task]:
         return [
             self._indices_to_task(
+                dataset=self.dataset,
                 question_index=self.__generate_question_index(),
                 template_indices=self.__generate_template_indices(),
             )

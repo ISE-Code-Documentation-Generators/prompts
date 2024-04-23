@@ -14,7 +14,7 @@ class ProjectIDTaskSampler(TaskSampler):
         sample_size: int,
         shot_size: int,
     ) -> None:
-        super().__init__(dataset)
+        self.dataset = dataset
         self.sample_size = sample_size
         self.shot_size = shot_size
 
@@ -33,6 +33,7 @@ class ProjectIDTaskSampler(TaskSampler):
                 if ind != qid
             ]
             task = self._indices_to_task(
+                dataset=self.dataset,
                 question_index=qid,
                 template_indices=template_indices,
             )

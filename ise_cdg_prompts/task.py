@@ -1,8 +1,5 @@
 from typing import TYPE_CHECKING, List
 
-from ise_cdg_prompts.prompt_generation_visitor.sepehr import (
-    SepehrPromptGenerationVisitor,
-)
 
 
 if TYPE_CHECKING:
