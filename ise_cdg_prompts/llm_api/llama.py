@@ -5,11 +5,14 @@ from .main import LLM_API
 class Llama_API(LLM_API):
     name: str = "Llama"
 
+    class APIException(Exception):
+        pass
+
     def get_response(self, prompt: str) -> str:
         try:
             return self.__llama.complete(prompt).text
         except:
-            return "fuck"
+            raise self.APIException()
 
     @cached_property
     def __llama(self):
