@@ -32,6 +32,7 @@ class Falcon(LLM_API):
             top_k=10,
             num_return_sequences=1,
             eos_token_id=self.tokenizer.eos_token_id,
+            pad_token_id=self.tokenizer.eos_token_id,
         )
         response_text = response[0]["generated_text"]
         if response_text.startswith(prompt):
