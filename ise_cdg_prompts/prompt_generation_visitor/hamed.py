@@ -21,9 +21,10 @@ class HamedPromptGenerator(PromptGenerationVisitor):
     def visit_task(self, task: "TaskMetrics") -> str:
         metrics_string = self._get_metric_string(task.question.code)
         return (
-            "You are an expert Python programmer, please describe the functionality of the method:\n"
+            "You are an expert Python programmer. Look at these methods, their code metrics, and their summaries:\n"
             + self.visit_templates(task.templates)
-            + f"\n#Code\n{task.question.code}\n#Code Metrics\n{metrics_string}\n#Summary:"
+            + "\nNow given this code and its code metrics, please give me the summary of the code:\n"
+            + f"\n#Code\n{task.question.code}\n#Code Metrics\n{metrics_string}"
         )
 
     def visit_templates(self, templates: List["CodeMarkdown"]) -> str:
