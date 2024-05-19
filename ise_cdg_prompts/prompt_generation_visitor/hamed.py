@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 class HamedPromptGenerator(PromptGenerationVisitor):
     def _get_metric_string(self, source):
         df = pd.DataFrame({'source': [source]})
-        df = get_source_features_extractor().extract_feature_columns(code_df=df)
+        get_source_features_extractor().extract_feature_columns(code_df=df)
         df.drop(columns=['API', 'source'], inplace=True)
         metrics_map = df.to_dict(orient='records')[0]
         metrics_string = ", ".join([f"{name}: {value}" for name, value in metrics_map])
