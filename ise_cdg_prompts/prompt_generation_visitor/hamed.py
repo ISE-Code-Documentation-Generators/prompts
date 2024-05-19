@@ -15,7 +15,7 @@ class HamedPromptGenerator(PromptGenerationVisitor):
         get_source_features_extractor().extract_feature_columns(code_df=df)
         df.drop(columns=['API', 'source'], inplace=True)
         metrics_map = df.to_dict(orient='records')[0]
-        metrics_string = ", ".join([f"{name}: {value}" for name, value in metrics_map])
+        metrics_string = ", ".join([f"{name}: {value}" for name, value in metrics_map.items()])
         return metrics_string
 
     def visit_task(self, task: "TaskMetrics") -> str:
