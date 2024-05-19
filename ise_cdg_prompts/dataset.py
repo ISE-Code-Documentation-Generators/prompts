@@ -1,6 +1,6 @@
 from abc import abstractmethod
 from dataclasses import dataclass
-from typing import Tuple
+from typing import Tuple, List
 import typing
 import pandas as pd
 from ise_cdg_data.dataset import Md4DefDatasetInterface
@@ -12,6 +12,13 @@ class CodeMarkdown:
     code: str
     markdown: str
 
+
+@dataclass
+class CodeMarkdownMetrics:
+    code: str
+    markdown: str
+    metrics: List[str]
+    #TODO
 
 class PromptDataset(Md4DefDatasetInterface):
     @abstractmethod
