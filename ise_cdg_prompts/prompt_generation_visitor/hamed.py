@@ -25,7 +25,7 @@ class HamedPromptGenerator(PromptGenerationVisitor):
             + "Look at these methods, their code metrics, and their summaries:\n"
             + self.visit_templates(task.templates)
             + "\nNow given this code and its code metrics, please give me the summary of the code:\n"
-            + f"\n#Code\n{task.question.code}\n#Code Metrics\n{metrics_string}"
+            + f"\n#Code:\n{task.question.code}\n#Code Metrics:\n{metrics_string}"
         )
 
     def visit_templates(self, templates: List["CodeMarkdown"]) -> str:
@@ -37,8 +37,8 @@ class HamedPromptGenerator(PromptGenerationVisitor):
         )
 
     def visit_template(self, template: "CodeMarkdownMetrics", index: int) -> str:
-        code_prompt = f"#Code\n{template.code}\n"
+        code_prompt = f"#Code:\n{template.code}\n"
         metrics_string = self._get_metric_string(template.code)
-        code_metrics_prompt = f"#Code Metrics\n{metrics_string}\n"
+        code_metrics_prompt = f"#Code Metrics:\n{metrics_string}\n"
         summary_prompt = f"#Summary: {template.markdown}\n"
         return code_prompt + code_metrics_prompt + summary_prompt
