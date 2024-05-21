@@ -27,9 +27,10 @@ class LLMNLPMetricAdaptor(NLPMetricInterface):
                 candid = self.summarizer(candid)
                 _summarized += 1
             new_candidates.append(candid)
-        print(
-            f"Warning: summarized {_summarized} candidates for {self.nlp_metric.__class__.__name__}!"
-        )
+        if _summarized > 0:
+            print(
+                f"Warning: summarized {_summarized} candidates for {self.nlp_metric.__class__.__name__}!"
+            )
         return self.nlp_metric(new_candidates)
 
 
