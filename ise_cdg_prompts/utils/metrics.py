@@ -18,6 +18,12 @@ class LLMNLPMetricAdaptor(NLPMetricInterface):
     def set_references(self, references: List[str]) -> None:
         self.nlp_metric.set_references(references)
 
+    def __setattr__(self, name, value):
+        if name == "use_tqdm":
+            setattr(self.nlp_metric, name, value)
+            return
+        return super().__setattr__(name, value)
+
     def __call__(self, candidates: List[str]):
         _summarized = 0
         new_candidates = []
