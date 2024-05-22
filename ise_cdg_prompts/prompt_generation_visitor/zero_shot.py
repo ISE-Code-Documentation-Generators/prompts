@@ -9,6 +9,6 @@ if TYPE_CHECKING:
 class ZeroShotPromptGenerator(PromptGenerationVisitor):
     def visit_task(self, task: "TaskMetrics") -> str:
         return (
-            "Suppose you are an expert Python programmer. Now given this code, please give me the summary of the code:\n"
+            "Suppose you are an expert Python programmer. Now given this code, please tell me what the code is doing in human language:\n"
             + f"\n{task.question.code}\n"
         )
