@@ -16,5 +16,6 @@ class ZeroShotPromptGenerator(PromptGenerationVisitor):
             # + f"\n#Code:\n{sample_code}\n#Summary:\n{sample_summary}\n"
             # + "\nNow given this code, please give me the summary of the code\n"
             "Suppose you are an expert Python programmer. Give me the summary of the code from the corresponding code:\n"
-            + f"\nCode 1: ```\n{task.question.code}\n```\nSummary 1:"
+            + f'\nCode 1: ```\n{sample_code}\n```\nSummary 1: """\n{sample_summary}\n"""\n'
+            + f"\nCode 2: ```\n{task.question.code}\n```\nSummary 2:"
         )

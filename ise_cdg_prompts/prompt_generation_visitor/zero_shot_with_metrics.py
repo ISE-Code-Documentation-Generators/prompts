@@ -28,7 +28,8 @@ class ZeroShotWithMetricsPromptGenerator(PromptGenerationVisitor):
             # + "\nLook at this python code, its code metrics, and its summary:\n"
             # + f"\n#Code:\n{sample_code}\n#Code Metrics:\n{sample_metrics}\n#Summary:\n{sample_summary}\n"
             # + "\nNow given this code and its code metrics, please give me the summary of the code\n"
-            + f'\nCode 1: ```\n{task.question.code}\n```\nCode Metrics 1: """\n{metrics_string}\n"""\nSummary 1:'
+            + f'\nCode 1: ```\n{sample_code}\n```\nCode Metrics 1: """\n{sample_metrics}\n"""\nSummary 1: """\n{sample_summary}\n"""\n'
+            + f'\nCode 2: ```\n{task.question.code}\n```\nCode Metrics 2: """\n{metrics_string}\n"""\nSummary 2:'
         )
 
 
