@@ -9,10 +9,9 @@ if TYPE_CHECKING:
 class HamedNoMetricPromptGenerator(PromptGenerationVisitor):
     def visit_task(self, task: "TaskMetrics") -> str:
         return (
-            "Suppose you are an expert Python programmer. Look at these methods and their summaries:\n"
+            "Suppose you are an expert Python programmer. Give me the summary of the code from the corresponding code:\n"
             + self.visit_templates(task.templates)
-            + "\nNow given this code, please give me the summary of the code:\n"
-            + f"\n#Code:\n{task.question.code}"
+            + f'\nCode {len(task.templates) + 1}: ```\n{task.question.code}\n```\nSummary {len(task.templates) + 1}:'
         )
 
     def visit_templates(self, templates: List["CodeMarkdown"]) -> str:
@@ -24,6 +23,6 @@ class HamedNoMetricPromptGenerator(PromptGenerationVisitor):
         )
 
     def visit_template(self, template: "CodeMarkdownMetrics", index: int) -> str:
-        code_prompt = f"#Code:\n{template.code}\n"
-        summary_prompt = f"#Summary: {template.markdown}\n"
+        code_prompt = f"Code {index+1}: ```\n{template.code}\n```\n"
+        summary_prompt = f'Summary {index+1}: """\n{template.markdown}\n"""\n'
         return code_prompt + summary_prompt
