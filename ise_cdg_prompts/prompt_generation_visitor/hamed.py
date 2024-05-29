@@ -5,8 +5,8 @@ import pandas as pd
 
 
 if TYPE_CHECKING:
-    from ise_cdg_prompts.dataset import CodeMarkdown
-    from ise_cdg_prompts.task import Task
+    from ise_cdg_prompts.dataset import CodeMarkdown, CodeMarkdownMetrics
+    from ise_cdg_prompts.task import TaskMetrics
 
 
 class HamedPromptGenerator(PromptGenerationVisitor):
@@ -18,7 +18,7 @@ class HamedPromptGenerator(PromptGenerationVisitor):
         metrics_string = ", ".join([f"{name}: {value}" for name, value in metrics_map.items()])
         return metrics_string
 
-    def visit_task(self, task: "Task") -> str:
+    def visit_task(self, task: "TaskMetrics") -> str:
         metrics_string = self._get_metric_string(task.question.code)
         return (
             "Suppose you are an expert Python programmer. Here is the meaning of each code metric used later: LOC means Lines of Code, BLC means Number of Blank Lines of Code, UDF means Number of User-Defined Functions, I means Number of Imports, EH means Number of error handlings, ALLC means Average Line Length of Code, NDD means Number of Visualization Data Types, NEC means Number of Executed Cells, S means Number of Statements, P means Number of Parameters, KLCID means Kind of Line of Code Identifier Density, NBD means Nested Block Depth, OPRND means Number of Operands, OPRATOR means Number of Operators, UOPRND means Number of Unique Operands, UOPRATOR means Number of Unique Operators, ID means Number of Identifiers, ALID means Average Length of Identifiers, MLID means Max Length of Identifiers, CyC means Cyclomatic Complexity, EAP means External API Popularity, LOCom means Lines of Comments, CW means Number of Comment Words.\n"
@@ -36,7 +36,7 @@ class HamedPromptGenerator(PromptGenerationVisitor):
             ]
         )
 
-    def visit_template(self, template: "CodeMarkdown", index: int) -> str:
+    def visit_template(self, template: "CodeMarkdownMetrics", index: int) -> str:
         code_prompt = f"#Code:\n{template.code}\n"
         metrics_string = self._get_metric_string(template.code)
         code_metrics_prompt = f"#Code Metrics:\n{metrics_string}\n"
