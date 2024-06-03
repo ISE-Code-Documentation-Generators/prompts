@@ -255,10 +255,11 @@ class CodeMetricBertIRTaskSampler(TaskSampler):
     def generate_samples(self) -> List[Task]:
         tasks: List[Task] = []
         for index in tqdm(range(len(self.test_dataset))):
-            query_code, query_markdown, query_features = (
+            query_code, query_markdown, query_features, query_features_string = (
                 self.test_dataset.get_raw_item("source", index),
                 self.test_dataset.get_raw_item("markdown_text", index),
                 self.test_dataset.get_raw_item("features", index),
+                self.test_dataset.get_raw_item("features_string", index),
             )
             results_1 = self.ir_1.get_similar(query_code)
             results_2 = self.ir_2.get_similar(query_features)
@@ -269,14 +270,16 @@ class CodeMetricBertIRTaskSampler(TaskSampler):
             results = heapq.nlargest(
                 self.__shot_size, range(len(results_3)), key=results_3.__getitem__
             )
-            question = CodeMarkdown(query_code, query_markdown)
-            templates: List["CodeMarkdown"] = []
+            question = CodeMarkdownMetrics(query_code, query_markdown, query_features, query_features_string)
+            templates: List["CodeMarkdownMetrics"] = []
             for ind in results:
-                template_code, template_markdown = (
+                template_code, template_markdown, template_features, template_features_string = (
                     self.train_dataset.get_raw_item("source", ind),
                     self.train_dataset.get_raw_item("markdown_text", ind),
+                    self.train_dataset.get_raw_item("features", ind),
+                    self.train_dataset.get_raw_item("features_string", ind),
                 )
-                templates.append(CodeMarkdown(template_code, template_markdown))
+                templates.append(CodeMarkdownMetrics(template_code, template_markdown, template_features, template_features_string, ))
             tasks.append(Task(question, templates))
         return tasks
 
