@@ -88,24 +88,26 @@ class IRBasedTaskSamplerMetrics(TaskSampler):
     def generate_samples(self) -> List[TaskMetrics]:
         tasks: List[TaskMetrics] = []
         for index in tqdm(range(len(self.test_dataset))):
-            query_code, query_markdown, query_features = (
+            query_code, query_markdown, query_features, query_features_string = (
                 self.test_dataset.get_raw_item("source", index),
                 self.test_dataset.get_raw_item("markdown_text", index),
                 self.test_dataset.get_raw_item("features", index),
+                self.test_dataset.get_raw_item("features_string", index),
             )
             results = self.ir.get_similar(query_code)[: self.__shot_size]
-            question = CodeMarkdownMetrics(query_code, query_markdown, query_features)
+            question = CodeMarkdownMetrics(query_code, query_markdown, query_features, query_features_string)
             templates: List["CodeMarkdownMetrics"] = []
             for result in results:
                 ind = result["corpus_id"]
-                template_code, template_markdown, template_features = (
+                template_code, template_markdown, template_features, template_features_string = (
                     self.train_dataset.get_raw_item("source", ind),
                     self.train_dataset.get_raw_item("markdown_text", ind),
                     self.train_dataset.get_raw_item("features", ind),
+                    self.train_dataset.get_raw_item("features_string", ind),
                 )
                 templates.append(
                     CodeMarkdownMetrics(
-                        template_code, template_markdown, template_features
+                        template_code, template_markdown, template_features, template_features_string,
                     )
                 )
             tasks.append(TaskMetrics(question, templates))
@@ -185,24 +187,26 @@ class CodeMetricIRBasedTaskSamplerMetrics(TaskSampler):
     def generate_samples(self) -> List[TaskMetrics]:
         tasks: List[TaskMetrics] = []
         for index in tqdm(range(len(self.test_dataset))):
-            query_code, query_markdown, query_features = (
+            query_code, query_markdown, query_features, query_features_string = (
                 self.test_dataset.get_raw_item("source", index),
                 self.test_dataset.get_raw_item("markdown_text", index),
                 self.test_dataset.get_raw_item("features", index),
+                self.test_dataset.get_raw_item("features_string", index),
             )
             results = self.ir.get_similar(query_features)[: self.__shot_size]
-            question = CodeMarkdownMetrics(query_code, query_markdown, query_features)
+            question = CodeMarkdownMetrics(query_code, query_markdown, query_features, query_features_string)
             templates: List["CodeMarkdownMetrics"] = []
             for result in results:
                 ind = result["corpus_id"]
-                template_code, template_markdown, template_features = (
+                template_code, template_markdown, template_features, template_features_string = (
                     self.train_dataset.get_raw_item("source", ind),
                     self.train_dataset.get_raw_item("markdown_text", ind),
                     self.train_dataset.get_raw_item("features", ind),
+                    self.train_dataset.get_raw_item("features_string", ind),
                 )
                 templates.append(
                     CodeMarkdownMetrics(
-                        template_code, template_markdown, template_features
+                        template_code, template_markdown, template_features, template_features_string
                     )
                 )
             tasks.append(TaskMetrics(question, templates))
@@ -319,10 +323,11 @@ class CodeMetricBertIRBasedTaskSamplerMetrics(TaskSampler):
     def generate_samples(self) -> List[TaskMetrics]:
         tasks: List[TaskMetrics] = []
         for index in tqdm(range(len(self.test_dataset))):
-            query_code, query_markdown, query_features = (
+            query_code, query_markdown, query_features, query_features_string = (
                 self.test_dataset.get_raw_item("source", index),
                 self.test_dataset.get_raw_item("markdown_text", index),
                 self.test_dataset.get_raw_item("features", index),
+                self.test_dataset.get_raw_item("features_string", index),
             )
             results_1 = self.ir_1.get_similar(query_code)
             results_2 = self.ir_2.get_similar(query_features)
@@ -333,17 +338,18 @@ class CodeMetricBertIRBasedTaskSamplerMetrics(TaskSampler):
             results = heapq.nlargest(
                 self.__shot_size, range(len(results_3)), key=results_3.__getitem__
             )
-            question = CodeMarkdownMetrics(query_code, query_markdown, query_features)
+            question = CodeMarkdownMetrics(query_code, query_markdown, query_features, query_features_string)
             templates: List["CodeMarkdownMetrics"] = []
             for ind in results:
-                template_code, template_markdown, template_features = (
+                template_code, template_markdown, template_features, template_features_string = (
                     self.train_dataset.get_raw_item("source", ind),
                     self.train_dataset.get_raw_item("markdown_text", ind),
                     self.train_dataset.get_raw_item("features", ind),
+                    self.train_dataset.get_raw_item("features_string", ind),
                 )
                 templates.append(
                     CodeMarkdownMetrics(
-                        template_code, template_markdown, template_features
+                        template_code, template_markdown, template_features, template_features_string
                     )
                 )
             tasks.append(TaskMetrics(question, templates))
