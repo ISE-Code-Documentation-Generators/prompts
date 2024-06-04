@@ -16,6 +16,7 @@ if TYPE_CHECKING:
     from ise_cdg_data.dataset import DatasetFilterByIndexRaw
 
 
+# Bert IR without metrics in prompt
 class IRBasedTaskSampler(TaskSampler):
     def __init__(
         self,
@@ -61,6 +62,7 @@ class IRBasedTaskSampler(TaskSampler):
         return tasks
 
 
+# Bert IR with metrics in prompt
 class IRBasedTaskSamplerMetrics(TaskSampler):
     def __init__(
         self,
@@ -114,6 +116,7 @@ class IRBasedTaskSamplerMetrics(TaskSampler):
         return tasks
 
 
+# Code metrics IR without metrics in prompt
 class CodeMetricIRTaskSampler(TaskSampler):
     def __init__(
         self,
@@ -160,6 +163,7 @@ class CodeMetricIRTaskSampler(TaskSampler):
         return tasks
 
 
+# Code metrics IR with metrics in prompt
 class CodeMetricIRBasedTaskSamplerMetrics(TaskSampler):
     def __init__(
         self,
@@ -213,6 +217,7 @@ class CodeMetricIRBasedTaskSamplerMetrics(TaskSampler):
         return tasks
 
 
+# Code metrics+Bert IR without metrics in prompt
 class CodeMetricBertIRTaskSampler(TaskSampler):
     def __init__(
         self,
@@ -255,11 +260,10 @@ class CodeMetricBertIRTaskSampler(TaskSampler):
     def generate_samples(self) -> List[Task]:
         tasks: List[Task] = []
         for index in tqdm(range(len(self.test_dataset))):
-            query_code, query_markdown, query_features, query_features_string = (
+            query_code, query_markdown, query_features = (
                 self.test_dataset.get_raw_item("source", index),
                 self.test_dataset.get_raw_item("markdown_text", index),
                 self.test_dataset.get_raw_item("features", index),
-                self.test_dataset.get_raw_item("features_string", index),
             )
             results_1 = self.ir_1.get_similar(query_code)
             results_2 = self.ir_2.get_similar(query_features)
@@ -270,20 +274,19 @@ class CodeMetricBertIRTaskSampler(TaskSampler):
             results = heapq.nlargest(
                 self.__shot_size, range(len(results_3)), key=results_3.__getitem__
             )
-            question = CodeMarkdownMetrics(query_code, query_markdown, query_features, query_features_string)
-            templates: List["CodeMarkdownMetrics"] = []
+            question = CodeMarkdown(query_code, query_markdown, )
+            templates: List["CodeMarkdown"] = []
             for ind in results:
-                template_code, template_markdown, template_features, template_features_string = (
+                template_code, template_markdown = (
                     self.train_dataset.get_raw_item("source", ind),
                     self.train_dataset.get_raw_item("markdown_text", ind),
-                    self.train_dataset.get_raw_item("features", ind),
-                    self.train_dataset.get_raw_item("features_string", ind),
                 )
-                templates.append(CodeMarkdownMetrics(template_code, template_markdown, template_features, template_features_string, ))
+                templates.append(CodeMarkdown(template_code, template_markdown, ))
             tasks.append(Task(question, templates))
         return tasks
 
 
+# Code metrics+Bert IR with metrics in prompt
 class CodeMetricBertIRBasedTaskSamplerMetrics(TaskSampler):
     def __init__(
         self,
