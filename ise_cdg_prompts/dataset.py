@@ -18,6 +18,7 @@ class CodeMarkdownMetrics:
     code: str
     markdown: str
     metrics: List[str]
+    metrics_string: str
     #TODO
 
 class PromptDataset(Md4DefDatasetInterface):
